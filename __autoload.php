@@ -1,0 +1,42 @@
+<?
+namespace pfc;
+
+
+spl_autoload_register(__NAMESPACE__ . "\pfc_autoload");
+
+
+function pfc_assert_setup(){
+	assert_options(ASSERT_ACTIVE,	true);
+	assert_options(ASSERT_BAIL,	true);
+	assert_options(ASSERT_WARNING,  false);
+	assert_options(ASSERT_CALLBACK, __NAMESPACE__ . "\pfc_assert_callback");
+}
+
+
+function pfc_assert_callback($script, $line, $message){
+	echo "Condition failed in $script, Line: $line\n";
+
+	if ($message)
+		echo "Message: $message\n";
+
+	echo "\n";
+}
+
+
+function pfc_autoload($class){
+	$parts = explode("\\", $class);
+
+	if ($parts[0] != __NAMESPACE__)
+		return;
+
+	unset($parts[0]);
+
+	$file = implode("/", $parts) . ".php";
+
+	$file = dirname(__FILE__) . "/" . $file;
+
+	//echo "Loading $file...\n";
+
+	include_once $file;
+}
+
