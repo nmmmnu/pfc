@@ -5,18 +5,18 @@ use pfc\CacheAdapter;
 use pfc\UnitTest;
 
 class Redis implements CacheAdapter, UnitTest{
-	private $redis;
-	private $keyPrefix;
+	private $_redis;
+	private $_keyPrefix;
 
 
 	function __construct($redis, $keyPrefix = ""){
-		$this->redis      = $redis;
-		$this->keyPrefix  = $keyPrefix;
+		$this->_redis      = $redis;
+		$this->_keyPrefix  = $keyPrefix;
 	}
 
 
 	function load($key, $ttl){
-		$data = $this->redis->get( $this->getKey($key) );
+		$data = $this->_redis->get( $this->getKey($key) );
 
 		if ($data)
 			return $data;
@@ -26,16 +26,16 @@ class Redis implements CacheAdapter, UnitTest{
 
 
 	function store($key, $ttl, $data){
-		$this->redis->set($this->getKey($key), $data );
+		$this->_redis->set($this->getKey($key), $data );
 
 		if ($ttl > 0){
-			$this->redis->expire( $this->getKey($key), $ttl );
+			$this->_redis->expire( $this->getKey($key), $ttl );
 		}
 	}
 
 
 	private function getKey($key){
-		return $this->keyPrefix . md5($key);
+		return $this->_keyPrefix . md5($key);
 	}
 
 

@@ -19,12 +19,14 @@ class CacheDecorator implements Template, UnitTest{
 	/**
 	 * constructor
 	 *
-	 * @param string $path directory where templates are located
+	 * @param Template $template template engine
+	 * @param CacheAdapter $cacheAdapter
+	 * @param int ttl TTL
+	 *
 	 */
 	function __construct(Template $template, CacheAdapter $cacheAdapter, $ttl){
 		$this->_template = $template;
 		$this->_cacheAdapter = $cacheAdapter;
-
 		$this->_ttl = $ttl;
 	}
 
@@ -80,6 +82,7 @@ class CacheDecorator implements Template, UnitTest{
 
 	static function test(){
 		$cache = new \pfc\CacheAdapter\Shm("cached_template_");
+		//$cache  = new \pfc\CacheAdapter\GZipDecorator($cache2);
 
 		$phptemplate = new PHP("data/templates/");
 

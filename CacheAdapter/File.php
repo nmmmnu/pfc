@@ -5,15 +5,23 @@ use pfc\CacheAdapter;
 use pfc\UnitTest;
 
 class File implements CacheAdapter, UnitTest{
-	private $dir;
-	private $filePrefix;
-	private $fileUnlink;
+	private $_dir;
+	private $_filePrefix;
+	private $_fileUnlink;
 
 
+	/**
+	 * constructor
+	 *
+	 * @param string $dir path for files location
+	 * @param string $filePrefix file prefix
+	 * @param boolean $fileUnlink whatever to unlink (delete) expired files
+	 *
+	 */
 	function __construct($dir, $filePrefix, $fileUnlink = false){
-		$this->dir        = $dir;
-		$this->filePrefix = $filePrefix;
-		$this->fileUnlink = $fileUnlink;
+		$this->_dir        = $dir;
+		$this->_filePrefix = $filePrefix;
+		$this->_fileUnlink = $fileUnlink;
 	}
 
 
@@ -51,7 +59,7 @@ class File implements CacheAdapter, UnitTest{
 
 		// Cache expired.
 		if ( $mtime + $ttl < time() ){
-			if ($this->fileUnlink)
+			if ($this->_fileUnlink)
 				@unlink($this->getFilename($key));
 
 			return false;
@@ -62,7 +70,7 @@ class File implements CacheAdapter, UnitTest{
 
 
 	private function getFilename($key){
-		return $this->dir . "/" . $this->filePrefix . md5($key);
+		return $this->_dir . "/" . $this->_filePrefix . md5($key);
 	}
 
 
