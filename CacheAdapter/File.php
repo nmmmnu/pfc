@@ -5,11 +5,15 @@ use pfc\CacheAdapter;
 use pfc\UnitTest;
 
 class File implements CacheAdapter, UnitTest{
-	private $_adapter;
+	private $dir;
+	private $filePrefix;
+	private $fileUnlink;
 
 
-	function __construct(CacheAdapter $adapter){
-		$this->_adapter = $_adapter;
+	function __construct($dir, $filePrefix, $fileUnlink = false){
+		$this->dir        = $dir;
+		$this->filePrefix = $filePrefix;
+		$this->fileUnlink = $fileUnlink;
 	}
 
 

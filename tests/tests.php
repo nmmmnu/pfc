@@ -7,7 +7,7 @@ dl("dba.so");
 pfc_assert_setup();
 
 $redis_tests = false;
-$slow_tests = false; // true;
+$slow_tests = false || true;
 
 //print_r(dba_handlers());
 
@@ -44,8 +44,6 @@ Serializer\NULLAdapter::test();
 Serializer\PHP::test();
 Serializer\JSON::test();
 
-Serializer\GZipDecorator::test();
-
 
 
 DBM::test();
@@ -53,7 +51,8 @@ DBMIterator::test();
 
 
 if ($slow_tests){
-	CacheAdapter\File::test();
+	CacheAdapter\Shm::test();
+	CacheAdapter\GZipDecorator::test();
 	if ($redis_tests)
 	CacheAdapter\Redis::test();
 }

@@ -14,7 +14,6 @@ use pfc\UnitTest;
 class CacheDecorator implements Template, UnitTest{
 	private $_template;
 	private $_cacheAdapter;
-	private $_serializer;
 	private $_ttl;
 
 	/**
@@ -22,10 +21,9 @@ class CacheDecorator implements Template, UnitTest{
 	 *
 	 * @param string $path directory where templates are located
 	 */
-	function __construct(Template $template, CacheAdapter $cacheAdapter, Serializer $serializer, $ttl){
+	function __construct(Template $template, CacheAdapter $cacheAdapter, $ttl){
 		$this->_template = $template;
 		$this->_cacheAdapter = $cacheAdapter;
-		$this->_serializer = $serializer;
 
 		$this->_ttl = $ttl;
 	}
@@ -52,21 +50,15 @@ class CacheDecorator implements Template, UnitTest{
 		$content = $this->_cacheAdapter->load($key, $this->_ttl);
 
 		if ($content !== false){
-			$content = $this->_serializer->deserialize($content);
-
-			if ($content !== false){
 				$this->debug("Cache hit!\n");
 				return $content;
-			}
 		}
 
 		$this->debug("Perform render()\n");
 
 		$content = $this->_template->render($file, $content);
 
-		$content2 = $this->_serializer->serialize($content);
-
-		$this->_cacheAdapter->store($key, $this->_ttl, $content2);
+		$this->_cacheAdapter->store($key, $this->_ttl, $content);
 
 		return $content;
 	}
@@ -88,13 +80,10 @@ class CacheDecorator implements Template, UnitTest{
 
 	static function test(){
 		$cache = new \pfc\CacheAdapter\Shm("cached_template_");
-		$serializer = new \pfc\Serializer\GzipDecorator(
-					new \pfc\Serializer\NULLAdapter()
-				);
 
 		$phptemplate = new PHP("data/templates/");
 
-		$t = new CacheDecorator($phptemplate, $cache, $serializer, 10);
+		$t = new CacheDecorator($phptemplate, $cache, 10);
 		$t->setDebug(true);
 
 		//CacheDecorator
