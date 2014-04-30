@@ -1,6 +1,8 @@
 <?
 namespace pfc\Template;
 
+use pfc\Loggable;
+
 use pfc\CacheAdapter;
 use pfc\Serializer;
 use pfc\Template;
@@ -12,6 +14,9 @@ use pfc\UnitTest;
  *
  */
 class CacheDecorator implements Template, UnitTest{
+	use Loggable;
+
+
 	private $_template;
 	private $_cacheAdapter;
 	private $_ttl;
@@ -52,11 +57,11 @@ class CacheDecorator implements Template, UnitTest{
 		$content = $this->_cacheAdapter->load($key, $this->_ttl);
 
 		if ($content !== false){
-				$this->debug("Cache hit!\n");
+				$this->logDebug("Cache hit...");
 				return $content;
 		}
 
-		$this->debug("Perform render()\n");
+		$this->logDebug("Perform render()");
 
 		$content = $this->_template->render($file, $content);
 
@@ -66,28 +71,16 @@ class CacheDecorator implements Template, UnitTest{
 	}
 
 
-	private $_debug = false;
-	function setDebug($debug){
-		$this->_debug = $debug;
-	}
-
-
-	function debug($string){
-		if ($this->_debug == false)
-			return;
-
-		echo $string;
-	}
-
-
 	static function test(){
 		$cache = new \pfc\CacheAdapter\Shm("cached_template_");
 		//$cache  = new \pfc\CacheAdapter\GZipDecorator($cache2);
 
+		$logger = new \pfc\Logger(new \pfc\OutputAdapter\Console());
+
 		$phptemplate = new PHP("data/templates/");
 
-		$t = new CacheDecorator($phptemplate, $cache, 10);
-		$t->setDebug(true);
+		$t = new CacheDecorator($phptemplate, $cache, 30);
+		$t->setLogger($logger);
 
 		//CacheDecorator
 

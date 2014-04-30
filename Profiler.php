@@ -6,7 +6,7 @@ namespace pfc;
  *
  * This class can be used to perform micro-time measurements.
  * Similar to stopwatch.
- * 
+ *
  */
 class Profiler implements UnitTest{
 	private $_measurements;
@@ -109,7 +109,7 @@ class Profiler implements UnitTest{
 	 * @return float|string fload or string that contain a float
 	 */
 	protected function formatDuration($duration){
-		return sprintf("%.8f", $duration);
+		return sprintf("%.4f", $duration);
 	}
 
 

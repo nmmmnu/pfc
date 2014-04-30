@@ -5,6 +5,8 @@ use pfc\SQL;
 use pfc\SQLArrayResult;
 use pfc\SQLResultFromIterator;
 
+use pfc\Loggable;
+
 use pfc\Iterators;
 use pfc\ArrayIterator;
 
@@ -16,6 +18,9 @@ use pfc\Serializer;
  *
  */
 class CacheDecorator implements SQL{
+	use Loggable;
+
+
 	private $_sqlAdapter;
 	private $_cacheAdapter;
 	private $_serializer;
@@ -70,12 +75,12 @@ class CacheDecorator implements SQL{
 
 			// Corrupted data
 			if (is_array($arrayData)){
-				$this->debug("Cache hit!\n");
+				$this->logDebug("Cache hit...");
 				return new SQLResultFromIterator(new ArrayIterator($arrayData), $primaryKey, count($arrayData) );
 			}
 		}
 
-		$this->debug("Perform the query\n");
+		$this->logDebug("Perform the query...");
 
 		// perform the query
 		$result = $this->_sqlAdapter->query($sql, $primaryKey);
@@ -94,20 +99,6 @@ class CacheDecorator implements SQL{
 		// the iterator can not be rewind.
 		// this is why we use the SQLMockResult again.
 		return new SQLResultFromIterator(new ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
-	}
-
-
-	private $_debug = false;
-	function setDebug($debug){
-		$this->_debug = $debug;
-	}
-
-
-	function debug($string){
-		if ($this->_debug == false)
-			return;
-
-		echo $string;
 	}
 }
 

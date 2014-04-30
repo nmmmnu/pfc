@@ -4,6 +4,8 @@ namespace pfc\SQL;
 use pfc\SQL;
 use pfc\SQLArrayResult;
 
+use pfc\Loggable;
+
 use pfc\Profiler;
 
 /**
@@ -11,6 +13,9 @@ use pfc\Profiler;
  *
  */
 class ProfilerDecorator implements SQL{
+	use Loggable;
+
+
 	private $_sqlAdapter;
 	private $_profiler;
 
@@ -53,23 +58,9 @@ class ProfilerDecorator implements SQL{
 		$m =
 		$this->_profiler->stop("query end", $sql);
 
-		$this->debug("Query executed for $m seconds...\n");
+		$this->logDebug("Query executed for $m seconds...");
 
 		return $result;
-	}
-
-
-	private $_debug = false;
-	function setDebug($debug){
-		$this->_debug = $debug;
-	}
-
-
-	function debug($string){
-		if ($this->_debug == false)
-			return;
-
-		echo $string;
 	}
 }
 
