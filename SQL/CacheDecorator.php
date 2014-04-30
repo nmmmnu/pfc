@@ -62,7 +62,7 @@ class CacheDecorator implements SQL{
 		//$key = $this->getHash($sql);
 
 		// load from cache
-		$serializedData = $this->_cacheAdapter->load($key, $this->_ttl);
+		$serializedData = $this->_cacheAdapter->load($sql, $this->_ttl);
 
 		if ($serializedData !== false){
 			$arrayData = $this->_serializer->unserialize($serializedData);
@@ -88,7 +88,7 @@ class CacheDecorator implements SQL{
 
 		// store in cache
 		$serializedData = $this->_serializer->serialize($arrayData);
-		$this->_cacheAdapter->store($key, $this->_ttl, $serializedData);
+		$this->_cacheAdapter->store($sql, $this->_ttl, $serializedData);
 		unset($serializedData);
 
 		// the iterator can not be rewind.
