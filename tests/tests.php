@@ -3,13 +3,11 @@
 namespace pfc;
 require_once "__autoload.php";
 
-dl("dba.so");
 pfc_assert_setup();
 
 $redis_tests = false;
 $slow_tests = false || true;
 
-//print_r(dba_handlers());
 
 
 
@@ -25,18 +23,9 @@ ArrayIterator::test();
 
 KeysIteratorDecorator::test();
 
-compat\PHP2Iterator::test();
-compat\Iterator2PHP::test();
-
-Iterators::test();
 
 
-
-ArrayList::test();
-
-Set::test();
-
-ArraySet::test();
+//Iterators::test();
 
 
 
@@ -45,9 +34,6 @@ Serializer\PHP::test();
 Serializer\JSON::test();
 
 
-
-DBM::test();
-DBMIterator::test();
 
 
 if ($slow_tests){

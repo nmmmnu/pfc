@@ -3,9 +3,9 @@ namespace pfc;
 
 /**
  * StringBuilder / StringBuffer
- * 
+ *
  * Helps you avoid lame building like:
- * 
+ *
  * while(...){
  *    ...
  *    $s = $s . $x;
@@ -14,6 +14,7 @@ namespace pfc;
  */
 class StringBuilder implements Addable, UnitTest{
 	private $_buffer;
+
 
 	/**
 	 * constructor
@@ -29,12 +30,12 @@ class StringBuilder implements Addable, UnitTest{
 
 	function add($s){
 		$s = (string) $s;
-		
+
 		if ($s != "")
 			$this->_buffer[] = $s;
 	}
 
-	
+
 	/**
 	 * get buffer
 	 *
@@ -60,7 +61,7 @@ class StringBuilder implements Addable, UnitTest{
 		for($i = 0; $i < 100; $i++){
 			// make $s the lame way
 			$s = $s . $i;
-			
+
 			// and add it to the Addable
 			$sb->add($i);
 		}
