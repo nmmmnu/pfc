@@ -5,10 +5,6 @@ require_once __DIR__ . "/../__autoload.php";
 
 
 
-$profiler = new \pfc\Profiler();
-
-
-
 require "db.php";
 
 
@@ -34,7 +30,7 @@ $x = $db->query("insert into ppl values(2, 'Stoyan', 25)");
 $x = $db->query("insert into ppl values(3, 'Dragan', 33)");
 
 echo "\n---begin---\n";
-echo "DB prepare stats:\n";
+echo "DB update stats:\n";
 printf("Affected rows %8d\n", $x->affectedRows());
 printf("Insert ID     %8d\n", $x->insertID());
 echo "---end---\n";
@@ -42,7 +38,6 @@ echo "---end---\n";
 
 
 $profiler->stop("db populate");
-
 
 
 // sql
@@ -59,8 +54,8 @@ $sql = sprintf(
 );
 
 
-// select
 
+// select
 echo "\n---begin---\n";
 echo "DB SQL:\n";
 
@@ -71,7 +66,6 @@ echo "---end---\n";
 
 
 // select
-
 echo "\n---begin---\n";
 echo "DB SQL with PK:\n";
 

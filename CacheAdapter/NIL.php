@@ -7,10 +7,7 @@ use pfc\CacheAdapter;
  * NULL CacheAdapter
  *
  */
-class NULLAdapter implements CacheAdapter{
-	function __construct(){
-	}
-
+class NIL implements CacheAdapter{
 	function load($key, $ttl){
 		return false;
 	}

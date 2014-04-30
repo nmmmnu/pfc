@@ -5,58 +5,46 @@ require_once "__autoload.php";
 
 pfc_assert_setup();
 
-$redis_tests = false;
+$redis_tests = false || true;
 $slow_tests = false || true;
-
-
 
 
 echo Info::COPYRIGHT() . "\n\n";
 
 
-
 StringBuilder::test();
 
 
-
-ArrayIterator::test();
-
 KeysIteratorDecorator::test();
+IteratorDecorator::test();
 
 
-
-//Iterators::test();
-
+Iterators::test();
 
 
-Serializer\NULLAdapter::test();
 Serializer\PHP::test();
 Serializer\JSON::test();
 
 
-
-
-if ($slow_tests){
-	CacheAdapter\Shm::test();
-	CacheAdapter\GZipDecorator::test();
-	if ($redis_tests)
-	CacheAdapter\Redis::test();
-}
-
-
+OutputAdapter\File::test();
 OutputAdapter\Console::test();
 OutputAdapter\Addable::test();
-
-
-
-SQL\Mock::test();
-
 
 
 Authenticator\AllowAll::test();
 Authenticator\DenyAll::test();
 Authenticator\ArrayPassword::test();
 
+
+SQL\Mock::test();
+
+
+if ($slow_tests){
+	CacheAdapter\File::test();
+	CacheAdapter\GZipDecorator::test();
+	if ($redis_tests)
+	CacheAdapter\Redis::test();
+}
 
 
 Template\PHP::test();

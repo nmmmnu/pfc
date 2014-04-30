@@ -75,7 +75,7 @@ class File implements CacheAdapter, UnitTest{
 
 
 	static function test(){
-		$adapter = new File("/dev/shm/", "unit_test_");
+		$adapter = new File("/dev/shm/", "unit_test_file_");
 
 		$key  = "100";
 		$data = "hello";
@@ -88,12 +88,12 @@ class File implements CacheAdapter, UnitTest{
 
 		assert($data == $data1);
 
-		echo "Delay: $ttl++ seconds... ";
+		echo "Delay: " . ($ttl + 1) . " seconds... ";
 		sleep($ttl + 1);
 		echo "done.\n";
 
 		$data1 = $adapter->load($key, $ttl);
-		assert($data1 == false);
+		assert($data1 === false);
 	}
 }
 

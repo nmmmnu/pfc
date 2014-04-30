@@ -9,7 +9,7 @@ use pfc\ArrayIterator;
 
 /**
  * Mock class
- * 
+ *
  * query always returns the array passed by constructor
  *
  */
@@ -18,36 +18,36 @@ class Mock implements SQL, UnitTest{
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param array $data array to be used as result
 	 */
 	function __construct(array $data = array() ){
 		$this->_data = $data;
 	}
 
-	
+
 	function getName(){
 		return "test";
 	}
 
-	
+
 	function open($connectionString){
 		// Connected
 	}
 
-	
+
 	function close(){
 		// Disconnected
 	}
 
-	
+
 	function escape($string){
 		return $string;
 	}
 
-	
+
 	function query($sql, $primaryKey=NULL){
-		return new SQLResultFromIterator(new ArrayIterator($this->_data), $primaryKey, count($this->_data) );
+		return new SQLResultFromIterator(new \ArrayIterator($this->_data), $primaryKey, count($this->_data) );
 	}
 
 
@@ -62,17 +62,33 @@ class Mock implements SQL, UnitTest{
 
 		$db->open("Bla");
 
+		// ====================
+
 		$result = $db->query("select * from bla", "city");
 
 		assert($result->affectedRows() == 3);
 
 		$res = \pfc\Iterators::toArray($result);
 
-		echo "You should see SQL result as array:\n";
-		print_r($res);
+		//echo "You should see SQL result as array:\n";
+		//print_r($res);
 
 		assert($res["Bonn"]["id"  ] == 2      );
 		assert($res["Bonn"]["city"] == "Bonn" );
+
+		// ====================
+
+		$result = $db->query("select * from bla");
+
+		assert($result->affectedRows() == 3);
+
+		$res = \pfc\Iterators::toArray($result);
+
+		//echo "You should see SQL result as array:\n";
+		//print_r($res);
+
+		assert($res[1]["id"  ] == 2      );
+		assert($res[1]["city"] == "Bonn" );
 	}
 }
 

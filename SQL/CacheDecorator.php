@@ -64,8 +64,6 @@ class CacheDecorator implements SQL{
 
 
 	function query($sql, $primaryKey=NULL){
-		//$key = $this->getHash($sql);
-
 		// load from cache
 		$serializedData = $this->_cacheAdapter->load($sql, $this->_ttl);
 
@@ -76,7 +74,7 @@ class CacheDecorator implements SQL{
 			// Corrupted data
 			if (is_array($arrayData)){
 				$this->logDebug("Cache hit...");
-				return new SQLResultFromIterator(new ArrayIterator($arrayData), $primaryKey, count($arrayData) );
+				return new SQLResultFromIterator(new \ArrayIterator($arrayData), $primaryKey, count($arrayData) );
 			}
 		}
 
@@ -98,7 +96,7 @@ class CacheDecorator implements SQL{
 
 		// the iterator can not be rewind.
 		// this is why we use the SQLMockResult again.
-		return new SQLResultFromIterator(new ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
+		return new SQLResultFromIterator(new \ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
 	}
 }
 

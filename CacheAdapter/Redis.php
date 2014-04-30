@@ -28,9 +28,8 @@ class Redis implements CacheAdapter, UnitTest{
 	function store($key, $ttl, $data){
 		$this->_redis->set($this->getKey($key), $data );
 
-		if ($ttl > 0){
+		if ($ttl > 0)
 			$this->_redis->expire( $this->getKey($key), $ttl );
-		}
 	}
 
 
@@ -41,7 +40,7 @@ class Redis implements CacheAdapter, UnitTest{
 
 	static function test(){
 		$r = new \Redis();
-		$r->connect("localhost", 6379);
+		$r->connect("localhost");
 
 		$adapter = new Redis($r, "unit_test_");
 
@@ -54,12 +53,12 @@ class Redis implements CacheAdapter, UnitTest{
 
 		assert($data === $data1);
 
-		echo "Delay: $ttl++ seconds... ";
+		echo "Delay: " . ($ttl + 1) . " seconds... ";
 		sleep($ttl + 1);
 		echo "done.\n";
 
 		$data1 = $adapter->load($key, $ttl);
-		assert($data1 == false);
+		assert($data1 === false);
 	}
 }
 

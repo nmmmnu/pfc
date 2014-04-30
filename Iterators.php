@@ -16,22 +16,8 @@ class Iterators implements UnitTest{
 	 * @param Iterator $iterator
 	 * @return array
 	 */
-	static function toArray(Iterator $iterator){
-		$array = array();
-
-		$iterator->rewind();
-
-		while($iterator->next()){
-			$key = $iterator->currentKey();
-			$val = $iterator->current();
-			
-			if ($key)
-				$array[$key] = $val;
-			else
-				$array[]     = $val;
-		}
-		
-		return $array;
+	static function toArray(\Iterator $iterator){
+		return iterator_to_array($iterator);
 	}
 
 
@@ -42,27 +28,22 @@ class Iterators implements UnitTest{
 	 * @param Iterator $iterator
 	 */
 	static function addAll(Addable $list, Iterator $iterator ){
-		$iterator->rewind();
-
-		while($iterator->next())
-			$list->add($iterator->current());
+		foreach($iterator as $element)
+			$list->add($element);
 	}
 
 
 	/**
 	 * add all elements from an array to the Addable
 	 *
-	 * @param Iterator $iterator
+	 * @param Addable $list
 	 * @param array $array
 	 */
 	static function addArray(Addable $list, array $array ){
-		if (! is_array($array))
-			return;
-
-		foreach($array as $obj)
-			$list->add($obj);
+		foreach($array as $element)
+			$list->add($element);
 	}
-	
+
 
 	/**
 	 * count all elements in an Iterator
@@ -70,87 +51,66 @@ class Iterators implements UnitTest{
 	 * @param Iterator $iterator
 	 * @return int
 	 */
-	static function countAll(Iterator $iterator ){
-		if ($iterator instanceof Countable)
+	static function countAll(\Iterator $iterator){
+		if ($iterator instanceof \Countable)
 			return $iterator->count();
-		
-		$iterator->rewind();
 
-		$count = 0;
-
-		while($iterator->next()){
-			$dummy = $iterator->current();
-			$count++;
-		}
-
-		return $count;
+		return iterator_count($iterator);
 	}
-	
+
 
 	/**
 	 * dump all elements from an Iterator for debugging purposes
 	 *
 	 * @param Iterator $iterator
 	 */
-	static function dumpAll(Iterator $iterator ){
-		$iterator->rewind();
-		
+	static function dumpAll(\Iterator $iterator){
 		$i = 0;
-		
-		while($iterator->next()){
-			printf("\t%4d | %-20s = %s\n",
-				$i,
-				$iterator->currentKey(),
-				$iterator->current()
-			);
-			
+
+		foreach($iterator as $key => $value){
+			printf("%4d | %10s | %s\n", $i, $key, $value);
+
 			$i++;
 		}
 	}
 
 
 	static function test(){
-		$x = new ArrayList();
 
-		foreach(range(0, 100 - 1) as $a)
-			$x->add($a);
+		$sb1 = new StringBuilder();
 
-		$y = new ArrayList();
+		$array = range(0, 100);
 
-		Iterators::addAll($y, $x->iterator());
+		foreach($array as $a)
+			$sb1->add($a);
 
-		assert($x->count() == $y->count());
+		$sb2 = new StringBuilder();
 
-		assert($x->count() == Iterators::countAll($y->iterator()));
+		Iterators::addArray($sb2, $array);
 
+		assert($sb1 == $sb2);
 
+		// ============================
 
-		$x = range(0, 100 - 1);
+		$array2 = Iterators::toArray(new \ArrayIterator($array));
+		assert(count($array2) == count($array));
 
-		$y = new ArrayList();
+		// ============================
 
-		Iterators::addArray($y, $x);
-
-		assert(count($x) == $y->count());
-
-		assert(count($x) == Iterators::countAll($y->iterator()));
-
-
-
-		$z = Iterators::toArray(new ArrayIterator(range(0, 100 - 1)));
-		assert(count($z) == 100);
-		
-		$it = new ArrayIterator(array(
+		$iterator = new \ArrayIterator(array(
 			"a" => 1,
-			"b" => 2
+			"b" => 2,
+			"c" => 3
 		));
-		
+
 		echo "You should see Iterators::dumpAll() result:\n";
-		Iterators::dumpAll($it);
-		
-		$z = Iterators::toArray($it);
-		
-		assert(count($z["a"]) == 1);
+		Iterators::dumpAll($iterator);
+
+		// ============================
+
+		$array3 = Iterators::toArray($iterator);
+
+		assert(count($array3["a"]) == 1);
 	}
 }
 

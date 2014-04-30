@@ -100,7 +100,7 @@ class PHP implements Template, UnitTest{
 
 		echo "You will see template HTML file here:\n";
 		echo $t->render("page.html.php");
-		echo "end\n";
+		echo "---end---\n\n";
 	}
 }
 

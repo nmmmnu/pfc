@@ -3,13 +3,13 @@ namespace pfc;
 
 /**
  * Adapter that converts Iterator to SQLResult
- * 
+ *
  * Useful for Mock objects, but also for cache, JSON etc.
  *
  */
 class SQLResultFromIterator implements SQLResult{
 	private $_iterator;
-	
+
 	private $_primaryKey;
 	private $_affectedRows;
 	private $_insertID;
@@ -22,7 +22,7 @@ class SQLResultFromIterator implements SQLResult{
 	 * @param int $affectedRows affected rows value for affectedRows()
 	 * @param int $insertID last insert id for insertID()
 	 */
-	function __construct(Iterator $iterator, $primaryKey = NULL, $affectedRows = -1, $insertID = 0){
+	function __construct(\Iterator $iterator, $primaryKey = false, $affectedRows = -1, $insertID = 0){
 		$this->_iterator     = $iterator;
 
 		$this->_primaryKey   = $primaryKey;
@@ -50,28 +50,41 @@ class SQLResultFromIterator implements SQLResult{
 		return $this->_insertID;
 	}
 
+
+	// =============================
+
 	function rewind(){
-		$this->_iterator->rewind();
+		return $this->_iterator->rewind();
 	}
+
+
+	function current(){
+		return $this->_iterator->current();
+	}
+
+
+	function key(){
+		if ($this->_primaryKey){
+			$val = $this->_iterator->current();
+
+			if (@$val[$this->_primaryKey])
+				return $val[ $this->_primaryKey ];
+		}
+
+		return $this->_iterator->key();
+	}
+
 
 	function next(){
 		return $this->_iterator->next();
 	}
 
-	function current(){
-		return $this->_iterator->current();
+
+	function valid(){
+		return $this->_iterator->valid();
 	}
-	
-	function currentKey(){
-		if ($this->_primaryKey == NULL)
-			return NULL;
-		
-		$val = $this->_iterator->current();
-		
-		if (@$val[$this->_primaryKey])
-			return $val[$this->_primaryKey];
-		
-		return NULL;
-	}
+
+	// =============================
+
 }
 

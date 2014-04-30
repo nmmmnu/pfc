@@ -15,15 +15,15 @@ class File implements OutputAdapter, UnitTest{
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param resource $file file object as returned from fopen() or STDOUT / STDERR
-	 * 
+	 *
 	 */
 	function __construct($file){
 		$this->_file = $file;
 	}
 
-	
+
 	function write($line, $cr = true){
 		if ($cr)
 			$line = $line . "\n";
@@ -34,7 +34,7 @@ class File implements OutputAdapter, UnitTest{
 
 	static function test(){
 		$adapter = new File(STDOUT);
-		$adapter->write("FileAdapter::Testing...");
+		$adapter->write("OutputAdapter::File::Testing...");
 	}
 }
 

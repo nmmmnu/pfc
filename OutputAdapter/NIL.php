@@ -9,7 +9,7 @@ use pfc\OutputAdapter;
  * supports "writting" to /dev/null
  *
  */
-class NULLAdapter implements OutputAdapter{
+class NIL implements OutputAdapter{
 	function write($line, $cr = true){
 	}
 }

@@ -10,45 +10,90 @@ use pfc\SQLResult;
 class PDOResult implements SQLResult{
 	const FETCH_MODE = \PDO::FETCH_ASSOC;
 
-	private $_query;
+
+	private $_pdo;
 	private $_insertID;
 
-	private $_first = true;
+	private $_row;
+	private $_rowID;
 
-	private $_tempRow;
 
-	
-	function __construct(\PDOStatement $query, $primaryKey, $insertID=0){
-		$this->_query      = $query;
+	function __construct(\PDOStatement $query, $primaryKey, $insertID = 0){
+		$this->_pdo        = $query;
 		$this->_insertID   = $insertID;
 		$this->_primaryKey = $primaryKey;
+
+		$this->_row        = false;
+		$this->_rowID      = 0;
 	}
 
-	
+
 	function affectedRows(){
-		return $this->_query->rowCount();
+		return $this->_pdo->rowCount();
 	}
 
-	
+
 	function insertID(){
 		return  $this->_insertID;
 	}
 
-	
+	// =============================
+
 	function rewind(){
-		if ($this->_first){
+		if ($this->_rowID == 0){
 			// Rewind is OK as long as hasNext() is not called.
 			return;
 		}
 
 		throw new Exception("SQLResult_pdo->rewind() unimplemented");
 	}
-	
+
+
+	function current(){
+		if ($this->_rowID == 0){
+			// fetch first result
+			$this->next();
+		}
+
+		return $this->_row;
+	}
+
+
+	function key(){
+		if ($this->_rowID == 0){
+			// fetch first result
+			$this->next();
+		}
+
+		if (! $this->_primaryKey )
+			return $this->_rowID;
+
+		if ( @$this->_row[$this->_primaryKey] )
+			return $this->_row[$this->_primaryKey];
+	}
+
+
+	function next(){
+		$this->_rowID++;
+		$this->_row = $this->_pdo->fetch(self::FETCH_MODE);
+	}
+
+
+	function valid(){
+		if ($this->_rowID == 0)
+			return true;
+
+		return $this->_row !== false;
+	}
+
+	// =============================
+
+
+/*
+
 
 	function next(){
 		$this->_first = false;
-
-		$this->_tempRow = $this->_query->fetch(self::FETCH_MODE);
 
 		if ($this->_tempRow === false)
 			return false;
@@ -56,20 +101,17 @@ class PDOResult implements SQLResult{
 		return $this->_tempRow;
 	}
 
-	
+
 	function current(){
 		return $this->_tempRow;
 	}
-	
-	
+
+
 	function currentKey(){
-		if (! $this->_primaryKey )
-			return NULL;
-			
-		if ( @$this->_tempRow[$this->_primaryKey] )
-			return $this->_tempRow[$this->_primaryKey];
-			
+
+
 		return NULL;
 	}
+*/
 }
 

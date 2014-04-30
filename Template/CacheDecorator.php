@@ -72,8 +72,7 @@ class CacheDecorator implements Template, UnitTest{
 
 
 	static function test(){
-		$cache = new \pfc\CacheAdapter\Shm("cached_template_");
-		//$cache  = new \pfc\CacheAdapter\GZipDecorator($cache2);
+		$cache = new \pfc\CacheAdapter\Shm("unit_test_template_");
 
 		$logger = new \pfc\Logger(new \pfc\OutputAdapter\Console());
 
@@ -91,9 +90,10 @@ class CacheDecorator implements Template, UnitTest{
 
 		$t->bindParams($params);
 
-		echo "You will see *cached* template HTML file here:\n";
-		echo $t->render("page.html.php");
-		echo "end\n";
+		echo "You will see *cached* template log here:\n";
+		$t->render("page.html.php");
+		$t->render("page.html.php");
+		echo "---end---\n\n";
 	}
 }
 

@@ -30,6 +30,7 @@ interface SQL{
 	 */
 	function close();
 
+
 	/**
 	 * escape the string for use in sql statements
 	 *

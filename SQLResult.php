@@ -5,7 +5,7 @@ namespace pfc;
  * SQLResult Iterator
  *
  */
-interface SQLResult extends Iterator{
+interface SQLResult extends \Iterator{
 	/**
 	 * get affected rows (count of the array)
 	 *

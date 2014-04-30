@@ -60,7 +60,7 @@ class GZipDecorator implements CacheAdapter, UnitTest{
 
 		assert($data == $data1);
 
-		echo "Delay: $ttl++ seconds... ";
+		echo "Delay: " . ($ttl + 1) . " seconds... ";
 		sleep($ttl + 1);
 		echo "done.\n";
 
