@@ -27,7 +27,7 @@ class Iterators implements UnitTest{
 	 * @param Addable $list
 	 * @param Iterator $iterator
 	 */
-	static function addAll(Addable $list, Iterator $iterator ){
+	static function addAll(Addable $list, \Iterator $iterator ){
 		foreach($iterator as $element)
 			$list->add($element);
 	}
@@ -76,24 +76,31 @@ class Iterators implements UnitTest{
 
 
 	static function test(){
-
-		$sb1 = new StringBuilder();
-
 		$array = range(0, 100);
-
-		foreach($array as $a)
-			$sb1->add($a);
-
-		$sb2 = new StringBuilder();
-
-		Iterators::addArray($sb2, $array);
-
-		assert($sb1 == $sb2);
+		$array2 = Iterators::toArray(new \ArrayIterator($array));
+		assert(count($array2) == count($array));
+		assert($array2[5] == $array[5]);
+		assert($array2 == $array);
 
 		// ============================
 
-		$array2 = Iterators::toArray(new \ArrayIterator($array));
-		assert(count($array2) == count($array));
+		$list = new ArrayList();
+		Iterators::addAll($list, new \ArrayIterator($array));
+		assert($list->count() == count($array));
+		assert($list[5] == $array[5]);
+
+		// ============================
+
+
+		$list = new ArrayList();
+		Iterators::addArray($list, $array);
+		assert($list->count() == count($array));
+		assert($list[5] == $array[5]);
+
+		// ============================
+
+		$count = Iterators::countAll(new \ArrayIterator($array));
+		assert($count == count($array));
 
 		// ============================
 
@@ -105,12 +112,6 @@ class Iterators implements UnitTest{
 
 		echo "You should see Iterators::dumpAll() result:\n";
 		Iterators::dumpAll($iterator);
-
-		// ============================
-
-		$array3 = Iterators::toArray($iterator);
-
-		assert(count($array3["a"]) == 1);
 	}
 }
 

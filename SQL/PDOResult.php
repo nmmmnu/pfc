@@ -88,30 +88,5 @@ class PDOResult implements SQLResult{
 
 	// =============================
 
-
-/*
-
-
-	function next(){
-		$this->_first = false;
-
-		if ($this->_tempRow === false)
-			return false;
-
-		return $this->_tempRow;
-	}
-
-
-	function current(){
-		return $this->_tempRow;
-	}
-
-
-	function currentKey(){
-
-
-		return NULL;
-	}
-*/
 }
 

@@ -12,6 +12,9 @@ $slow_tests = false || true;
 echo Info::COPYRIGHT() . "\n\n";
 
 
+ArrayList::test();
+
+
 StringBuilder::test();
 
 
