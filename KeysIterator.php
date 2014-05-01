@@ -5,7 +5,7 @@ namespace pfc;
  * Iterator over the keys of another iterator
  *
  */
-class IteratorDecorator implements \Iterator, UnitTest{
+class KeysIterator implements \Iterator, UnitTest{
 	private $_iterator;
 
 
@@ -19,7 +19,6 @@ class IteratorDecorator implements \Iterator, UnitTest{
 		$this->_iterator = $iterator;
 	}
 
-	// =============================
 
 	function rewind(){
 		return $this->_iterator->rewind();
@@ -27,12 +26,12 @@ class IteratorDecorator implements \Iterator, UnitTest{
 
 
 	function current(){
-		return $this->_iterator->current();
+		return $this->_iterator->key();
 	}
 
 
 	function key(){
-		return $this->_iterator->key();
+		return $this->_iterator->current();
 	}
 
 
@@ -45,7 +44,6 @@ class IteratorDecorator implements \Iterator, UnitTest{
 		return $this->_iterator->valid();
 	}
 
-	// =============================
 
 	static function test(){
 		$a = array(
@@ -55,10 +53,10 @@ class IteratorDecorator implements \Iterator, UnitTest{
 		);
 
 		$it  = new \ArrayIterator($a);
-		$kit = new IteratorDecorator($it);
+		$kit = new KeysIterator($it);
 
 		while($kit->valid()){
-			assert($it->current() == $kit->current());
+			assert($it->key() == $kit->current());
 			$kit->next();
 		}
 	}

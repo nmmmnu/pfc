@@ -2,11 +2,12 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLArrayResult;
+use pfc\SQLTools;
 
 use pfc\Loggable;
 
 use pfc\Profiler;
+
 
 /**
  * Decorator that uses Profiler to profile the queries
@@ -37,8 +38,13 @@ class ProfilerDecorator implements SQL{
 	}
 
 
-	function open($connectionString){
-		return $this->_sqlAdapter->open($connectionString);
+	function getParamsHelp(){
+		return $this->_sqlAdapter->getParamsHelp();
+	}
+
+
+	function open(){
+		return $this->_sqlAdapter->open();
 	}
 
 
@@ -52,13 +58,22 @@ class ProfilerDecorator implements SQL{
 	}
 
 
-	function query($sql, $primaryKey=NULL){
-		$this->_profiler->stop("query start", $sql);
-		$result = $this->_sqlAdapter->query($sql, $primaryKey);
-		$m =
-		$this->_profiler->stop("query end", $sql);
+	function query($sql, array $params, $primaryKey = null){
+		$originalSQL = $sql;
+		$sql = SQLTools::escapeQuery($this, $sql, $params);
 
-		$this->logDebug("Query executed for $m seconds...");
+		$this->_profiler->stop("query start", $sql);
+		$result = $this->_sqlAdapter->query($originalSQL, $params, $primaryKey);
+		$m = $this->_profiler->stop("query end", $sql);
+
+		if ($result === false){
+			$message = sprintf("Query **FAILED** for %s seconds...", $m);
+		}else{
+			$message = sprintf("Query executed for %s seconds, %d afected rows...",
+				$m, $result->affectedRows() );
+		}
+
+		$this->logDebug($message);
 
 		return $result;
 	}

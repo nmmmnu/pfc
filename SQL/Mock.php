@@ -2,10 +2,10 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
+use pfc\SQLTools;
+
 use pfc\UnitTest;
 
-use pfc\SQLResultFromIterator;
-use pfc\ArrayIterator;
 
 /**
  * Mock class
@@ -31,7 +31,12 @@ class Mock implements SQL, UnitTest{
 	}
 
 
-	function open($connectionString){
+	function getParamsHelp(){
+		return array();
+	}
+
+
+	function open(){
 		// Connected
 	}
 
@@ -46,8 +51,9 @@ class Mock implements SQL, UnitTest{
 	}
 
 
-	function query($sql, $primaryKey=NULL){
-		return new SQLResultFromIterator(new \ArrayIterator($this->_data), $primaryKey, count($this->_data) );
+	function query($sql, array $params, $primaryKey = null){
+		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		return new IteratorResult(new \ArrayIterator($this->_data), $primaryKey, count($this->_data) );
 	}
 
 
@@ -64,7 +70,7 @@ class Mock implements SQL, UnitTest{
 
 		// ====================
 
-		$result = $db->query("select * from bla", "city");
+		$result = $db->query("select * from bla", array(), "city");
 
 		assert($result->affectedRows() == 3);
 
@@ -78,7 +84,7 @@ class Mock implements SQL, UnitTest{
 
 		// ====================
 
-		$result = $db->query("select * from bla");
+		$result = $db->query("select * from bla", array() );
 
 		assert($result->affectedRows() == 3);
 

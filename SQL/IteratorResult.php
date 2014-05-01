@@ -1,5 +1,7 @@
 <?
-namespace pfc;
+namespace pfc\SQL;
+
+use pfc\SQLResult;
 
 /**
  * Adapter that converts Iterator to SQLResult
@@ -7,7 +9,7 @@ namespace pfc;
  * Useful for Mock objects, but also for cache, JSON etc.
  *
  */
-class SQLResultFromIterator implements SQLResult{
+class IteratorResult implements SQLResult{
 	private $_iterator;
 
 	private $_primaryKey;

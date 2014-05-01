@@ -2,26 +2,23 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
-use pfc\SQLException;
 
 /**
  * PDO adapter for SQLResult
  *
  */
-class PDOResult implements SQLResult{
+class MySQLiResult implements SQLResult{
 	const FETCH_MODE = \PDO::FETCH_ASSOC;
 
 
-	private $_pdo;
-	private $_insertID;
+	private $_results;
 
 	private $_row;
 	private $_rowID;
 
-
-	function __construct(\PDOStatement $query, $primaryKey, $insertID = 0){
-		$this->_pdo        = $query;
-		$this->_insertID   = $insertID;
+	//\mysqli_result
+	function __construct($query, $primaryKey){
+		$this->_results    = $query;
 		$this->_primaryKey = $primaryKey;
 
 		$this->_row        = false;
@@ -30,12 +27,12 @@ class PDOResult implements SQLResult{
 
 
 	function affectedRows(){
-		return $this->_pdo->rowCount();
+		return $this->_results->num_rows;
 	}
 
 
 	function insertID(){
-		return  $this->_insertID;
+		return 0;
 	}
 
 	// =============================
@@ -46,7 +43,7 @@ class PDOResult implements SQLResult{
 			return;
 		}
 
-		throw new SQLException("SQLResult_pdo->rewind() unimplemented");
+		throw new SQLException("SQLResult_results->rewind() unimplemented");
 	}
 
 
@@ -55,6 +52,9 @@ class PDOResult implements SQLResult{
 			// fetch first result
 			$this->next();
 		}
+
+		if ($this->_row == null)
+			return null;
 
 		return $this->_row;
 	}
@@ -76,7 +76,7 @@ class PDOResult implements SQLResult{
 
 	function next(){
 		$this->_rowID++;
-		$this->_row = $this->_pdo->fetch(self::FETCH_MODE);
+		$this->_row = $this->_results->fetch_assoc();
 	}
 
 
@@ -84,7 +84,7 @@ class PDOResult implements SQLResult{
 		if ($this->_rowID == 0)
 			return true;
 
-		return $this->_row !== false;
+		return $this->_row !== null;
 	}
 
 	// =============================

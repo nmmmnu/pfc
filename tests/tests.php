@@ -18,8 +18,8 @@ ArrayList::test();
 StringBuilder::test();
 
 
-KeysIteratorDecorator::test();
-IteratorDecorator::test();
+KeysIterator::test();
+IteratorIterator::test();
 
 
 Iterators::test();

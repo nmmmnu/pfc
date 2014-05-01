@@ -15,12 +15,20 @@ interface SQL{
 
 
 	/**
+	 * return an array with connection parameters
+	 *
+	 * @return string
+	 */
+	function getParamsHelp();
+
+
+	/**
 	 * open database connection
 	 *
 	 * @param string connectionString connection string
 	 * @return boolean
 	 */
-	function open($connectionString);
+	function open();
 
 
 	/**
@@ -47,6 +55,6 @@ interface SQL{
 	 * @param string $primaryKey "primary key" to be used later with the iterators
 	 * @return SQLResult
 	 */
-	function query($sql, $primaryKey=NULL);
+	function query($sql, array $params, $primaryKey = null);
 }
 

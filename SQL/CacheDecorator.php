@@ -2,8 +2,7 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLArrayResult;
-use pfc\SQLResultFromIterator;
+use pfc\SQLTools;
 
 use pfc\Loggable;
 
@@ -48,8 +47,13 @@ class CacheDecorator implements SQL{
 	}
 
 
-	function open($connectionString){
-		return $this->_sqlAdapter->open($connectionString);
+	function getParamsHelp(){
+		return $this->_sqlAdapter->getParamsHelp();
+	}
+
+
+	function open(){
+		return $this->_sqlAdapter->open();
 	}
 
 
@@ -63,7 +67,9 @@ class CacheDecorator implements SQL{
 	}
 
 
-	function query($sql, $primaryKey=NULL){
+	function query($sql, array $params, $primaryKey = null){
+		$originalSQL = $sql;
+		$sql = SQLTools::escapeQuery($this, $sql, $params);
 		// load from cache
 		$serializedData = $this->_cacheAdapter->load($sql, $this->_ttl);
 
@@ -74,14 +80,14 @@ class CacheDecorator implements SQL{
 			// Corrupted data
 			if (is_array($arrayData)){
 				$this->logDebug("Cache hit...");
-				return new SQLResultFromIterator(new \ArrayIterator($arrayData), $primaryKey, count($arrayData) );
+				return new IteratorResult(new \ArrayIterator($arrayData), $primaryKey, count($arrayData) );
 			}
 		}
 
 		$this->logDebug("Perform the query...");
 
 		// perform the query
-		$result = $this->_sqlAdapter->query($sql, $primaryKey);
+		$result = $this->_sqlAdapter->query($originalSQL, $params, $primaryKey);
 
 		if ($result === false)
 			return false;
@@ -96,7 +102,7 @@ class CacheDecorator implements SQL{
 
 		// the iterator can not be rewind.
 		// this is why we use the SQLMockResult again.
-		return new SQLResultFromIterator(new \ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
+		return new IteratorResult(new \ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
 	}
 }
 

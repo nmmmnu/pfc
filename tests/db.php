@@ -1,7 +1,27 @@
 <?
 namespace tests;
 
-$real_db = new \pfc\SQL\PDO();
+
+$connection = array(
+	"connection_string" => "mysql:unix_socket=/tmp/akonadi-nmmm.4ApOk1/mysql.socket;dbname=test",
+//	"connection_string" => "sqlite:" . __DIR__ . "/../data/test.database.sqlite3",
+	"user",
+	"password"
+);
+
+$real_db = new \pfc\SQL\PDO($connection);
+
+
+
+/*
+$connection = array(
+	"database"	=> "test",
+	"socket"	=> "/tmp/akonadi-nmmm.4ApOk1/mysql.socket"
+);
+
+$real_db = new \pfc\SQL\MySQLi($connection);
+*/
+
 
 $profiler = new \pfc\Profiler();
 
@@ -11,8 +31,10 @@ $logger->addFormat(new \pfc\LoggerFormat\Profiler( new \pfc\Profiler() ) );
 $logger->addFormat(new \pfc\LoggerFormat\String("db_test") );
 
 
-$db = new \pfc\SQL\ProfilerDecorator($real_db, new \pfc\Profiler() );
-$db->setLogger($logger);
+$prof_db = new \pfc\SQL\ProfilerDecorator($real_db, new \pfc\Profiler() );
+$prof_db->setLogger($logger);
+
+$db = new \pfc\SQL\ExceptionDecorator($prof_db);
 
 $cacheAdapterFile = new \pfc\CacheAdapter\Shm("sql_cache_");
 $cacheAdapter     = new \pfc\CacheAdapter\GZipDecorator($cacheAdapterFile);
