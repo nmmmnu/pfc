@@ -39,11 +39,17 @@ Authenticator\DenyAll::test();
 Authenticator\ArrayPassword::test();
 
 
+Compressor\GZip::test();
+Compressor\GZDeflate::test();
+Compressor\ZLib::test();
+
+
 SQL\Mock::test();
 
 
 if ($slow_tests){
 	CacheAdapter\File::test();
+	CacheAdapter\CompressorDecorator::test();
 	CacheAdapter\GZipDecorator::test();
 	if ($redis_tests)
 	CacheAdapter\Redis::test();

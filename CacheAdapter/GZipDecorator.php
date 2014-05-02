@@ -2,7 +2,7 @@
 namespace pfc\CacheAdapter;
 
 use pfc\CacheAdapter;
-use pfc\UnitTest;
+use pfc\Compressor\GZip;
 
 /**
  * GZipDecorator CacheAdapter
@@ -10,38 +10,14 @@ use pfc\UnitTest;
  * If written to file, utilities like gzip / zcat can be used
  *
  */
-class GZipDecorator implements CacheAdapter, UnitTest{
-	private $_adapter;
-
+class GZipDecorator extends CompressorDecorator{
 	/**
 	 * constructor
 	 *
 	 * @param Serializer $serializer
 	 */
 	function __construct(CacheAdapter $adapter){
-		$this->_adapter = $adapter;
-	}
-
-
-	function load($key, $ttl){
-		$data = $this->_adapter->load($key, $ttl);
-
-		if ($data === false)
-			return false;
-
-		$data = @gzdecode($data);
-
-		if ($data === false)
-			return false;
-
-		return $data;
-	}
-
-
-	function store($key, $ttl, $data){
-		$data = gzencode($data);
-
-		$this->_adapter->store($key, $ttl, $data);
+		parent::__construct($adapter, new GZip());
 	}
 
 
