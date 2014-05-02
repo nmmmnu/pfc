@@ -3,7 +3,6 @@ namespace pfc\OutputAdapter;
 
 use pfc\OutputAdapter;
 use pfc\Addable as pfc_Addable;
-use pfc\UnitTest;
 
 /**
  * Addable OutputAdapter
@@ -11,7 +10,7 @@ use pfc\UnitTest;
  * supports "writting" to Addable, for example StringBuilder
  *
  */
-class Addable implements OutputAdapter, UnitTest{
+class Addable implements OutputAdapter{
 	private $_addable;
 
 	/**

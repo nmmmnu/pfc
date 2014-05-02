@@ -2,14 +2,13 @@
 namespace pfc\Template;
 
 use pfc\Template;
-use pfc\UnitTest;
 
 
 /**
  * PHP template engine
  *
  */
-class PHP implements Template, UnitTest{
+class PHP implements Template{
 	const MAXDEEP = 30;
 
 	private $_path;
@@ -91,16 +90,7 @@ class PHP implements Template, UnitTest{
 	static function test(){
 		$t = new PHP("data/templates/");
 
-		$params = array(
-			"name"		=> "Niki\"",
-			"city"		=> "Sofia"
-		);
-
-		$t->bindParams($params);
-
-		echo "You will see template HTML file here:\n";
-		echo $t->render("page.html.php");
-		echo "---end---\n\n";
+		\pfc\TemplateTests::test($t);
 	}
 }
 

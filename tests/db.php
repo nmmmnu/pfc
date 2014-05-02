@@ -37,7 +37,7 @@ $prof_db->setLogger($logger);
 $db = new \pfc\SQL\ExceptionDecorator($prof_db);
 
 $cacheAdapterFile = new \pfc\CacheAdapter\Shm("sql_cache_");
-$cacheAdapter     = new \pfc\CacheAdapter\GZipDecorator($cacheAdapterFile);
+$cacheAdapter     = new \pfc\CacheAdapter\CompressorDecorator($cacheAdapterFile, new \pfc\Compressor\GZip());
 
 $serializer   = new \pfc\Serializer\JSON();
 

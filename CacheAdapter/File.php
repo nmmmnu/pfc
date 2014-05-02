@@ -2,9 +2,8 @@
 namespace pfc\CacheAdapter;
 
 use pfc\CacheAdapter;
-use pfc\UnitTest;
 
-class File implements CacheAdapter, UnitTest{
+class File implements CacheAdapter{
 	private $_dir;
 	private $_filePrefix;
 	private $_fileUnlink;
@@ -75,25 +74,9 @@ class File implements CacheAdapter, UnitTest{
 
 
 	static function test(){
-		$adapter = new File("/dev/shm/", "unit_test_file_");
+		$adapter = new File("/dev/shm/", "unit_tests_[" . __CLASS__ ."]_");
 
-		$key  = "100";
-		$data = "hello";
-		$ttl  = 1;
-
-		$adapter->store($key, $ttl, $data);
-		$data1 = $adapter->load($key, $ttl);
-
-		//echo "$data \n $data1 'n";
-
-		assert($data == $data1);
-
-		echo "Delay: " . ($ttl + 1) . " seconds... ";
-		sleep($ttl + 1);
-		echo "done.\n";
-
-		$data1 = $adapter->load($key, $ttl);
-		assert($data1 === false);
+		\pfc\CacheAdapterTests::test($adapter);
 	}
 }
 

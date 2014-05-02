@@ -12,7 +12,7 @@ namespace pfc;
  * }
  *
  */
-class StringBuilder implements Addable, UnitTest{
+class StringBuilder implements Addable{
 	private $_buffer;
 
 

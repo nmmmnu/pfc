@@ -2,7 +2,6 @@
 namespace pfc\OutputAdapter;
 
 use pfc\OutputAdapter;
-use pfc\UnitTest;
 
 /**
  * File OutputAdapter
@@ -10,7 +9,7 @@ use pfc\UnitTest;
  * supports "writting" to specific file, using standard PHP fopen()
  *
  */
-class File implements OutputAdapter, UnitTest{
+class File implements OutputAdapter{
 	private $_file;
 
 	/**

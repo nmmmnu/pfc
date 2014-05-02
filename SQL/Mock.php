@@ -4,8 +4,6 @@ namespace pfc\SQL;
 use pfc\SQL;
 use pfc\SQLTools;
 
-use pfc\UnitTest;
-
 
 /**
  * Mock class
@@ -13,7 +11,7 @@ use pfc\UnitTest;
  * query always returns the array passed by constructor
  *
  */
-class Mock implements SQL, UnitTest{
+class Mock implements SQL{
 	private $_data;
 
 	/**

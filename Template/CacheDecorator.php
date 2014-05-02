@@ -4,22 +4,21 @@ namespace pfc\Template;
 use pfc\Loggable;
 
 use pfc\CacheAdapter;
-use pfc\Serializer;
 use pfc\Template;
-use pfc\UnitTest;
 
 
 /**
  * Cache template engine
  *
  */
-class CacheDecorator implements Template, UnitTest{
+class CacheDecorator implements Template{
 	use Loggable;
 
 
 	private $_template;
 	private $_cacheAdapter;
 	private $_ttl;
+
 
 	/**
 	 * constructor
@@ -72,7 +71,7 @@ class CacheDecorator implements Template, UnitTest{
 
 
 	static function test(){
-		$cache = new \pfc\CacheAdapter\Shm("unit_test_template_");
+		$cache = new \pfc\CacheAdapter\Shm("unit_tests_[" . __CLASS__ . "]_");
 
 		$logger = new \pfc\Logger(new \pfc\OutputAdapter\Console());
 
@@ -81,19 +80,8 @@ class CacheDecorator implements Template, UnitTest{
 		$t = new CacheDecorator($phptemplate, $cache, 30);
 		$t->setLogger($logger);
 
-		//CacheDecorator
-
-		$params = array(
-			"name"		=> "Niki\"",
-			"city"		=> "Sofia"
-		);
-
-		$t->bindParams($params);
-
-		echo "You will see *cached* template log here:\n";
-		$t->render("page.html.php");
-		$t->render("page.html.php");
-		echo "---end---\n\n";
+		\pfc\TemplateTests::test($t, false);
+		\pfc\TemplateTests::test($t, false);
 	}
 }
 

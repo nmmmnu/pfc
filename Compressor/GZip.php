@@ -2,7 +2,6 @@
 namespace pfc\Compressor;
 
 use pfc\Compressor;
-use pfc\UnitTest;
 
 /**
  * GZip Compressor
@@ -11,6 +10,11 @@ use pfc\UnitTest;
  *
  */
 class GZip implements Compressor{
+	function deflate($data){
+		return gzencode($data);
+	}
+
+
 	function inflate($data){
 		$data = @gzdecode($data);
 
@@ -21,19 +25,9 @@ class GZip implements Compressor{
 	}
 
 
-	function deflate($data){
-		return gzencode($data);
-	}
-
-
 	static function test(){
-		$gz = new GZip();
-
-		$s = "testing...";
-
-		$compressed = $gz->deflate($s);
-
-		assert($s == $gz->inflate($compressed));
+		\pfc\CompressorTests::test( new GZip() );
 	}
+
 }
 

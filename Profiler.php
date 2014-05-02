@@ -8,7 +8,7 @@ namespace pfc;
  * Similar to stopwatch.
  *
  */
-class Profiler implements UnitTest{
+class Profiler{
 	private $_measurements;
 	private $_baggage;
 	private $_serial;

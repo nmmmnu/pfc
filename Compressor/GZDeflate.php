@@ -2,20 +2,19 @@
 namespace pfc\Compressor;
 
 use pfc\Compressor;
-use pfc\UnitTest;
 
 /**
  * gz deflate Compressor
  *
  */
 class GZDeflate implements Compressor{
-	function inflate($data){
-		return gzinflate($data);
+	function deflate($data){
+		return gzdeflate($data);
 	}
 
 
-	function deflate($data){
-		$data = @gzdeflate($data);
+	function inflate($data){
+		$data = @gzinflate($data);
 
 		if ($data === false)
 			return false;
@@ -25,14 +24,7 @@ class GZDeflate implements Compressor{
 
 
 	static function test(){
-		$gz = new GZDeflate();
-
-		$s = "testing...";
-
-		$compressed = $gz->deflate($s);
-
-		assert($s == $gz->inflate($compressed));
+		\pfc\CompressorTests::test( new GZDeflate() );
 	}
-
 }
 

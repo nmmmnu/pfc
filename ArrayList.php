@@ -7,7 +7,7 @@ namespace pfc;
  * List using array, used mostly for tests
  *
  */
-class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate, Addable, UnitTest {
+class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate, Addable {
 	private $_data = array();
 
 	/**

@@ -2,9 +2,8 @@
 namespace pfc\CacheAdapter;
 
 use pfc\CacheAdapter;
-use pfc\UnitTest;
 
-class Redis implements CacheAdapter, UnitTest{
+class Redis implements CacheAdapter{
 	private $_redis;
 	private $_keyPrefix;
 
@@ -42,23 +41,9 @@ class Redis implements CacheAdapter, UnitTest{
 		$r = new \Redis();
 		$r->connect("localhost");
 
-		$adapter = new Redis($r, "unit_test_");
+		$adapter = new Redis($r, "unit_tests_[" . __CLASS__ ."]_");
 
-		$key  = "100";
-		$data = "hello";
-		$ttl  = 1;
-
-		$adapter->store($key, $ttl, $data);
-		$data1 = $adapter->load($key, $ttl);
-
-		assert($data === $data1);
-
-		echo "Delay: " . ($ttl + 1) . " seconds... ";
-		sleep($ttl + 1);
-		echo "done.\n";
-
-		$data1 = $adapter->load($key, $ttl);
-		assert($data1 === false);
+		\pfc\CacheAdapterTests::test($adapter);
 	}
 }
 

@@ -2,12 +2,11 @@
 namespace pfc\Authenticator;
 
 use pfc\Authenticator;
-use pfc\UnitTest;
 
 /**
  * allow / deny access according the user password storred in array
  */
-class ArrayPassword implements Authenticator, UnitTest{
+class ArrayPassword implements Authenticator{
 	private $_array;
 
 

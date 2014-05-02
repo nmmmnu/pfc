@@ -5,7 +5,7 @@ namespace pfc;
  * Iterator over the keys of another iterator
  *
  */
-class KeysIterator implements \Iterator, UnitTest{
+class KeysIterator implements \Iterator{
 	private $_iterator;
 
 

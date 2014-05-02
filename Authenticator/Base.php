@@ -2,9 +2,8 @@
 namespace pfc\Authenticator;
 
 use pfc\Authenticator;
-use pfc\UnitTest;
 
-abstract class Base implements Authenticator, UnitTest{
+abstract class Base implements Authenticator{
 	private $_result;
 
 

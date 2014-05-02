@@ -5,7 +5,7 @@ namespace pfc;
  * class similar to Google's Java Iterators
  *
  */
-class Iterators implements UnitTest{
+class Iterators{
 	private function __construct(){
 	}
 
