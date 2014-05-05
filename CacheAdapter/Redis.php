@@ -6,15 +6,21 @@ use pfc\CacheAdapter;
 class Redis implements CacheAdapter{
 	private $_redis;
 	private $_keyPrefix;
+	private $_ttl;
 
 
-	function __construct($redis, $keyPrefix = ""){
+	function __construct($redis, $keyPrefix){
 		$this->_redis      = $redis;
 		$this->_keyPrefix  = $keyPrefix;
 	}
 
 
-	function load($key, $ttl){
+	function setTTL($ttl){
+		$this->_ttl        = $ttl;
+	}
+
+
+	function load($key){
 		$data = $this->_redis->get( $this->getKey($key) );
 
 		if ($data)
@@ -24,11 +30,16 @@ class Redis implements CacheAdapter{
 	}
 
 
-	function store($key, $ttl, $data){
+	function store($key, $data){
 		$this->_redis->set($this->getKey($key), $data );
 
-		if ($ttl > 0)
-			$this->_redis->expire( $this->getKey($key), $ttl );
+		if ($this->_ttl > 0)
+			$this->_redis->expire( $this->getKey($key), $this->_ttl );
+	}
+
+
+	function remove($key){
+		$this->_redis->del($this->getKey($key));
 	}
 
 
@@ -42,6 +53,7 @@ class Redis implements CacheAdapter{
 		$r->connect("localhost");
 
 		$adapter = new Redis($r, "unit_tests_[" . __CLASS__ ."]_");
+		$adapter->setTTL(\pfc\CacheAdapterTests::TTL);
 
 		\pfc\CacheAdapterTests::test($adapter);
 	}

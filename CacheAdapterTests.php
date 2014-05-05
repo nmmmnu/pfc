@@ -2,21 +2,22 @@
 namespace pfc;
 
 class CacheAdapterTests{
+	const TTL = 1;
+
 	static function test(CacheAdapter $adapter){
 		$key  = "100";
 		$data = "hello, this is some test data";
-		$ttl  = 1;
 
-		$adapter->store($key, $ttl, $data);
-		$data1 = $adapter->load($key, $ttl);
+		$adapter->store($key, $data);
+		$data1 = $adapter->load($key);
 
 		assert($data == $data1);
 
-		echo "Delay: " . ($ttl + 1) . " seconds... ";
-		sleep($ttl + 1);
+		echo "Delay: " . (self::TTL + 1) . " seconds... ";
+		sleep(self::TTL + 1);
 		echo "done.\n";
 
-		$data1 = $adapter->load($key, $ttl);
+		$data1 = $adapter->load($key);
 		assert($data1 === false);
 	}
 }

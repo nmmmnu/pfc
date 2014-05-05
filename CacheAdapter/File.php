@@ -6,6 +6,7 @@ use pfc\CacheAdapter;
 class File implements CacheAdapter{
 	private $_dir;
 	private $_filePrefix;
+	private $_ttl;
 	private $_fileUnlink;
 
 
@@ -17,15 +18,19 @@ class File implements CacheAdapter{
 	 * @param boolean $fileUnlink whatever to unlink (delete) expired files
 	 *
 	 */
-	function __construct($dir, $filePrefix, $fileUnlink = false){
+	function __construct($dir, $filePrefix, $ttl, $fileUnlink = false){
 		$this->_dir        = $dir;
 		$this->_filePrefix = $filePrefix;
 		$this->_fileUnlink = $fileUnlink;
 	}
 
 
-	function load($key, $ttl){
-		$cacheGood = $this->checkTTL($key, $ttl);
+	function setTTL($ttl){
+		$this->_ttl        = $ttl;
+	}
+
+	function load($key){
+		$cacheGood = $this->checkTTL($key);
 
 		if (!$cacheGood)
 			return false;
@@ -40,14 +45,20 @@ class File implements CacheAdapter{
 	}
 
 
-	function store($key, $ttl, $data){
+	function store($key, $data){
 		@file_put_contents( $this->getFilename($key), $data );
 	}
 
 
-	private function checkTTL($key, $ttl){
+	function remove($key){
+		if ($this->_fileUnlink)
+			@unlink($this->getFilename($key));
+	}
+
+
+	private function checkTTL($key){
 		// Cache is always good.
-		if ($ttl == 0)
+		if ($this->_ttl == 0)
 			return true;
 
 		$mtime = @filemtime($this->getFilename($key));
@@ -57,10 +68,8 @@ class File implements CacheAdapter{
 			return false;
 
 		// Cache expired.
-		if ( $mtime + $ttl < time() ){
-			if ($this->_fileUnlink)
-				@unlink($this->getFilename($key));
-
+		if ( $mtime + $this->_ttl < time() ){
+			$this->remove();
 			return false;
 		}
 
@@ -74,7 +83,10 @@ class File implements CacheAdapter{
 
 
 	static function test(){
+		$ttl = \pfc\CacheAdapterTests::TTL;
+
 		$adapter = new File("/dev/shm/", "unit_tests_[" . __CLASS__ ."]_");
+		$adapter->setTTL(\pfc\CacheAdapterTests::TTL);
 
 		\pfc\CacheAdapterTests::test($adapter);
 	}

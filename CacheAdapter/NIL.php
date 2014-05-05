@@ -8,11 +8,17 @@ use pfc\CacheAdapter;
  *
  */
 class NIL implements CacheAdapter{
-	function load($key, $ttl){
+	function setTTL($ttl){
+	}
+
+	function load($key){
 		return false;
 	}
 
-	function store($key, $ttl, $data){
+	function store($key, $data){
+	}
+
+	function remove($key){
 	}
 }
 

@@ -23,7 +23,6 @@ class CacheDecorator implements SQL{
 	private $_sqlAdapter;
 	private $_cacheAdapter;
 	private $_serializer;
-	private $_ttl;
 
 
 	/**
@@ -32,13 +31,11 @@ class CacheDecorator implements SQL{
 	 * @param SQL $sqlAdapter
 	 * @param CacheAdapter $cacheAdapter
 	 * @param Serializer $serializer
-	 * @param int $ttl time to live for the cache
 	 */
-	function __construct(SQL $sqlAdapter, CacheAdapter $cacheAdapter, Serializer $serializer, $ttl){
+	function __construct(SQL $sqlAdapter, CacheAdapter $cacheAdapter, Serializer $serializer){
 		$this->_sqlAdapter	= $sqlAdapter;
 		$this->_cacheAdapter	= $cacheAdapter;
 		$this->_serializer	= $serializer;
-		$this->_ttl		= $ttl;
 	}
 
 
@@ -71,7 +68,7 @@ class CacheDecorator implements SQL{
 		$originalSQL = $sql;
 		$sql = SQLTools::escapeQuery($this, $sql, $params);
 		// load from cache
-		$serializedData = $this->_cacheAdapter->load($sql, $this->_ttl);
+		$serializedData = $this->_cacheAdapter->load($sql);
 
 		if ($serializedData !== false){
 			$arrayData = $this->_serializer->unserialize($serializedData);
@@ -97,7 +94,7 @@ class CacheDecorator implements SQL{
 
 		// store in cache
 		$serializedData = $this->_serializer->serialize($arrayData);
-		$this->_cacheAdapter->store($sql, $this->_ttl, $serializedData);
+		$this->_cacheAdapter->store($sql, $serializedData);
 		unset($serializedData);
 
 		// the iterator can not be rewind.

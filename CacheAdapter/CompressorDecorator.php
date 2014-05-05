@@ -14,6 +14,7 @@ class CompressorDecorator implements CacheAdapter{
 	private $_adapter;
 	private $_compressor;
 
+
 	/**
 	 * constructor
 	 *
@@ -26,8 +27,13 @@ class CompressorDecorator implements CacheAdapter{
 	}
 
 
-	function load($key, $ttl){
-		$data = $this->_adapter->load($key, $ttl);
+	function setTTL($ttl){
+		$this->_adapter.setTTL($ttl);
+	}
+
+
+	function load($key){
+		$data = $this->_adapter->load($key);
 
 		if ($data === false)
 			return false;
@@ -41,17 +47,26 @@ class CompressorDecorator implements CacheAdapter{
 	}
 
 
-	function store($key, $ttl, $data){
+	function store($key, $data){
 		$data = $this->_compressor->deflate($data);
 
-		$this->_adapter->store($key, $ttl, $data);
+		$this->_adapter->store($key, $data);
+	}
+
+
+	function remove($key){
+		$this->_adapter->remove($key);
 	}
 
 
 	static function test(){
+		$ttl = 1;
+
 		$fileAdapter = new File("/dev/shm/", "unit_tests_[" . __CLASS__ ."]_");
+		$fileAdapter->setTTL(\pfc\CacheAdapterTests::TTL);
+
 		$compressor  = new \pfc\Compressor\GZip();
-		$adapter = new CompressorDecorator($fileAdapter, $compressor );
+		$adapter = new CompressorDecorator($fileAdapter, $compressor);
 
 		\pfc\CacheAdapterTests::test($adapter);
 	}
