@@ -1,12 +1,12 @@
 #!/usr/local/bin/php
 <?
 namespace pfc;
-require_once "__autoload.php";
+require_once __DIR__ . "/../__autoload.php";
 
 pfc_assert_setup();
 
 $redis_tests = false || true;
-$slow_tests = false || true;
+$slow_tests = false;// || true;
 
 
 echo Info::COPYRIGHT() . "\n\n";
@@ -62,6 +62,14 @@ Template\CacheDecorator::test();
 
 CallbackToolsTests::test();
 
+
+
+Framework\Route\Exact::test();
+Framework\Route\CatchAll::test();
+Framework\Route\Mask::test();
+
+
+Framework\RouterTests::test();
 
 
 echo "All tests passed!!!\n";

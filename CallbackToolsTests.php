@@ -10,9 +10,7 @@ class CallbackToolsTests{
 		$func   = "pfc\CallbackToolsTests::bla";
 		$params = array("age" => 33, "name" => "Niki");
 
-		$x = new CallbackToolsTests();
-
-		$s = call_user_func_array(array($x, "bla"), CallbackTools::getArguments($func, $params) );
+		$s = CallbackTools::execMethod($func, $params);
 
 		assert($s == "Niki is 33 years old");
 	}

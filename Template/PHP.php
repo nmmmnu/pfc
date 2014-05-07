@@ -88,7 +88,7 @@ class PHP implements Template{
 
 
 	static function test(){
-		$t = new PHP("data/templates/");
+		$t = new PHP(__DIR__ . "/../data/templates/");
 
 		\pfc\TemplateTests::test($t);
 	}
