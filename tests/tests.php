@@ -34,6 +34,7 @@ Serializer\JSON::test();
 OutputAdapter\File::test();
 OutputAdapter\Console::test();
 OutputAdapter\Addable::test();
+OutputAdapter\PHP::test();
 
 
 Authenticator\AllowAll::test();
