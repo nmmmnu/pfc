@@ -31,7 +31,9 @@ class PDO implements SQL{
 		return array(
 			"connection_string",
 			"user",
-			"password"
+			"password",
+
+			"init_command"
 		);
 	}
 
@@ -49,6 +51,9 @@ class PDO implements SQL{
 		}catch( \PDOException $e ){
 			return false;
 		}
+
+		if (@$this->_connection["init_command"])
+			$this->query(@$this->_connection["init_command"]);
 
 		return true;
 	}

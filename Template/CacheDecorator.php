@@ -73,7 +73,8 @@ class CacheDecorator implements Template{
 	static function test(){
 		$cache = new \pfc\CacheAdapter\Shm("unit_tests_[" . __CLASS__ . "]_");
 
-		$logger = new \pfc\Logger(new \pfc\OutputAdapter\Console());
+		$logger = new \pfc\Logger();
+		$logger->addOutput(new \pfc\OutputAdapter\Console());
 
 		$phptemplate = new PHP("data/templates/");
 

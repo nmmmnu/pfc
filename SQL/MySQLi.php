@@ -33,7 +33,9 @@ class MySQLi implements SQL{
 			"database",
 			"user",
 			"password",
-			"socket"
+			"socket",
+
+			"init_command"
 		);
 	}
 
@@ -61,6 +63,9 @@ class MySQLi implements SQL{
 			$this->_link = null;
 			return false;
 		}
+
+		if (@$this->_connection["init_command"])
+			$this->query(@$this->_connection["init_command"]);
 
 		return true;
 	}

@@ -10,14 +10,18 @@ class Logger{
 	const ALL     = 5;
 
 
-	private $_out;
+	private $_out = array();
 	private $_lf = array();
 	private $_level;
 
 
-	function __construct(OutputAdapter $out, $level = self::DEBUG){
-		$this->_out = $out;
+	function __construct($level = self::DEBUG){
 		$this->_level = $level;
+	}
+
+
+	function addOutput(OutputAdapter $out){
+		$this->_out[] = $out;
 	}
 
 
@@ -40,7 +44,8 @@ class Logger{
 			foreach(array_reverse($this->_lf) as $lf)
 				$message = $lf->format($message);
 
-			$this->_out->write($message);
+			foreach($this->_out as $out)
+				$out->write($message);
 		}
 	}
 

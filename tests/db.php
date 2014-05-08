@@ -28,7 +28,8 @@ $profiler = new \pfc\Profiler();
 
 
 // prepare Logger + format
-$logger = new \pfc\Logger( new \pfc\OutputAdapter\Console() );
+$logger = new \pfc\Logger();
+$logger->addOutput(new \pfc\OutputAdapter\Console());
 $logger->addFormat(new \pfc\LoggerFormat\Date() );
 $logger->addFormat(new \pfc\LoggerFormat\Profiler( new \pfc\Profiler() ) );
 $logger->addFormat(new \pfc\LoggerFormat\String("db_test") );
