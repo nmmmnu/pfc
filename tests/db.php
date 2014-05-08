@@ -2,25 +2,30 @@
 namespace tests;
 
 
-$connection = array(
-//	"connection_string" => "mysql:unix_socket=/tmp/akonadi-nmmm.LmQgHJ/mysql.socket;dbname=test",
-	"connection_string" => "sqlite:" . __DIR__ . "/../data/test.database.sqlite3",
-	"user",
-	"password"
-);
-
-$real_db = new \pfc\SQL\PDO($connection);
+error_reporting(E_ALL);
 
 
+if (true){
+	// PDO
+	
+	$connection = array(
+	//	"connection_string" => "mysql:unix_socket=/tmp/akonadi-nmmm.LmQgHJ/mysql.socket;dbname=test",
+		"connection_string" => "sqlite:" . "/dev/shm/" . "test.database.sqlite3",
+		"user",
+		"password"
+	);
 
-/*
-$connection = array(
-	"database"	=> "test",
-	"socket"	=> "/tmp/akonadi-nmmm.LmQgHJ/mysql.socket"
-);
+	$real_db = new \pfc\SQL\PDO($connection);
+}else{
+	// MySQLi
+	
+	$connection = array(
+		"database"	=> "test",
+		"socket"	=> "/tmp/akonadi-nmmm.LmQgHJ/mysql.socket"
+	);
 
-$real_db = new \pfc\SQL\MySQLi($connection);
-*/
+	$real_db = new \pfc\SQL\MySQLi($connection);
+}
 
 
 // prepare Profiller

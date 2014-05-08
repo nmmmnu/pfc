@@ -6,8 +6,8 @@ use pfc\CacheAdapter;
 class File implements CacheAdapter{
 	private $_dir;
 	private $_filePrefix;
-	private $_ttl;
 	private $_fileUnlink;
+	private $_ttl = 0;
 
 
 	/**
@@ -18,7 +18,7 @@ class File implements CacheAdapter{
 	 * @param boolean $fileUnlink whatever to unlink (delete) expired files
 	 *
 	 */
-	function __construct($dir, $filePrefix, $ttl, $fileUnlink = false){
+	function __construct($dir, $filePrefix, $fileUnlink = false){
 		$this->_dir        = $dir;
 		$this->_filePrefix = $filePrefix;
 		$this->_fileUnlink = $fileUnlink;
@@ -69,7 +69,7 @@ class File implements CacheAdapter{
 
 		// Cache expired.
 		if ( $mtime + $this->_ttl < time() ){
-			$this->remove();
+			$this->remove($key);
 			return false;
 		}
 

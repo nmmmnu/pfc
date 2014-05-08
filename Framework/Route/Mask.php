@@ -83,7 +83,7 @@ class Mask implements Route{
 
 			// close bracket
 			if ($param == true  && $c == "}"){
-				$next_c = $source[$i + 1];
+				$next_c = @$source[$i + 1];
 
 				$mask1 .= $next_c ? "%[^" . $next_c . "]" : "%s";
 				$mask2 .= "%s";

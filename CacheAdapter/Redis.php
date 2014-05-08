@@ -6,7 +6,8 @@ use pfc\CacheAdapter;
 class Redis implements CacheAdapter{
 	private $_redis;
 	private $_keyPrefix;
-	private $_ttl;
+	
+	private $_ttl = 0;
 
 
 	function __construct($redis, $keyPrefix){

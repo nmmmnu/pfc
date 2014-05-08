@@ -3,6 +3,8 @@
 namespace pfc;
 require_once __DIR__ . "/../__autoload.php";
 
+error_reporting(E_ALL);
+
 pfc_assert_setup();
 
 $redis_tests = false || true;
