@@ -8,33 +8,31 @@ use pfc\Loggable;
  *
  */
 class Registry implements \ArrayAccess {
-	use Loggable;
-	
 	const   SEPARATOR = "/";
-	
+
 	private $_data = array();
 
 	private $_path;
 	private $_ext;
 
-	
+
 	function __construct($path, $ext = ".php"){
 		$this->_path = self::checkPath($path);
 		$this->_ext  = $ext;
 	}
-	
-	
+
+
 	private static function checkPath($path){
 		if ($path == "")
 			$path = ".";
-		
+
 		if (substr($path, -1) != self::SEPARATOR)
 			$path .= self::SEPARATOR;
-			
+
 		return $path;
 	}
-	
-	
+
+
 	private function getFileName($item){
 		return $this->_path . $item . $this->_ext;
 	}
@@ -42,14 +40,10 @@ class Registry implements \ArrayAccess {
 
 	private function loadItem($item){
 		$filename = $this->getFileName($item);
-		
-		if (file_exists($filename)){
-			$this->logDebug("loading $filename");
+
+		if (file_exists($filename))
 			return include $filename;
-		}
-		
-		$this->logDebug("loading $filename failed");
-		
+
 		return null;
 	}
 
@@ -79,12 +73,12 @@ class Registry implements \ArrayAccess {
 			return $this->_data[$offset];
 
 		$value = $this->loadItem($offset);
-		
+
 		if ($value !== null){
 			$this->_data[$offset] = $value;
 			return $value;
 		}
-		
+
 		return null;
 	}
 
@@ -92,21 +86,11 @@ class Registry implements \ArrayAccess {
 	/* tests */
 
 	static function test(){
-		$logger = new \pfc\Logger();
-		$logger->addOutput(new \pfc\OutputAdapter\Console());
+		$registry = new Registry(__DIR__ . "/../data/config");
 
 
-		$registry = new Registry(__DIR__ . "/../data/registry/");
-		$registry->setLogger($logger);
-		
-		
 		assert($registry["test"] == "test");
 		assert($registry["array"][0] == "test");
-		
-		$cl = $registry["class"];
-		assert($cl->test == "test");
-		
-		print_r($registry["bla"]);
 	}
 }
 

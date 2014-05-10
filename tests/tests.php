@@ -9,10 +9,10 @@ pfc_assert_setup();
 
 
 $redis_tests = false || true;
-$slow_tests = false  || true;
+$slow_tests = false ;// || true;
 
 
-( new ErrorHandler\Development() )->register();
+//( new ErrorHandler\Development() )->register();
 
 
 echo Info::COPYRIGHT() . "\n\n";
@@ -77,6 +77,12 @@ Framework\Route\Mask::test();
 
 
 Framework\RouterTests::test();
+
+
+Framework\Registry::test();
+
+
+Framework\ResourcesTests::test();
 
 
 echo "All tests passed!!!\n";
