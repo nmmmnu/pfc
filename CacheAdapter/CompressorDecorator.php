@@ -60,15 +60,15 @@ class CompressorDecorator implements CacheAdapter{
 
 
 	static function test(){
-		$ttl = 1;
+		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
 		$fileAdapter = new File("/dev/shm/", "unit_tests_[" . __CLASS__ ."]_");
-		$fileAdapter->setTTL(\pfc\CacheAdapterTests::TTL);
+		$fileAdapter->setTTL($ttl);
 
 		$compressor  = new \pfc\Compressor\GZip();
 		$adapter = new CompressorDecorator($fileAdapter, $compressor);
 
-		\pfc\CacheAdapterTests::test($adapter);
+		\pfc\UnitTests\CacheAdapterTests::test($adapter);
 	}
 }
 

@@ -6,8 +6,8 @@ require_once __DIR__ . "/../__autoload.php";
 use pfc\ErrorHandler;
 
 class Development extends ErrorHandler{
-	function __construct($html = true){
-		parent::__construct($html);
+	function __construct($html = true, $suppress = true){
+		parent::__construct($html, $suppress);
 	}
 
 
@@ -24,11 +24,11 @@ class Development extends ErrorHandler{
 		printf("Print stack: $br\n");
 
 		echo $this->printStackTrace();
+	}
 
-		if (in_array($errno, array(E_ERROR, E_USER_ERROR) ) )
-			exit(1);
 
-		return true;
+	function supressed_msg(){
+		printf("***** suppressed error *****\n");
 	}
 }
 

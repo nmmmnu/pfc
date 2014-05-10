@@ -3,8 +3,7 @@ namespace tests;
 
 
 error_reporting(E_ALL);
-
-( new \pfc\ErrorHandler\Development() )->register();
+( new \pfc\ErrorHandler\Development(false) )->register();
 
 
 $conn = "pdosqlite";

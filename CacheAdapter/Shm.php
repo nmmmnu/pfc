@@ -8,12 +8,12 @@ class Shm extends File{
 	}
 
 	static function test(){
-		$ttl = \pfc\CacheAdapterTests::TTL;
+		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
 		$adapter = new Shm("unit_tests_[" . __CLASS__ ."]_");
-		$adapter->setTTL(\pfc\CacheAdapterTests::TTL);
+		$adapter->setTTL($ttl);
 
-		\pfc\CacheAdapterTests::test($adapter);
+		\pfc\UnitTests\CacheAdapterTests::test($adapter);
 	}
 }
 

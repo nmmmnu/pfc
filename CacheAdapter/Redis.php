@@ -6,7 +6,7 @@ use pfc\CacheAdapter;
 class Redis implements CacheAdapter{
 	private $_redis;
 	private $_keyPrefix;
-	
+
 	private $_ttl = 0;
 
 
@@ -53,10 +53,12 @@ class Redis implements CacheAdapter{
 		$r = new \Redis();
 		$r->connect("localhost");
 
-		$adapter = new Redis($r, "unit_tests_[" . __CLASS__ ."]_");
-		$adapter->setTTL(\pfc\CacheAdapterTests::TTL);
+		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
-		\pfc\CacheAdapterTests::test($adapter);
+		$adapter = new Redis($r, "unit_tests_[" . __CLASS__ ."]_");
+		$adapter->setTTL($ttl);
+
+		\pfc\UnitTests\CacheAdapterTests::test($adapter);
 	}
 }
 

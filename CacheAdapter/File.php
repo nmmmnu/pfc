@@ -35,6 +35,7 @@ class File implements CacheAdapter{
 		if (!$cacheGood)
 			return false;
 
+
 		$data = @file_get_contents($this->getFilename($key));
 
 		// File not good.
@@ -83,12 +84,12 @@ class File implements CacheAdapter{
 
 
 	static function test(){
-		$ttl = \pfc\CacheAdapterTests::TTL;
+		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
 		$adapter = new File("/dev/shm/", "unit_tests_[" . __CLASS__ ."]_");
-		$adapter->setTTL(\pfc\CacheAdapterTests::TTL);
+		$adapter->setTTL($ttl);
 
-		\pfc\CacheAdapterTests::test($adapter);
+		\pfc\UnitTests\CacheAdapterTests::test($adapter);
 	}
 }
 

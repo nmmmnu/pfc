@@ -6,8 +6,8 @@ require_once __DIR__ . "/../__autoload.php";
 use pfc\ErrorHandler;
 
 class Production extends ErrorHandler{
-	function __construct($html = true){
-		parent::__construct($html);
+	function __construct($html = true, $suppress = false){
+		parent::__construct($html, $suppress);
 	}
 
 
@@ -18,11 +18,12 @@ class Production extends ErrorHandler{
 			printf("$br\n");
 
 			printf("Error! $br\n");
-
-			exit(1);
 		}
+	}
 
-		return true;
+
+	function supressed_msg(){
+		// empty
 	}
 }
 
