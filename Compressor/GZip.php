@@ -26,7 +26,7 @@ class GZip implements Compressor{
 
 
 	static function test(){
-		\pfc\CompressorTests::test( new GZip() );
+		\pfc\UnitTests\CompressorTests::test( new GZip() );
 	}
 
 }

@@ -1,5 +1,5 @@
 <?
-namespace pfc;
+namespace pfc\UnitTests;
 
 class CacheAdapterTests{
 	const TTL = 1;

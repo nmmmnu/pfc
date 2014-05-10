@@ -81,8 +81,8 @@ class CacheDecorator implements Template{
 		$t = new CacheDecorator($phptemplate, $cache, 30);
 		$t->setLogger($logger);
 
-		\pfc\TemplateTests::test($t, false);
-		\pfc\TemplateTests::test($t, false);
+		\pfc\UnitTests\TemplateTests::test($t, false);
+		\pfc\UnitTests\TemplateTests::test($t, false);
 	}
 }
 

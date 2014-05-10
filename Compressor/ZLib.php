@@ -24,7 +24,7 @@ class ZLib implements Compressor{
 
 
 	static function test(){
-		\pfc\CompressorTests::test( new ZLib() );
+		\pfc\UnitTests\CompressorTests::test( new ZLib() );
 	}
 }
 

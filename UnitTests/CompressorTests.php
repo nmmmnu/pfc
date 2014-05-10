@@ -1,5 +1,7 @@
 <?
-namespace pfc;
+namespace pfc\UnitTests;
+
+use pfc\Compressor;
 
 class CompressorTests{
 	static function test(Compressor $compressor){

@@ -25,7 +25,7 @@ class JSON implements Serializer{
 
 
 	static function test(){
-		\pfc\SerializerTests::test( new JSON() );
+		\pfc\UnitTests\SerializerTests::test( new JSON() );
 	}
 }
 

@@ -70,8 +70,8 @@ Template\PHP::test();
 Template\CacheDecorator::test();
 
 
-CallbackTests::test();
-CallbackCollectionTests::test();
+UnitTests\CallbackTests::test();
+UnitTests\CallbackCollectionTests::test();
 
 
 Framework\Route\Exact::test();
@@ -79,7 +79,7 @@ Framework\Route\CatchAll::test();
 Framework\Route\Mask::test();
 
 
-Framework\RouterTests::test();
+UnitTests\RouterTests::test();
 
 
 Framework\Registry::test();

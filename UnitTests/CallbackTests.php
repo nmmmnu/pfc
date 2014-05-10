@@ -1,5 +1,7 @@
 <?
-namespace pfc;
+namespace pfc\UnitTests;
+
+use pfc\Callback;
 
 class CallbackTests{
 	function bla($name, $age){
@@ -7,7 +9,7 @@ class CallbackTests{
 	}
 
 	static function test(){
-		$func   = "pfc\CallbackTests::bla";
+		$func   = __CLASS__ . "::bla";
 		$params = array("age" => 33, "name" => "Niki");
 
 		$callback = new Callback($func, $params);

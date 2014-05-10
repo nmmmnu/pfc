@@ -19,7 +19,7 @@ class PHP implements Serializer{
 
 
 	static function test(){
-		\pfc\SerializerTests::test( new PHP() );
+		\pfc\UnitTests\SerializerTests::test( new PHP() );
 	}
 }
 

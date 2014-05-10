@@ -1,6 +1,8 @@
 <?
-namespace pfc;
+namespace pfc\UnitTests;
 
+use pfc\Callback;
+use pfc\CallbackCollection;
 
 class CallbackCollectionTests{
 	const DELIMITER = "-";

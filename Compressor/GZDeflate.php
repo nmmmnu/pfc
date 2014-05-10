@@ -24,7 +24,7 @@ class GZDeflate implements Compressor{
 
 
 	static function test(){
-		\pfc\CompressorTests::test( new GZDeflate() );
+		\pfc\UnitTests\CompressorTests::test( new GZDeflate() );
 	}
 }
 
