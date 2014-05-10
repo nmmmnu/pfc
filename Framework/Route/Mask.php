@@ -9,10 +9,8 @@ class Mask implements Route{
 	private $_mask2;
 	private $_params;
 
-	private $_controller;
 
-
-	function __construct($mask, $controller){
+	function __construct($mask){
 		if (strlen($mask) == 0)
 			$mask = self::HOMEPATH;
 
@@ -20,8 +18,6 @@ class Mask implements Route{
 
 		if (count($this->_params) == 0)
 			throw new RouteException("The mask needs to have at least one parameter");
-
-		$this->_controller = $controller;
 	}
 
 
@@ -56,7 +52,7 @@ class Mask implements Route{
 			$i++;
 		}
 
-		return array($this->_controller, $out);
+		return $out;
 	}
 
 
@@ -110,7 +106,7 @@ class Mask implements Route{
 
 
 	static function test(){
-		$r = new Mask("/{user}/{id}", "bla");
+		$r = new Mask("/{user}/{id}");
 
 		assert( $r->match("/niki/23") != false );
 		assert( $r->match("/niki") == false);

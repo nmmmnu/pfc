@@ -75,6 +75,17 @@ class Iterators{
 	}
 
 
+	/**
+	 * get Unique ID for the array
+	 *
+	 * @param Iterator $iterator
+	 */
+	static function arrayUniqID(array $array){
+		ksort($array);
+		return md5(serialize($array));
+	}
+
+
 	static function test(){
 		$array = range(0, 100);
 		$array2 = Iterators::toArray(new \ArrayIterator($array));
@@ -112,6 +123,15 @@ class Iterators{
 
 		echo "You should see Iterators::dumpAll() result:\n";
 		Iterators::dumpAll($iterator);
+
+		// ============================
+
+		$a1 = array("host" => "localhost", "user" => "admin");
+		$a2 = array("user" => "admin", "host" => "localhost");
+		$a3 = array("user" => "system", "host" => "localhost");
+
+		assert(Iterators::arrayUniqID($a1) == Iterators::arrayUniqID($a2));
+		assert(Iterators::arrayUniqID($a1) != Iterators::arrayUniqID($a3));
 	}
 }
 

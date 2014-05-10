@@ -6,15 +6,13 @@ use pfc\Framework\Controller;
 
 class CatchAll implements Route{
 	private $_path;
-	private $_controller;
 
 
-	function __construct($path, $controller){
+	function __construct($path){
 		if (strlen($path) == 0)
 			$path = self::HOMEPATH;
 
 		$this->_path = $path;
-		$this->_controller = $controller;
 	}
 
 
@@ -24,15 +22,15 @@ class CatchAll implements Route{
 
 
 	function match($path){
-		return array($this->_controller, array());
+		return array();
 	}
 
 
 	static function test(){
-		$r = new CatchAll("/index.php", "bla");
+		$r = new CatchAll("/index.php");
 
-		assert( $r->match("/index.php") != null);
-		assert( $r->match("/bla.php") != null );
+		assert( $r->match("/index.php") !== false);
+		assert( $r->match("/bla.php") !== false );
 	}
 }
 

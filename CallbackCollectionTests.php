@@ -1,9 +1,8 @@
 <?
-namespace pfc\Framework;
+namespace pfc;
 
-require_once __DIR__ . "/../__autoload.php";
 
-class ResourcesTests{
+class CallbackCollectionTests{
 	const DELIMITER = "-";
 
 
@@ -19,7 +18,7 @@ class ResourcesTests{
 
 
 	static function test(){
-		$r = new Resources("pfc\\Framework\\");
+		$r = new CallbackCollection();
 
 		$configMySQL = array(
 			"host"	=> "localhost"	,
@@ -32,17 +31,17 @@ class ResourcesTests{
 			"port"	=> 6379
 		);
 
-		$r->map("mysql",	"ResourcesTests::mysql",	$configMySQL);
-		$r->map("redis",	"ResourcesTests::redis",	$configRedis);
+		$r->map("mysql", new Callback(__CLASS__ . "::mysql",	$configMySQL));
+		$r->map("redis", new Callback(__CLASS__ . "::redis",	$configRedis));
 
 		self::testResources($r, "mysql", $configMySQL);
 		self::testResources($r, "redis", $configRedis);
 	}
 
 
-	static function testResources(Resources $r, $name, array $params){
+	static function testResources(CallbackCollection $r, $name, array $params){
 		$paramTest = implode(self::DELIMITER, $params);
-		assert($r->get($name) == $paramTest);
+		assert($r->exec($name) == $paramTest);
 	}
 }
 

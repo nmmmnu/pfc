@@ -1,7 +1,7 @@
 <?
 namespace pfc\Framework;
 
-require_once __DIR__ . "/../__autoload.php";
+use pfc\Callback;
 
 class RouterTests{
 	function exact(){
@@ -21,15 +21,15 @@ class RouterTests{
 
 
 	static function test(){
-		$r = new Router("pfc\\Framework\\");
+		$r = new Router();
 
-		$r->map("/",		new Route\Exact("/"		,	"RouterTests::exact"	));
-		$r->map("/about",	new Route\Exact("/about.php"	, 	"RouterTests::exact"	));
-		$r->map("/contact",	new Route\Exact("/contact.php"	, 	"RouterTests::exact"	));
+		$r->map("/",		new Route\Exact("/"		),	new Callback(__CLASS__ . "::exact")	);
+		$r->map("/about",	new Route\Exact("/about.php"	),	new Callback(__CLASS__ . "::exact")	);
+		$r->map("/contact",	new Route\Exact("/contact.php"	),	new Callback(__CLASS__ . "::exact")	);
 
-		$r->map("/blog",	new Route\Mask("/blog/{user}/{id}",	"RouterTests::blog"	));
+		$r->map("/blog",	new Route\Mask("/blog/{user}/{id}"),	new Callback(__CLASS__ . "::blog")	);
 
-		$r->map("/all",		new Route\CatchAll("/"		, 	"RouterTests::all"	));
+		$r->map("/all",		new Route\CatchAll("/"		),	new Callback(__CLASS__ . "::all")	);
 
 		echo "Router testing...\n";
 
@@ -39,9 +39,9 @@ class RouterTests{
 	}
 
 	static function testRoute(Router $r, $path, $expect){
-		$r->processRequest($path);
-		printf("%-15s => %s\n", $path, $r->getLastResult());
-		assert($r->getLastResult() === $expect);
+		$result = $r->processRequest($path);
+		printf("%-15s => %s\n", $path, $result);
+		assert($result === $expect);
 	}
 }
 

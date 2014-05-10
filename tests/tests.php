@@ -31,6 +31,9 @@ IteratorIterator::test();
 Iterators::test();
 
 
+HTTPResponse::test();
+
+
 Serializer\PHP::test();
 Serializer\JSON::test();
 
@@ -67,8 +70,8 @@ Template\PHP::test();
 Template\CacheDecorator::test();
 
 
-CallbackToolsTests::test();
-
+CallbackTests::test();
+CallbackCollectionTests::test();
 
 
 Framework\Route\Exact::test();
@@ -82,7 +85,7 @@ Framework\RouterTests::test();
 Framework\Registry::test();
 
 
-Framework\ResourcesTests::test();
+
 
 
 echo "All tests passed!!!\n";
