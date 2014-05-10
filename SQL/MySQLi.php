@@ -40,6 +40,14 @@ class MySQLi implements SQL{
 	}
 
 
+	private function getC($what, $default = null){
+		if (isset($this->_connection[$what]))
+			return $this->_connection[$what];
+
+		return $default;
+	}
+
+
 	function open(){
 		if ($this->_link)
 			return true;
@@ -51,12 +59,12 @@ class MySQLi implements SQL{
 		*/
 
 		$this->_link = new \mysqli(
-			@$this->_connection["host"],
-			@$this->_connection["user"],
-			@$this->_connection["password"],
-			@$this->_connection["database"],
-			@$this->_connection["port"],
-			@$this->_connection["socket"]
+			$this->getC("host"),
+			$this->getC("user"),
+			$this->getC("password"),
+			$this->getC("database"),
+			$this->getC("port"),
+			$this->getC("socket")
 		);
 
 		if ($this->_link->connect_error){
@@ -64,8 +72,8 @@ class MySQLi implements SQL{
 			return false;
 		}
 
-		if (@$this->_connection["init_command"])
-			$this->query(@$this->_connection["init_command"]);
+		if ($this->getC("init_command"))
+			$this->query($this->getC("init_command"), array());
 
 		return true;
 	}
@@ -102,10 +110,10 @@ class MySQLi implements SQL{
 			);
 		}
 
-		var_dump($result);
+		//var_dump($result);
 
 		// result set
-		return new MySQLiResult($result, $primaryKey, $lastID);
+		return new MySQLiResult($result, $primaryKey);
 	}
 }
 

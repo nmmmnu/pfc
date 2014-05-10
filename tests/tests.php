@@ -7,8 +7,12 @@ error_reporting(E_ALL);
 
 pfc_assert_setup();
 
+
 $redis_tests = false || true;
-$slow_tests = false;// || true;
+$slow_tests = false  || true;
+
+
+( new ErrorHandler\Development() )->register();
 
 
 echo Info::COPYRIGHT() . "\n\n";

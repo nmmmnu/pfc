@@ -4,24 +4,52 @@ namespace tests;
 
 error_reporting(E_ALL);
 
+( new \pfc\ErrorHandler\Development() )->register();
 
-if (true){
-	// PDO
-	
+
+$conn = "pdosqlite";
+//$conn = "pdomysql";
+//$conn = "mysqli";
+
+
+if ($conn == "pdosqlite"){
+	// PDO with SQLITE
+
 	$connection = array(
-	//	"connection_string" => "mysql:unix_socket=/tmp/akonadi-nmmm.LmQgHJ/mysql.socket;dbname=test",
-		"connection_string" => "sqlite:" . "/dev/shm/" . "test.database.sqlite3",
-		"user",
-		"password"
+		"connection_string" => "sqlite:" . "/dev/shm/" . "test.database.sqlite3"
 	);
 
 	$real_db = new \pfc\SQL\PDO($connection);
-}else{
+
+
+}else if ($conn == "pdomysql"){
+	// PDO with MySQL
+
+	$socket = "/tmp/akonadi-nmmm.*/mysql.socket";
+
+	foreach(glob($socket) as $socket)
+		break;
+
+	$connection = array(
+		"connection_string" => "mysql:unix_socket=$socket;dbname=test",
+		"user"		=> "",
+		"password"	=> ""
+	);
+
+	$real_db = new \pfc\SQL\PDO($connection);
+
+
+}else{ // "mysqli"
 	// MySQLi
-	
+
+	$socket = "/tmp/akonadi-nmmm.*/mysql.socket";
+
+	foreach(glob($socket) as $socket)
+		break;
+
 	$connection = array(
 		"database"	=> "test",
-		"socket"	=> "/tmp/akonadi-nmmm.LmQgHJ/mysql.socket"
+		"socket"	=> $socket
 	);
 
 	$real_db = new \pfc\SQL\MySQLi($connection);

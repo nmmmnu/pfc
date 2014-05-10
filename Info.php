@@ -12,11 +12,11 @@ class Info{
 	const VERSION_MINOR		= 3;
 	const VERSION_REVISION		= 0;
 
-	const DATE			= "2014-04-29";
+	const DATE			= "2014-05-09";
 	const AUTHOR			= "Nikolay Mihaylov";
 	const LICENCE			= "GPL";
 
-	const BANNER			= "%s Version %s, Copyleft %s, %s";
+	const _BANNER			= "%s Version %s, Copyleft %s, %s";
 
 	static function VERSION(){
 		return sprintf("%d.%d.%d",
@@ -32,7 +32,7 @@ class Info{
 	}
 
 	static function COPYRIGHT(){
-		return sprintf(self::BANNER,
+		return sprintf(self::_BANNER,
 				self::PRODUCT,
 				self::VERSION(),
 				self::DATE,

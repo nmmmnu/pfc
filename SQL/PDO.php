@@ -38,22 +38,30 @@ class PDO implements SQL{
 	}
 
 
+	private function getC($what, $default = null){
+		if (isset($this->_connection[$what]))
+			return $this->_connection[$what];
+
+		return $default;
+	}
+
+
 	function open(){
 		if ($this->_pdo)
 			return true;
 
 		try{
 			$this->_pdo = new \PDO(
-				@$this->_connection["connection_string"],
-				@$this->_connection["user"],
-				@$this->_connection["password"]
+				@$this->getC("connection_string"),
+				@$this->getC("user"),
+				@$this->getC("password")
 			);
 		}catch( \PDOException $e ){
 			return false;
 		}
 
-		if (@$this->_connection["init_command"])
-			$this->query(@$this->_connection["init_command"]);
+		if ($this->getC("init_command"))
+			$this->query($this->getC("init_command"), array());
 
 		return true;
 	}

@@ -23,7 +23,11 @@ class ArrayPassword implements Authenticator{
 
 	function authenticate($host, $username, $password){
 		$x = $this->hash($password);
-		return @$this->_array[$username] == $x;
+
+		if (!isset($this->_array[$username]))
+			return false;
+
+		return $this->_array[$username] == $x;
 	}
 
 
