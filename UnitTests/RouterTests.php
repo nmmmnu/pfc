@@ -1,13 +1,15 @@
 <?
 namespace pfc\UnitTests;
 
-use pfc\Callback;
-
 use pfc\Framework\Router;
 
-use pfc\Framework\Route\Exact;
-use pfc\Framework\Route\Mask;
-use pfc\Framework\Route\CatchAll;
+use pfc\Framework\Route;
+
+use pfc\Framework\Path\Exact;
+use pfc\Framework\Path\Mask;
+use pfc\Framework\Path\CatchAll;
+
+use pfc\Callback;
 
 class RouterTests{
 	function exact(){
@@ -29,13 +31,13 @@ class RouterTests{
 	static function test(){
 		$r = new Router();
 
-		$r->map("/",		new Exact("/"		),	new Callback(__CLASS__ . "::exact")	);
-		$r->map("/about",	new Exact("/about.php"	),	new Callback(__CLASS__ . "::exact")	);
-		$r->map("/contact",	new Exact("/contact.php"	),	new Callback(__CLASS__ . "::exact")	);
+		$r->map("/",		new Route(new Exact("/"),		new Callback(__CLASS__ . "::exact")	));
+		$r->map("/about",	new Route(new Exact("/about.php"),	new Callback(__CLASS__ . "::exact")	));
+		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Callback(__CLASS__ . "::exact")	));
 
-		$r->map("/blog",	new Mask("/blog/{user}/{id}"),	new Callback(__CLASS__ . "::blog")	);
+		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Callback(__CLASS__ . "::blog")	));
 
-		$r->map("/all",		new CatchAll("/"		),	new Callback(__CLASS__ . "::all")	);
+		$r->map("/all",		new Route(new CatchAll("/"),		new Callback(__CLASS__ . "::all")	));
 
 		echo "Router testing...\n";
 
@@ -46,6 +48,7 @@ class RouterTests{
 
 	static function testRoute(Router $r, $path, $expect){
 		$result = $r->processRequest($path);
+
 		printf("%-15s => %s\n", $path, $result);
 		assert($result === $expect);
 	}

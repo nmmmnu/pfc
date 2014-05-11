@@ -1,10 +1,10 @@
 <?
-namespace pfc\Framework\Route;
+namespace pfc\Framework\Path;
 
-use pfc\Framework\Route;
+use pfc\Framework\Path;
 
 
-class Mask implements Route{
+class Mask implements Path{
 	private $_mask1;
 	private $_mask2;
 	private $_params;
@@ -17,7 +17,7 @@ class Mask implements Route{
 		list($this->_mask1, $this->_mask2, $this->_params) = self::parseMask($mask);
 
 		if (count($this->_params) == 0)
-			throw new RouteException("The mask needs to have at least one parameter");
+			throw new PathException("The mask needs to have at least one parameter");
 	}
 
 

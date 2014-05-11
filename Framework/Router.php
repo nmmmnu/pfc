@@ -1,45 +1,31 @@
 <?
 namespace pfc\Framework;
 
-use pfc\Callback;
-use pfc\CallbackCollection;
 
 class Router{
-	private $_data = array();
+	private $_routes = array();
 
 
-	function __construct(){
-	}
-
-
-	function map($key, Route $route, Callback $callback){
-		$this->_data[$key] = array(
-			"route"    => $route,
-			"callback" => $callback
-		);
+	function map($key, Route $route){
+		$this->_routes[$key] = $route;
 	}
 
 
 	function link($key, array $params){
-		return $this->_routes[$key]["route"]->link($params);
+		if (isset($this->_routes[$key]))
+			return $this->_routes[$key]->link($params);
+
+		return null;
 	}
 
 
 	function processRequest($path){
-		foreach($this->_data as $data){
-			$route    = $data["route"];
-			$callback = $data["callback"];
-
-			$result = $route->match($path);
-
-			if (is_array($result)){
-				$callback->setParams($result);
-
-				return $callback->exec();
-			}
+		foreach($this->_routes as $route){
+			if ($route->match($path))
+				return $route->exec();
 		}
 
-		return null;
+		throw new RouterException("None of routes matched");
 	}
 }
 

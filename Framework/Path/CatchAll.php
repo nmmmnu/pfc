@@ -1,9 +1,9 @@
 <?
-namespace pfc\Framework\Route;
+namespace pfc\Framework\Path;
 
-use pfc\Framework\Route;
+use pfc\Framework\Path;
 
-class Exact implements Route{
+class CatchAll implements Path{
 	private $_path;
 
 
@@ -21,18 +21,17 @@ class Exact implements Route{
 
 
 	function match($path){
-		if ($this->_path != $path)
-			return false;
-
 		return array();
 	}
 
 
 	static function test(){
-		$r = new Exact("/index.php");
+		$r = new CatchAll("/index.php");
 
 		assert( $r->match("/index.php") !== false);
-		assert( $r->match("/bla.php") === false );
+		assert( $r->match("/bla.php") !== false );
 	}
 }
+
+
 

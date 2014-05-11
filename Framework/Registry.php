@@ -43,13 +43,8 @@ use pfc\Loggable;
  *
  */
 class Registry {
-	const   SEPARATOR = "/";
-
 	private $_data = array();
-
-	private $_path;
-	private $_ext;
-
+	private $_loader;
 
 	/**
 	 * constructor
@@ -57,9 +52,8 @@ class Registry {
 	 * @param string $ext file extention
 	 *
 	 */
-	function __construct($path, $ext = ".php"){
-		$this->_path = self::checkPath($path);
-		$this->_ext  = $ext;
+	function __construct(RegistryLoader $loader){
+		$this->_loader = $loader;
 	}
 
 
@@ -73,7 +67,7 @@ class Registry {
 		if (isset($this->_data[$key]))
 			return $this->_data[$key];
 
-		$value = $this->loadItemFromFilesystem($key);
+		$value = $this->_loader->load($key);
 
 		if ($value !== null){
 			$this->_data[$key] = $value;
@@ -84,36 +78,12 @@ class Registry {
 	}
 
 
-	private static function checkPath($path){
-		if ($path == "")
-			$path = ".";
-
-		if (substr($path, -1) != self::SEPARATOR)
-			$path .= self::SEPARATOR;
-
-		return $path;
-	}
-
-
-	private function getFileName($key){
-		return $this->_path . $key . $this->_ext;
-	}
-
-
-	private function loadItemFromFilesystem($key){
-		$filename = $this->getFileName($key);
-
-		if (file_exists($filename))
-			return include $filename;
-
-		return null;
-	}
-
-
 	/* tests */
 
 	static function test(){
-		$registry = new Registry(__DIR__ . "/../data/config");
+		$loader = new RegistryLoader\Dir(__DIR__ . "/../data/config");
+
+		$registry = new Registry($loader);
 
 		assert($registry->get("test") == "test");
 		assert($registry->get("array")[0] == "test");

@@ -91,18 +91,19 @@ abstract class ErrorHandler{
 				continue;
 
 			$args = "";
-			foreach($line["args"] as $arg){
-				if (is_array($arg))
-					$arg = "array";
+			if (isset($line["args"]))
+				foreach($line["args"] as $arg){
+					if (is_array($arg))
+						$arg = "array";
 
-				if (is_object($arg))
-					$arg = "object";
+					if (is_object($arg))
+						$arg = "object";
 
-				if ($args == "")
-					$args .= sprintf("'%s'", $arg);
-				else
-					$args .= sprintf(", '%s'", $arg);
-			}
+					if ($args == "")
+						$args .= sprintf("'%s'", $arg);
+					else
+						$args .= sprintf(", '%s'", $arg);
+				}
 
 			$buffer .= sprintf("%4d %-20s(%d) %s(%s) $br\n",
 				$row,

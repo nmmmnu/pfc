@@ -11,6 +11,12 @@ namespace pfc;
  */
 class CallbackCollection{
 	private $_data = array();
+	private $_memoized;
+
+
+	function __construct($memoized = false){
+		$this->_memoized = $memoized;
+	}
 
 
 	/**
@@ -39,6 +45,9 @@ class CallbackCollection{
 			return null;
 
 		$callback = $this->_data[$key];
+
+		if ($this->_memoized)
+			return $callback->exec($key);
 
 		return $callback->exec();
 	}

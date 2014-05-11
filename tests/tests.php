@@ -31,6 +31,9 @@ IteratorIterator::test();
 Iterators::test();
 
 
+Profiler::test();
+
+
 HTTPResponse::test();
 
 
@@ -74,13 +77,16 @@ UnitTests\CallbackTests::test();
 UnitTests\CallbackCollectionTests::test();
 
 
-Framework\Route\Exact::test();
-Framework\Route\CatchAll::test();
-Framework\Route\Mask::test();
+Framework\Path\Exact::test();
+Framework\Path\CatchAll::test();
+Framework\Path\Mask::test();
 
 
 UnitTests\RouterTests::test();
 
+
+Framework\RegistryLoader\Dir::test();
+Framework\RegistryLoader\INI::test();
 
 Framework\Registry::test();
 
