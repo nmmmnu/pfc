@@ -29,6 +29,7 @@ class File implements CacheAdapter{
 		$this->_ttl        = $ttl;
 	}
 
+
 	function load($key){
 		$cacheGood = $this->checkTTL($key);
 

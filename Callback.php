@@ -8,6 +8,8 @@ class Callback{
 	private $_params;
 	private $_instance;
 
+	private $_memoized = array();
+
 
 	const   SEPARATOR = "::";
 
@@ -29,22 +31,32 @@ class Callback{
 	}
 
 
-	function exec($instanciate = false){
-		if ($this->_instance == null)
-			$instanciate = true;
+	function exec($memoizedID = false){
+		if (!$memoizedID)
+			return $this->exec2();
 
+		if (isset($this->_memoized[$memoizedID]))
+			return $this->_memoized[$memoizedID];
+
+		$this->_memoized[$memoizedID] = $this->exec2();
+
+		return $this->_memoized[$memoizedID];
+	}
+
+
+	private function exec2(){
 		$args = $this->getArguments();
 
 		list($classname, $classmethod) = explode(self::SEPARATOR, $this->_classmethod);
 
-		if ($instanciate){
+		if ($this->_instance == null){
 			// This can be done in the constructor,
 			// but here is much better,
 			// because class is instantiated only if needed.
-			$instance = new $classname;
+			$this->_instance = new $classname;
 		}
 
-		return call_user_func_array( array($instance, $classmethod), $args);
+		return call_user_func_array( array($this->_instance, $classmethod), $args);
 	}
 
 
