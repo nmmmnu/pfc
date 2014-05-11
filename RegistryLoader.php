@@ -1,5 +1,5 @@
 <?
-namespace pfc\Framework;
+namespace pfc;
 
 
 interface RegistryLoader{

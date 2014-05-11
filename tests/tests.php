@@ -85,10 +85,10 @@ Framework\Path\Mask::test();
 UnitTests\RouterTests::test();
 
 
-Framework\RegistryLoader\Dir::test();
-Framework\RegistryLoader\INI::test();
+RegistryLoader\Dir::test();
+RegistryLoader\INI::test();
 
-Framework\Registry::test();
+Registry::test();
 
 
 

@@ -1,5 +1,5 @@
 <?
-namespace pfc\Framework\RegistryLoader;
+namespace pfc\RegistryLoader;
 
 
 /**
@@ -36,7 +36,7 @@ class INI extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new INI(__DIR__ . "/../../data/ini");
+		$loader = new INI(__DIR__ . "/../data/ini");
 
 		//print_r($loader->load("redis"));
 

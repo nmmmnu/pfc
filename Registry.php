@@ -1,7 +1,6 @@
 <?
-namespace pfc\Framework;
+namespace pfc;
 
-use pfc\Loggable;
 
 /**
  * Registry
@@ -81,7 +80,7 @@ class Registry {
 	/* tests */
 
 	static function test(){
-		$loader = new RegistryLoader\Dir(__DIR__ . "/../data/config");
+		$loader = new RegistryLoader\Dir(__DIR__ . "/data/config");
 
 		$registry = new Registry($loader);
 

@@ -1,7 +1,7 @@
 <?
-namespace pfc\Framework\RegistryLoader;
+namespace pfc\RegistryLoader;
 
-use pfc\Framework\RegistryLoader;
+use pfc\RegistryLoader;
 
 
 /**

@@ -1,5 +1,5 @@
 <?
-namespace pfc\Framework\RegistryLoader;
+namespace pfc\RegistryLoader;
 
 
 /**
@@ -32,7 +32,7 @@ class Dir extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new Dir(__DIR__ . "/../../data/config");
+		$loader = new Dir(__DIR__ . "/../data/config");
 
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");
