@@ -24,7 +24,9 @@ class Exact implements Path{
 		if ($this->_path != $path)
 			return false;
 
-		return array();
+		return array(
+			"path" => $path
+		);
 	}
 
 

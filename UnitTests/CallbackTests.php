@@ -14,7 +14,7 @@ class CallbackTests{
 	}
 
 	static function test(){
-		// normal test
+		// params test
 
 		$func   = __CLASS__ . "::bla";
 		$params = array("age" => 33, "name" => "Niki");
@@ -25,18 +25,20 @@ class CallbackTests{
 		assert($s == "Niki is 33 years old");
 
 
-
+		/*
 		// memoize test
 
 		$func   = __CLASS__ . "::bla2";
 		$params = array();
 
+		$cos = new ArrayList();
+
 		$callback = new Callback($func, $params);
-		$r1 = $callback->exec("uid");
-		$r2 = $callback->exec("uid");
+		$r1 = $callback->execMemoized("uid", $cos);
+		$r2 = $callback->execMemoized("uid", $cos);
 
 		assert($r1 == $r2);
-
+		*/
 
 
 		// same object test

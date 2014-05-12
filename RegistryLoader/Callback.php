@@ -10,11 +10,21 @@ use pfc\Callback as pfc_Callback;
  *
  */
 class Callback implements RegistryLoader{
+	private $_storage;
+
+
+	function __construct(\ArrayAccess $storage = null){
+		$this->_storage = $storage;
+	}
+
+
 	function load($key){
 		$callback = new pfc_Callback($key);
+		$callback->setObjectStorage($this->_storage);
 
 		return $callback->exec();
 	}
+
 
 
 	/* tests */

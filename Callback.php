@@ -2,18 +2,16 @@
 namespace pfc;
 
 use \ReflectionMethod;
+use \ArrayAccess;
 
 class Callback{
 	private $_classname;
 	private $_classmethod;
 	private $_instance = null;
 
-	private $_objectStorage;
-
 	private $_params;
 
-	private $_memoized = array();
-
+	private $_objectStorage;
 
 	const   SEPARATOR = "::";
 
@@ -25,7 +23,7 @@ class Callback{
 	 * @param array $params
 	 *
 	 */
-	function __construct($classmethod, array $params = array(), \ArrayAccess $objectStorage = null){
+	function __construct($classmethod, array $params = array(), ArrayAccess $objectStorage = null){
 		if (! is_array($classmethod))
 			$classmethod = explode(self::SEPARATOR, $classmethod);
 
@@ -37,13 +35,35 @@ class Callback{
 
 
 	/**
+	 * get parameters
+	 *
+	 * @return array
+	 *
+	 */
+	function getParams(){
+		return $this->_params;
+	}
+
+
+	/**
 	 * set parameters
 	 *
 	 * @param array $params
 	 *
 	 */
 	function setParams($params){
-		$this->_params      = $params;
+		$this->_params = $params;
+	}
+
+
+	/**
+	 * set object storage
+	 *
+	 * @param array $params
+	 *
+	 */
+	function setObjectStorage(ArrayAccess $objectStorage){
+		$this->_objectStorage = $objectStorage;
 	}
 
 
@@ -67,44 +87,12 @@ class Callback{
 	}
 
 
-	private function createInstance(){
-		$classname = $this->_classname;
-
-		if ($this->_objectStorage){
-			$instance = $this->_objectStorage[$classname];
-			if ($instance)
-				return $instance;
-		}
-
-		$instance = new $classname;
-
-		if ($this->_objectStorage)
-			$this->_objectStorage[$classname] = $instance;
-
-		return $instance;
-	}
-
-
 	/**
 	 * exec the callback
 	 *
-	 * @param boolean $memoizedID if present, the result will be stored internally
 	 * @return mixed
 	 */
-	function exec($memoizedID = false){
-		if (!$memoizedID)
-			return $this->exec2();
-
-		if (isset($this->_memoized[$memoizedID]))
-			return $this->_memoized[$memoizedID];
-
-		$this->_memoized[$memoizedID] = $this->exec2();
-
-		return $this->_memoized[$memoizedID];
-	}
-
-
-	private function exec2(){
+	function exec(){
 		$instance = $this->getInstance();
 		$method   = $this->_classmethod;
 		$args     = $this->getArguments();
@@ -129,6 +117,24 @@ class Callback{
 			return $this->_params[$name];
 
 		return $default;
+	}
+
+
+	private function createInstance(){
+		$classname = $this->_classname;
+
+		if ($this->_objectStorage){
+			$instance = $this->_objectStorage[$classname];
+			if ($instance)
+				return $instance;
+		}
+
+		$instance = new $classname;
+
+		if ($this->_objectStorage)
+			$this->_objectStorage[$classname] = $instance;
+
+		return $instance;
 	}
 }
 
