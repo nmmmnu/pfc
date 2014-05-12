@@ -2,6 +2,7 @@
 namespace pfc\Framework\Path;
 
 use pfc\Framework\Path;
+use pfc\Framework\PathException;
 
 
 class Mask implements Path{

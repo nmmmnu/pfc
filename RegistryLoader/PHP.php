@@ -6,7 +6,7 @@ namespace pfc\RegistryLoader;
  * Load data from directory
  *
  */
-class Dir extends FilesystemLoader{
+class PHP extends FilesystemLoader{
 	/**
 	 * constructor
 	 * @param string $path directory where registry files are placed
@@ -32,7 +32,7 @@ class Dir extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new Dir(__DIR__ . "/../data/config");
+		$loader = new PHP(__DIR__ . "/../data/config");
 
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");

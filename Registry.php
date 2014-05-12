@@ -8,42 +8,26 @@ namespace pfc;
  * Class for organizing relatively simple information,
  * such configuration data.
  *
- * All "keys" and "values" are files stored into the some directory,
- * "keys" are filenames,
- * "values" are content of the files:
+ * Data is loaded using RegistryLoader such:
+ * - RegistryLoader/PHP - load data from php files
+ * - RegistryLoader/INI - load data from ini files
  *
- * ...scalars:
+ * This easily can be extend to load from
+ * - array()
+ * - class/method
+ * - redis hash
  *
- * < ? return "secret"; ? >
- *
- * ...or array:
- *
- * < ?
- * return array(
- *      "host" => "localhost",
- *      "port" => 80
- * );
- * ? >
- *
- * ...or even class:
- *
- * < ?
- * class Bla{
- * }
- *
- * return new Bla();
- * ? >
- *
- * Once retrieved, data is stored in memory.
+ * Once retrieved, data is stored in memory,
+ * another reason data to be relatively small
  *
  * In case of classes, this is equivalent to Singleton pattern.
- *
  * However the Registry is mainly made for scalars and arrays.
  *
  */
 class Registry {
 	private $_data = array();
 	private $_loader;
+
 
 	/**
 	 * constructor
@@ -80,7 +64,7 @@ class Registry {
 	/* tests */
 
 	static function test(){
-		$loader = new RegistryLoader\Dir(__DIR__ . "/data/config");
+		$loader = new RegistryLoader\PHP(__DIR__ . "/data/config");
 
 		$registry = new Registry($loader);
 

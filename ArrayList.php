@@ -44,13 +44,13 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate, Addable
 		if (isset($this->_data[$offset]))
 			return $this->_data[$offset];
 
-		return NULL;
+		return null;
 	}
 
 	/* addable functions */
 
 	function add($value){
-		$this->offsetSet(NULL, $value);
+		$this->offsetSet(null, $value);
 	}
 
 	/* countable functions */

@@ -2,7 +2,7 @@
 namespace pfc\UnitTests;
 
 use pfc\Callback;
-use pfc\CallbackM;
+use pfc\ArrayList;
 
 class CallbackTests{
 	function bla($name, $age){
@@ -14,6 +14,8 @@ class CallbackTests{
 	}
 
 	static function test(){
+		// normal test
+
 		$func   = __CLASS__ . "::bla";
 		$params = array("age" => 33, "name" => "Niki");
 
@@ -21,6 +23,8 @@ class CallbackTests{
 		$s = $callback->exec();
 
 		assert($s == "Niki is 33 years old");
+
+
 
 		// memoize test
 
@@ -32,6 +36,16 @@ class CallbackTests{
 		$r2 = $callback->exec("uid");
 
 		assert($r1 == $r2);
+
+
+
+		// same object test
+		$cos = new ArrayList();
+
+		$callback1 = new Callback($func, $params, $cos);
+		$callback2 = new Callback($func, $params, $cos);
+
+		assert($callback1->getInstance(true) === $callback2->getInstance(true));
 	}
 }
 

@@ -4,9 +4,13 @@ namespace pfc;
 use \ReflectionMethod;
 
 class Callback{
+	private $_classname;
 	private $_classmethod;
+	private $_instance = null;
+
+	private $_objectStorage;
+
 	private $_params;
-	private $_instance;
 
 	private $_memoized = array();
 
@@ -14,23 +18,79 @@ class Callback{
 	const   SEPARATOR = "::";
 
 
-	function __construct($classmethod, array $params = array(), $instance = null){
-		$this->_classmethod = $classmethod;
-		$this->_params      = $params;
-		$this->_instance    = $instance;
+	/**
+	 * constructor
+	 *
+	 * @param callable $classmethod
+	 * @param array $params
+	 *
+	 */
+	function __construct($classmethod, array $params = array(), \ArrayAccess $objectStorage = null){
+		if (! is_array($classmethod))
+			$classmethod = explode(self::SEPARATOR, $classmethod);
+
+		$this->_classname     = $classmethod[0];
+		$this->_classmethod   = $classmethod[1];
+		$this->_params        = $params;
+		$this->_objectStorage = $objectStorage;
 	}
 
 
+	/**
+	 * set parameters
+	 *
+	 * @param array $params
+	 *
+	 */
 	function setParams($params){
 		$this->_params      = $params;
 	}
 
 
-	function setInstance($instance){
-		$this->_instance    = $instance;
+	/**
+	 * get underline instance
+	 *
+	 * used mostly for testing
+	 *
+	 * @param boolean $instantiate whatever to create the class, if not created yet
+	 * @return object
+	 */
+	function getInstance($instantiate = true){
+		if ($this->_instance == null){
+			if ($instantiate == false)
+				return null;
+
+			$this->_instance = $this->createInstance();
+		}
+
+		return $this->_instance;
 	}
 
 
+	private function createInstance(){
+		$classname = $this->_classname;
+
+		if ($this->_objectStorage){
+			$instance = $this->_objectStorage[$classname];
+			if ($instance)
+				return $instance;
+		}
+
+		$instance = new $classname;
+
+		if ($this->_objectStorage)
+			$this->_objectStorage[$classname] = $instance;
+
+		return $instance;
+	}
+
+
+	/**
+	 * exec the callback
+	 *
+	 * @param boolean $memoizedID if present, the result will be stored internally
+	 * @return mixed
+	 */
 	function exec($memoizedID = false){
 		if (!$memoizedID)
 			return $this->exec2();
@@ -45,23 +105,16 @@ class Callback{
 
 
 	private function exec2(){
-		$args = $this->getArguments();
+		$instance = $this->getInstance();
+		$method   = $this->_classmethod;
+		$args     = $this->getArguments();
 
-		list($classname, $classmethod) = explode(self::SEPARATOR, $this->_classmethod);
-
-		if ($this->_instance == null){
-			// This can be done in the constructor,
-			// but here is much better,
-			// because class is instantiated only if needed.
-			$this->_instance = new $classname;
-		}
-
-		return call_user_func_array( array($this->_instance, $classmethod), $args);
+		return call_user_func_array( array($instance, $this->_classmethod), $args);
 	}
 
 
 	private function getArguments(){
-		$refm = new ReflectionMethod($this->_classmethod);
+		$refm = new ReflectionMethod($this->_classname, $this->_classmethod);
 
 		$args = array();
 		foreach ($refm->getParameters() as $param)

@@ -31,9 +31,6 @@ IteratorIterator::test();
 Iterators::test();
 
 
-Profiler::test();
-
-
 HTTPResponse::test();
 
 
@@ -61,6 +58,9 @@ SQL\Mock::test();
 
 
 if ($slow_tests){
+	Profiler::test();
+
+
 	CacheAdapter\File::test();
 	CacheAdapter\Shm::test();
 	CacheAdapter\CompressorDecorator::test();
@@ -74,7 +74,6 @@ Template\CacheDecorator::test();
 
 
 UnitTests\CallbackTests::test();
-UnitTests\CallbackCollectionTests::test();
 
 
 Framework\Path\Exact::test();
@@ -85,8 +84,9 @@ Framework\Path\Mask::test();
 UnitTests\RouterTests::test();
 
 
-RegistryLoader\Dir::test();
+RegistryLoader\PHP::test();
 RegistryLoader\INI::test();
+RegistryLoader\Callback::test();
 
 Registry::test();
 
