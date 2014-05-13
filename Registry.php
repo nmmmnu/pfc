@@ -64,7 +64,10 @@ class Registry {
 	/* tests */
 
 	static function test(){
-		$loader = new RegistryLoader\PHP(__DIR__ . "/data/config");
+		$loader = new RegistryLoader\ArrayLoader(array(
+			"test"	=> "test"	,
+			"array"	=> array("test", "bla")
+		));
 
 		$registry = new Registry($loader);
 

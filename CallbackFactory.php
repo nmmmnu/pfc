@@ -46,7 +46,7 @@ class CallbackFactory implements \Countable{
 		if (isset($this->_objectStorage[$classname]))
 			return $this->_objectStorage[$classname];
 
-		$instance = $this->makeObject($classname);
+		$instance = $this->classLoader($classname);
 
 		$this->_objectStorage[$classname] = $instance;
 
@@ -66,7 +66,7 @@ class CallbackFactory implements \Countable{
 	 * @return Object
 	 *
 	 */
-	protected function makeObject($classname){
+	protected function classLoader($classname){
 		return new $classname;
 	}
 }

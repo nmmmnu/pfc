@@ -87,6 +87,7 @@ UnitTests\RouterTests::test();
 RegistryLoader\PHP::test();
 RegistryLoader\INI::test();
 RegistryLoader\Callback::test();
+RegistryLoader\ArrayLoader::test();
 
 Registry::test();
 

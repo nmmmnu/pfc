@@ -6,21 +6,20 @@ use pfc\Callback as pfc_Callback;
 
 
 /**
- * Load data from directory
+ * Load data from Callbacks
  *
  */
 class Callback implements RegistryLoader{
-	private $_storage;
+	private $_factory;
 
 
-	function __construct(\ArrayAccess $storage = null){
-		$this->_storage = $storage;
+	function __construct(CallbackFactory $factory){
+		$this->_factory = $factory;
 	}
 
 
 	function load($key){
-		$callback = new pfc_Callback($key);
-		$callback->setObjectStorage($this->_storage);
+		$callback = $this->_factory->getCallback($key);
 
 		return $callback->exec();
 	}
