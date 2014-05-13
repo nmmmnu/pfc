@@ -1,12 +1,12 @@
 <?
-namespace pfc\RegistryLoader;
+namespace pfc\Loader;
 
 
 /**
  * Load data from ini files in some directory
  *
  */
-class INI extends FilesystemLoader{
+class INIFile extends FilesystemLoader{
 	/**
 	 * constructor
 	 * @param string $path directory where registry files are placed
@@ -36,7 +36,7 @@ class INI extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new INI(__DIR__ . "/../data/ini");
+		$loader = new self(__DIR__ . "/../data/ini");
 
 		//print_r($loader->load("redis"));
 

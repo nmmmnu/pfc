@@ -35,7 +35,7 @@ class Registry {
 	 * @param string $ext file extention
 	 *
 	 */
-	function __construct(RegistryLoader $loader){
+	function __construct(Loader $loader){
 		$this->_loader = $loader;
 	}
 
@@ -64,12 +64,12 @@ class Registry {
 	/* tests */
 
 	static function test(){
-		$loader = new RegistryLoader\ArrayLoader(array(
+		$loader = new Loader\ArrayLoader(array(
 			"test"	=> "test"	,
 			"array"	=> array("test", "bla")
 		));
 
-		$registry = new Registry($loader);
+		$registry = new self($loader);
 
 		assert($registry->get("test") == "test");
 		assert($registry->get("array")[0] == "test");

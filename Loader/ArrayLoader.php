@@ -1,15 +1,14 @@
 <?
-namespace pfc\RegistryLoader;
+namespace pfc\Loader;
 
-use pfc\RegistryLoader;
-use pfc\Callback as pfc_Callback;
+use pfc\Loader;
 
 
 /**
  * Load data from array()
  *
  */
-class ArrayLoader implements RegistryLoader{
+class ArrayLoader implements Loader{
 	private $_storage;
 
 
@@ -26,11 +25,16 @@ class ArrayLoader implements RegistryLoader{
 	}
 
 
-
 	/* tests */
 
 	static function test(){
-		// no tests really
+		$loader = new self(array(
+			"test"	=> "test"		,
+			"array"	=> array("test", "bla")	,
+		));
+		
+		assert($loader->load("test") == "test");
+		assert($loader->load("array")[0] == "test");
 	}
 }
 

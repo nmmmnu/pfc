@@ -1,15 +1,15 @@
 <?
-namespace pfc\RegistryLoader;
+namespace pfc\Loader;
 
-use pfc\RegistryLoader;
-use pfc\Callback as pfc_Callback;
+use pfc\Loader;
+use pfc\CallbackFactory;
 
 
 /**
  * Load data from Callbacks
  *
  */
-class Callback implements RegistryLoader{
+class Callback implements Loader{
 	private $_factory;
 
 

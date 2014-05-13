@@ -12,9 +12,11 @@ namespace pfc;
 class CallbackFactory implements \Countable{
 	private $_objectStorage = array();
 	private $_additional_params;
+	private $_loader;
 
 
-	function __construct(array $additional_params = array()){
+	function __construct(array $additional_params = array(), Loader $loader = null){
+		$this->_loader            = $loader;
 		$this->_additional_params = $additional_params;
 	}
 
@@ -46,6 +48,8 @@ class CallbackFactory implements \Countable{
 		if (isset($this->_objectStorage[$classname]))
 			return $this->_objectStorage[$classname];
 
+		//var_dump($this);
+	
 		$instance = $this->classLoader($classname);
 
 		$this->_objectStorage[$classname] = $instance;
@@ -57,16 +61,15 @@ class CallbackFactory implements \Countable{
 	function count(){
 		return count($this->_objectStorage);
 	}
-
-
-	/**
-	 * Create the instance for new Object
-	 *
-	 * @param string $classname
-	 * @return Object
-	 *
-	 */
-	protected function classLoader($classname){
+	
+	
+	private function classLoader($classname){
+		if ($this->_loader){
+			$instance = $this->_loader->getInstance($classname);
+			
+			return is_object($instance) ? $instance : null;
+		}
+		
 		return new $classname;
 	}
 }

@@ -1,12 +1,12 @@
 <?
-namespace pfc\RegistryLoader;
+namespace pfc\Loader;
 
 
 /**
  * Load data from directory
  *
  */
-class PHP extends FilesystemLoader{
+class File extends FilesystemLoader{
 	/**
 	 * constructor
 	 * @param string $path directory where registry files are placed
@@ -32,10 +32,11 @@ class PHP extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new PHP(__DIR__ . "/../data/config");
+		$loader = new self(__DIR__ . "/../data/config");
 
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");
+		//assert($loader->load("class")->test == "test");
 	}
 }
 

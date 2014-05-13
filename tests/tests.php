@@ -84,10 +84,10 @@ Framework\Path\Mask::test();
 UnitTests\RouterTests::test();
 
 
-RegistryLoader\PHP::test();
-RegistryLoader\INI::test();
-RegistryLoader\Callback::test();
-RegistryLoader\ArrayLoader::test();
+Loader\ArrayLoader::test();
+Loader\File::test();
+Loader\INIFile::test();
+Loader\Callback::test();
 
 Registry::test();
 

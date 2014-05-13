@@ -1,14 +1,14 @@
 <?
-namespace pfc\RegistryLoader;
+namespace pfc\Loader;
 
-use pfc\RegistryLoader;
+use pfc\Loader;
 
 
 /**
  * Load data from directory
  *
  */
-abstract class FilesystemLoader implements RegistryLoader{
+abstract class FilesystemLoader implements Loader{
 	const   SEPARATOR = "/";
 
 	private $_path;
