@@ -2,16 +2,24 @@
 namespace pfc;
 
 use \ReflectionMethod;
-use \ArrayAccess;
 
+/**
+ * Callback
+ *
+ * execute class/methods represented as string.
+ *
+ * Responsibilities
+ * - Bind the arguments of the method in correct way.
+ * - Execute method.
+ *
+ */
 class Callback{
 	private $_classname;
 	private $_classmethod;
-	private $_instance = null;
-
 	private $_params;
 
-	private $_objectStorage;
+	private $_factory;
+
 
 	const   SEPARATOR = "::";
 
@@ -21,16 +29,21 @@ class Callback{
 	 *
 	 * @param callable $classmethod
 	 * @param array $params
+	 * @param CallbackFactory $factory
 	 *
 	 */
-	function __construct($classmethod, array $params = array(), ArrayAccess $objectStorage = null){
+	function __construct($classmethod, array $params = array(), CallbackFactory $factory = null){
 		if (! is_array($classmethod))
 			$classmethod = explode(self::SEPARATOR, $classmethod);
 
-		$this->_classname     = $classmethod[0];
-		$this->_classmethod   = $classmethod[1];
-		$this->_params        = $params;
-		$this->_objectStorage = $objectStorage;
+		$this->_classname   = $classmethod[0];
+		$this->_classmethod = $classmethod[1];
+		$this->_params      = $params;
+
+		if ($factory == null)
+			$factory = new CallbackFactory();
+
+		$this->_factory     = $factory;
 	}
 
 
@@ -51,39 +64,26 @@ class Callback{
 	 * @param array $params
 	 *
 	 */
-	function setParams($params){
-		$this->_params = $params;
+	function setParams($params, $merge = false){
+		if ($merge == false){
+			$this->_params = $params;
+			return;
+		}
+
+		// merge arrays, the safe way, but with overwrite
+		foreach($params as $k => $v)
+			$this->_params[$k] = $v;
 	}
 
 
 	/**
-	 * set object storage
+	 * set Factory for creating underline objects
 	 *
 	 * @param array $params
 	 *
 	 */
-	function setObjectStorage(ArrayAccess $objectStorage){
-		$this->_objectStorage = $objectStorage;
-	}
-
-
-	/**
-	 * get underline instance
-	 *
-	 * used mostly for testing
-	 *
-	 * @param boolean $instantiate whatever to create the class, if not created yet
-	 * @return object
-	 */
-	function getInstance($instantiate = true){
-		if ($this->_instance == null){
-			if ($instantiate == false)
-				return null;
-
-			$this->_instance = $this->createInstance();
-		}
-
-		return $this->_instance;
+	function setCallbackFactory(CallbackFactory $factory){
+		$this->_factory = $factory;
 	}
 
 
@@ -101,40 +101,33 @@ class Callback{
 	}
 
 
+	/**
+	 * get underline instance
+	 *
+	 * @return object
+	 *
+	 */
+	function getInstance(){
+		return $this->_factory->getObject($this->_classname);
+	}
+
+
 	private function getArguments(){
 		$refm = new ReflectionMethod($this->_classname, $this->_classmethod);
 
 		$args = array();
 		foreach ($refm->getParameters() as $param)
-			$args[] = $this->getParam($param->name);
+			$args[] = $this->getP($param->name);
 
 		return $args;
 	}
 
 
-	private function getParam($name, $default = null){
+	private function getP($name, $default = null){
 		if ( isset( $this->_params[$name] ))
 			return $this->_params[$name];
 
 		return $default;
-	}
-
-
-	private function createInstance(){
-		$classname = $this->_classname;
-
-		if ($this->_objectStorage){
-			$instance = $this->_objectStorage[$classname];
-			if ($instance)
-				return $instance;
-		}
-
-		$instance = new $classname;
-
-		if ($this->_objectStorage)
-			$this->_objectStorage[$classname] = $instance;
-
-		return $instance;
 	}
 }
 

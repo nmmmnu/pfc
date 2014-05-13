@@ -1,5 +1,5 @@
 <?
-namespace tests;
+namespace pfc;
 
 
 error_reporting(E_ALL);
