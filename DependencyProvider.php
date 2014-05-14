@@ -2,29 +2,7 @@
 namespace pfc;
 
 
-/**
- * Registry
- *
- * Class for organizing relatively simple information,
- * such configuration data.
- *
- * Data is loaded using RegistryLoader such:
- * - RegistryLoader/PHP - load data from php files
- * - RegistryLoader/INI - load data from ini files
- *
- * This easily can be extend to load from
- * - array()
- * - class/method
- * - redis hash
- *
- * Once retrieved, data is stored in memory,
- * another reason data to be relatively small
- *
- * In case of classes, this is equivalent to Singleton pattern.
- * However the Registry is mainly made for scalars and arrays.
- *
- */
-class Registry {
+class DependencyProvider {
 	private $_data = array();
 	private $_loader;
 
@@ -41,7 +19,7 @@ class Registry {
 
 
 	/**
-	 * get an item from the Registry
+	 * get an item from the DependencyProvider
 	 * @param string $item
 	 * @return mixed|null
 	 *

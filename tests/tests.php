@@ -87,9 +87,8 @@ UnitTests\RouterTests::test();
 Loader\ArrayLoader::test();
 Loader\File::test();
 Loader\INIFile::test();
-Loader\Callback::test();
 
-Registry::test();
+DependencyProvider::test();
 
 
 

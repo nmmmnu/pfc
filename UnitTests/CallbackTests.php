@@ -1,8 +1,12 @@
 <?
 namespace pfc\UnitTests;
 
+
 use pfc\Callback;
-use pfc\CallbackFactory;
+use pfc\ClassFactory;
+use pfc\ArrayList;
+use pfc\DependencyProvider;
+use pfc\Loader;
 
 
 class CallbackTests{
@@ -18,22 +22,16 @@ class CallbackTests{
 		// params test
 
 		$func   = __CLASS__ . "::bla";
-		$params = array("age" => 33, "name" => "Niki");
 
-		$callback = new Callback($func, $params);
-		$s = $callback->exec();
+		$deps = new ArrayList();
+		$deps[] = new DependencyProvider(new Loader\ArrayLoader(array("age" => 33, "name" => "Niki")));
+
+		$factory = new ClassFactory();
+
+		$callback = new Callback($func, $factory);
+		$s = $callback->exec($deps);
 
 		assert($s == "Niki is 33 years old");
-
-
-		// same object test
-		$cos = new CallbackFactory();
-
-
-		$callback1 = $cos->getCallback($func, $params);
-		$callback2 = $cos->getCallback($func, $params);
-
-		assert($callback1->getInstance(true) === $callback2->getInstance(true));
 	}
 }
 

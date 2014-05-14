@@ -19,6 +19,20 @@ class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate, Addable
 		$this->_data = $data;
 	}
 
+	function clear(){
+		$this->_data = array();
+	}
+
+	function addArray(array $array, $merge = false){
+		if ($merge == false){
+			$this->_data = array();
+			return;
+		}
+
+		foreach($array as $key => $val)
+			$this[$key] = $val;
+	}
+
 	/* Magic functions */
 
 	function offsetSet($offset, $value) {

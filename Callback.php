@@ -1,133 +1,77 @@
 <?
 namespace pfc;
 
+
 use \ReflectionMethod;
 
-/**
- * Callback
- *
- * execute class/methods represented as string.
- *
- * Responsibilities
- * - Bind the arguments of the method in correct way.
- * - Execute method.
- *
- */
+
 class Callback{
 	private $_classname;
 	private $_classmethod;
-	private $_params;
 
 	private $_factory;
+	private $_providers;
 
 
 	const   SEPARATOR = "::";
 
 
-	/**
-	 * constructor
-	 *
-	 * @param callable $classmethod
-	 * @param array $params
-	 * @param CallbackFactory $factory
-	 *
-	 */
-	function __construct($classmethod, array $params = array(), CallbackFactory $factory = null){
+	function __construct($classmethod, ClassFactory $factory, ArrayList $_providers = null){
 		if (! is_array($classmethod))
 			$classmethod = explode(self::SEPARATOR, $classmethod);
 
-		$this->_classname   = $classmethod[0];
-		$this->_classmethod = $classmethod[1];
-		$this->_params      = $params;
-
-		if ($factory == null)
-			$factory = new CallbackFactory();
-
-		$this->_factory     = $factory;
+		$this->_classname	= $classmethod[0];
+		$this->_classmethod	= $classmethod[1];
+		$this->_factory		= $factory;
+		$this->_providers	= $_providers;
 	}
 
 
-	/**
-	 * get parameters
-	 *
-	 * @return array
-	 *
-	 */
-	function getParams(){
-		return $this->_params;
-	}
+	function exec(ArrayList $extraProviders = null){
+		$args = array();
 
+		foreach($this->getDependencyRequirements() as $dep)
+			$args[$dep] = $this->getDependency($dep, $extraProviders);
 
-	/**
-	 * set parameters
-	 *
-	 * @param array $params
-	 *
-	 */
-	function setParams($params, $merge = false){
-		if ($merge == false){
-			$this->_params = $params;
-			return;
-		}
-
-		// merge arrays, the safe way, but with overwrite
-		foreach($params as $k => $v)
-			$this->_params[$k] = $v;
-	}
-
-
-	/**
-	 * set Factory for creating underline objects
-	 *
-	 * @param array $params
-	 *
-	 */
-	function setCallbackFactory(CallbackFactory $factory){
-		$this->_factory = $factory;
-	}
-
-
-	/**
-	 * exec the callback
-	 *
-	 * @return mixed
-	 */
-	function exec(){
-		$instance = $this->getInstance();
-		$method   = $this->_classmethod;
-		$args     = $this->getArguments();
+		$instance = $this->_factory->getInstance($this->_classname);
 
 		return call_user_func_array( array($instance, $this->_classmethod), $args);
 	}
 
 
-	/**
-	 * get underline instance
-	 *
-	 * @return object
-	 *
-	 */
-	function getInstance(){
-		return $this->_factory->getObject($this->_classname);
+	private function getDependencyRequirements(){
+		$reflection = new ReflectionMethod($this->_classname, $this->_classmethod);
+
+		$params = array();
+
+		foreach($reflection->getParameters() as $param)
+			$params[] = $param->name;
+
+		return $params;
 	}
 
 
-	private function getArguments(){
-		$refm = new ReflectionMethod($this->_classname, $this->_classmethod);
+	function getDependency($dependency, ArrayList $extraProviders = null) {
+		if ($this->_providers)
+			foreach($this->_providers as $dep){
+				$value = $dep->get($dependency);
 
-		$args = array();
-		foreach ($refm->getParameters() as $param)
-			$args[] = $this->getP($param->name);
+				if ($value)
+					return $value;
+			}
 
-		return $args;
-	}
+		// do same for the $extraProviders
 
+		if ($extraProviders)
+			foreach($extraProviders as $dep){
+				$value = $dep->get($dependency);
 
-	private function getP($name, $default = null){
-		if ( isset( $this->_params[$name] ))
-			return $this->_params[$name];
+				if ($value)
+					return $value;
+			}
 
-		return $default;
+		return null;
 	}
 }
+
 
