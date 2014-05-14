@@ -3,7 +3,6 @@ namespace pfc\Framework;
 
 
 use pfc\Callback;
-use pfc\ArrayList;
 use pfc\DependencyProvider;
 use pfc\Loader\ArrayLoader as Loader_ArrayLoader;
 
@@ -11,7 +10,7 @@ use pfc\Loader\ArrayLoader as Loader_ArrayLoader;
 class Route{
 	private $_path;
 	private $_callback;
-	private $_dependency;
+	private $_dependency = array();
 
 	const PARAM_PATH = "_path";
 
@@ -19,7 +18,6 @@ class Route{
 	function __construct(Path $matcher, Callback $callback){
 		$this->_path		= $matcher;
 		$this->_callback	= $callback;
-		$this->_dependency	= new ArrayList();
 	}
 
 
@@ -30,8 +28,9 @@ class Route{
 			// add path to params as well
 			$data[self::PARAM_PATH] = $path;
 
-			$this->_dependency->clear();
-			$this->_dependency[] = new DependencyProvider(new Loader_ArrayLoader($data));
+			$this->_dependency = array(
+				new DependencyProvider(new Loader_ArrayLoader($data))
+			);
 
 
 			return true;

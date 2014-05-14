@@ -21,8 +21,8 @@ $reg1 = new DependencyProvider(new Loader\ArrayLoader(array(
 
 $reg2 = new DependencyProvider(new Loader\INIFile(__DIR__ . "/../data/ini/"));
 
-$arraylist1 = new ArrayList(array($reg1));
-$arraylist2 = new ArrayList(array($reg2));
+$arraylist1 = array($reg1);
+$arraylist2 = array($reg2);
 
 $factory = new ClassFactory();
 

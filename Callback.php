@@ -10,24 +10,24 @@ class Callback{
 	private $_classmethod;
 
 	private $_factory;
-	private $_providers;
+	private $_mainProviders;
 
 
 	const   SEPARATOR = "::";
 
 
-	function __construct($classmethod, ClassFactory $factory, ArrayList $_providers = null){
+	function __construct($classmethod, ClassFactory $factory, array $mainProviders = array()){
 		if (! is_array($classmethod))
 			$classmethod = explode(self::SEPARATOR, $classmethod);
 
 		$this->_classname	= $classmethod[0];
 		$this->_classmethod	= $classmethod[1];
 		$this->_factory		= $factory;
-		$this->_providers	= $_providers;
+		$this->_mainProviders	= $mainProviders;
 	}
 
 
-	function exec(ArrayList $extraProviders = null){
+	function exec(array $extraProviders = array()){
 		$args = array();
 
 		foreach($this->getDependencyRequirements() as $dep)
@@ -51,24 +51,16 @@ class Callback{
 	}
 
 
-	function getDependency($dependency, ArrayList $extraProviders = null) {
-		if ($this->_providers)
-			foreach($this->_providers as $dep){
-				$value = $dep->get($dependency);
+	function getDependency($dependency, array $extraProviders) {
+		$allProviders = array_merge($this->_mainProviders, $extraProviders);
 
-				if ($value)
-					return $value;
-			}
+		foreach($allProviders as $dep){
+			$value = $dep->get($dependency);
 
-		// do same for the $extraProviders
+			if ($value)
+				return $value;
+		}
 
-		if ($extraProviders)
-			foreach($extraProviders as $dep){
-				$value = $dep->get($dependency);
-
-				if ($value)
-					return $value;
-			}
 
 		return null;
 	}
