@@ -3,7 +3,6 @@ namespace pfc\DependencyInjection;
 
 
 use \ReflectionMethod;
-use \pfc\ClassFactory;
 
 
 class Callback{
@@ -21,7 +20,7 @@ class Callback{
 			$classmethod = explode(self::SEPARATOR, $classmethod);
 
 		if (! $factory)
-			$factory = new ClassFactory();
+			$factory = new AutoClassFactory();
 
 		$this->_classname	= $classmethod[0];
 		$this->_classmethod	= $classmethod[1];
@@ -32,17 +31,19 @@ class Callback{
 	function exec(Dependency $dependency){
 		$args = array();
 
-		foreach($this->getDependencyRequirements() as $dep)
-			$args[$dep] = $dependency[$dep];
-
 		$instance = $this->_factory->getInstance($this->_classname);
+
+		$requirements = self::getDependencyRequirements($instance, $this->_classmethod);
+
+		foreach($requirements as $dep)
+			$args[$dep] = $dependency[$dep];
 
 		return call_user_func_array( array($instance, $this->_classmethod), $args);
 	}
 
 
-	private function getDependencyRequirements(){
-		$reflection = new ReflectionMethod($this->_classname, $this->_classmethod);
+	private static function getDependencyRequirements($classname, $classmethod){
+		$reflection = new ReflectionMethod($classname, $classmethod);
 
 		$params = array();
 

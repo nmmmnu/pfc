@@ -1,8 +1,8 @@
 <?
-namespace pfc;
+namespace pfc\DependencyInjection;
 
 
-class ClassFactory{
+abstract class ClassFactory{
 	private $_store = array();
 
 
@@ -18,8 +18,6 @@ class ClassFactory{
 	}
 
 
-	private function classLoader($classname){
-		return new $classname;
-	}
+	abstract protected function classLoader($classname);
 }
 

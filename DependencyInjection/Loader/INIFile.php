@@ -2,11 +2,15 @@
 namespace pfc\DependencyInjection\Loader;
 
 
+use pfc\FileInclude;
+
+
 /**
  * Load data from ini files in some directory
  *
  */
 class INIFile extends FilesystemLoader{
+
 	/**
 	 * constructor
 	 * @param string $path directory where registry files are placed

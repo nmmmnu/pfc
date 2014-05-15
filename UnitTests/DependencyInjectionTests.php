@@ -4,9 +4,14 @@ namespace pfc\UnitTests;
 
 use pfc\DependencyInjection\Callback;
 use pfc\DependencyInjection\Dependency;
-use pfc\DependencyInjection\Loader\DILoader;
+
+use pfc\DependencyInjection\ClassFactory,
+	pfc\DependencyInjection\AutoClassFactory,
+	pfc\DependencyInjection\FileClassFactory;
 
 
+
+if (!class_exists(__NAMESPACE__ . "\\" . "DependencyInjectionTests", $autoload = false)){
 class DependencyInjectionTests{
 	function bla($name, $age){
 		return sprintf("%s is %d years old", $name, $age);
@@ -19,25 +24,24 @@ class DependencyInjectionTests{
 	static function test(){
 		// params test
 
-		$func = __CLASS__ . "::bla";
+		$func = "DependencyInjectionTests::bla";
 
 		$deps = new Dependency();
 		$deps->addParent(array("age" => 33, "name" => "Niki"));
 
+		self::testCallback($func, $deps, new AutoClassFactory(__NAMESPACE__));
+		self::testCallback($func, $deps, new FileClassFactory(__DIR__));
+	}
 
-		// Test Callback
-		$callback = new Callback($func);
+
+	static function testCallback($func, Dependency $deps, ClassFactory $factory){
+		$callback = new Callback($func, $factory);
 		$s = $callback->exec($deps);
-
-		assert($s == "Niki is 33 years old");
-
-
-		// test Loader\DILoader
-		$loader = new DILoader($deps);
-		$s = $loader->load($func);
 
 		assert($s == "Niki is 33 years old");
 	}
 }
+} // class_exists
 
 
+return new DependencyInjectionTests();
