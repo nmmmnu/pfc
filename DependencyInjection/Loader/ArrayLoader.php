@@ -1,7 +1,8 @@
 <?
-namespace pfc\Loader;
+namespace pfc\DependencyInjection\Loader;
 
-use pfc\Loader;
+
+use pfc\DependencyInjection\Loader;
 
 
 /**
@@ -32,7 +33,7 @@ class ArrayLoader implements Loader{
 			"test"	=> "test"		,
 			"array"	=> array("test", "bla")	,
 		));
-		
+
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");
 	}

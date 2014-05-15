@@ -1,5 +1,5 @@
 <?
-namespace pfc\Loader;
+namespace pfc\DependencyInjection\Loader;
 
 
 /**
@@ -32,7 +32,7 @@ class File extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new self(__DIR__ . "/../data/config");
+		$loader = new self(__DIR__ . "/../../data/config");
 
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");

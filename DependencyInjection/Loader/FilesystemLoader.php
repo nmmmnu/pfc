@@ -1,7 +1,8 @@
 <?
-namespace pfc\Loader;
+namespace pfc\DependencyInjection\Loader;
 
-use pfc\Loader;
+
+use pfc\DependencyInjection\Loader;
 
 
 /**
@@ -10,6 +11,7 @@ use pfc\Loader;
  */
 abstract class FilesystemLoader implements Loader{
 	const   SEPARATOR = "/";
+
 
 	private $_path;
 	private $_ext;

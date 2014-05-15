@@ -73,7 +73,13 @@ Template\PHP::test();
 Template\CacheDecorator::test();
 
 
-UnitTests\CallbackTests::test();
+DependencyInjection\Dependency::test();
+
+DependencyInjection\Loader\ArrayLoader::test();
+DependencyInjection\Loader\File::test();
+DependencyInjection\Loader\INIFile::test();
+
+UnitTests\DependencyInjectionTests::test();
 
 
 Framework\Path\Exact::test();
@@ -82,16 +88,6 @@ Framework\Path\Mask::test();
 
 
 UnitTests\RouterTests::test();
-
-
-Loader\ArrayLoader::test();
-Loader\File::test();
-Loader\INIFile::test();
-
-DependencyProvider::test();
-
-
-
 
 
 echo "All tests passed!!!\n";
