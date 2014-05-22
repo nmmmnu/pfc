@@ -10,6 +10,7 @@ use pfc\Framework\Route,
 
 use pfc\DependencyInjection\Callback;
 use pfc\DependencyInjection\Dependency;
+use pfc\DependencyInjection\AutoClassFactory;
 
 class RouterTests{
 	function exact($_path){
@@ -29,16 +30,17 @@ class RouterTests{
 
 	static function test(){
 		$dep = new Dependency();
+		$faktory = new AutoClassFactory();
 
 		$r = new Router();
 
-		$r->map("/",		new Route(new Exact("/"),		new Callback(__CLASS__ . "::exact"),	$dep));
-		$r->map("/about",	new Route(new Exact("/about.php"),	new Callback(__CLASS__ . "::exact"),	$dep));
-		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Callback(__CLASS__ . "::exact"),	$dep));
+		$r->map("/",		new Route(new Exact("/"),		new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
+		$r->map("/about",	new Route(new Exact("/about.php"),	new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
+		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
 
-		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Callback(__CLASS__ . "::blog"),	$dep));
+		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Callback(__CLASS__ . "::blog",	$faktory,	$dep)));
 
-		$r->map("/all",		new Route(new CatchAll("/"),		new Callback(__CLASS__ . "::all"),	$dep));
+		$r->map("/all",		new Route(new CatchAll("/"),		new Callback(__CLASS__ . "::all",	$faktory,	$dep)));
 
 		echo "Router testing...\n";
 

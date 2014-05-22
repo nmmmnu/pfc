@@ -9,20 +9,15 @@ use pfc\DependencyInjection\Dependency;
 class Route{
 	private $_path;
 	private $_callback;
-	private $_dependency;
 	private $_matchedArgs = null;
 	private $_matchedPath = null;
 
 	const PARAM_PATH = "_path";
 
 
-	function __construct(Path $matcher, Callback $callback, Dependency $dependency = null){
-		if (! $dependency)
-			$dependency = new Dependency();
-
+	function __construct(Path $matcher, Callback $callback){
 		$this->_path		= $matcher;
 		$this->_callback	= $callback;
-		$this->_dependency	= $dependency;
 	}
 
 
@@ -48,7 +43,6 @@ class Route{
 
 	function exec(){
 		$dependency = new Dependency();
-		$dependency->addParent($this->_dependency);
 
 		if (is_array($this->_matchedArgs))
 			$dependency->addParent($this->_matchedArgs);

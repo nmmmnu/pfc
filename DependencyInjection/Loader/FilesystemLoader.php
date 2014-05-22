@@ -6,7 +6,7 @@ use pfc\DependencyInjection\Loader;
 
 
 /**
- * Load data from directory
+ * Abstract Loader that loads data from file
  *
  */
 abstract class FilesystemLoader implements Loader{

@@ -6,7 +6,10 @@ use pfc\DependencyInjection\Loader;
 
 
 /**
- * Load data from array()
+ * Load data from array())
+ *
+ * mostly like mock object,
+ * since Dependency class can work with array directly
  *
  */
 class ArrayLoader implements Loader{

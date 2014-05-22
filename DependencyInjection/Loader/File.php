@@ -5,15 +5,24 @@ namespace pfc\DependencyInjection\Loader;
 /**
  * Load data from directory
  *
+ * can load clases, but it is intended to load scalars and arrays.
+ *
+ * files must looks like:
+ *
+ * < ? return array(1,2,3,4); ? >
+ *
  */
 class File extends FilesystemLoader{
+	const FILE_EXT = ".php";
+
+
 	/**
 	 * constructor
 	 * @param string $path directory where registry files are placed
 	 * @param string $ext file extention
 	 *
 	 */
-	function __construct($path, $ext = ".php"){
+	function __construct($path, $ext = self::FILE_EXT){
 		parent::__construct($path, $ext);
 	}
 
@@ -36,7 +45,7 @@ class File extends FilesystemLoader{
 
 		assert($loader->load("test") == "test");
 		assert($loader->load("array")[0] == "test");
-		//assert($loader->load("class")->test == "test");
+		assert($loader->load("class")->test == "test");
 	}
 }
 

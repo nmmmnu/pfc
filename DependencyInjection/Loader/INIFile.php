@@ -10,6 +10,7 @@ use pfc\FileInclude;
  *
  */
 class INIFile extends FilesystemLoader{
+	const FILE_EXT = ".ini";
 
 	/**
 	 * constructor
@@ -17,7 +18,7 @@ class INIFile extends FilesystemLoader{
 	 * @param string $ext file extention
 	 *
 	 */
-	function __construct($path, $ext = ".ini"){
+	function __construct($path, $ext = self::FILE_EXT){
 		parent::__construct($path, $ext);
 	}
 
