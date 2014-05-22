@@ -2,7 +2,22 @@
 namespace pfc;
 
 
-spl_autoload_register(__NAMESPACE__ . "\pfc_autoload");
+spl_autoload_register(function($class){
+	$parts = explode("\\", $class);
+
+	if ($parts[0] != __NAMESPACE__)
+		return;
+
+	//unset($parts[0]);
+
+	$file = implode("/", $parts) . ".php";
+
+	$file = dirname(__FILE__) . "/" . $file;
+
+	//echo "Loading $file...\n";
+
+	include_once $file;
+});
 
 
 function pfc_assert_setup(){
@@ -23,20 +38,5 @@ function pfc_assert_callback($script, $line, $message){
 }
 
 
-function pfc_autoload($class){
-	$parts = explode("\\", $class);
 
-	if ($parts[0] != __NAMESPACE__)
-		return;
-
-	unset($parts[0]);
-
-	$file = implode("/", $parts) . ".php";
-
-	$file = dirname(__FILE__) . "/" . $file;
-
-	//echo "Loading $file...\n";
-
-	include_once $file;
-}
 

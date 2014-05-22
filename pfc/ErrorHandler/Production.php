@@ -1,9 +1,9 @@
 <?
 namespace pfc\ErrorHandler;
 
-require_once __DIR__ . "/../__autoload.php";
 
 use pfc\ErrorHandler;
+
 
 class Production extends ErrorHandler{
 	function __construct($html = true, $suppress = false){

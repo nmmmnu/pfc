@@ -41,7 +41,7 @@ class INIFile extends FilesystemLoader{
 	/* tests */
 
 	static function test(){
-		$loader = new self(__DIR__ . "/../../data/ini");
+		$loader = new self(__DIR__ . "/../../../data/ini");
 
 		//print_r($loader->load("redis"));
 
