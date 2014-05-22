@@ -1,6 +1,7 @@
 <?
 namespace pfc;
 
+
 class HTTPResponse{
 	private $_headers = array();
 	private $_content;

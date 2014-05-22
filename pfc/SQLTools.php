@@ -6,9 +6,6 @@ namespace pfc;
  *
  */
 class SQLTools{
-	const DSNDELIMITER = "@@@";
-
-
 	private function __construct(){
 	}
 

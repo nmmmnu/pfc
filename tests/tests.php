@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 
 
 $redis_tests = false || true;
-$slow_tests = false  ;//|| true;
+$slow_tests = false;//  || true;
 
 
 echo Info::COPYRIGHT() . "\n\n";
@@ -43,11 +43,11 @@ OutputAdapter\Console::test();
 OutputAdapter\Addable::test();
 OutputAdapter\PHP::test();
 
-
+/*
 Authenticator\AllowAll::test();
 Authenticator\DenyAll::test();
 Authenticator\ArrayPassword::test();
-
+*/
 
 Compressor\GZip::test();
 Compressor\GZDeflate::test();
@@ -71,15 +71,6 @@ if ($slow_tests){
 
 Template\PHP::test();
 Template\CacheDecorator::test();
-
-
-DependencyInjection\Dependency::test();
-
-DependencyInjection\Loader\ArrayLoader::test();
-DependencyInjection\Loader\File::test();
-DependencyInjection\Loader\INIFile::test();
-
-UnitTests\DependencyInjectionTests::test();
 
 
 Framework\Path\Exact::test();
