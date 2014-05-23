@@ -1,6 +1,8 @@
 <?
 namespace pfc\UnitTests;
 
+require_once "/home/nmmm/GIT/php_inject/__autoload.php";
+
 use pfc\Framework\Router;
 
 use pfc\Framework\Route,
@@ -8,9 +10,6 @@ use pfc\Framework\Route,
 	pfc\Framework\Path\Mask,
 	pfc\Framework\Path\CatchAll;
 
-use pfc\DependencyInjection\Callback;
-use pfc\DependencyInjection\Dependency;
-use pfc\DependencyInjection\AutoClassFactory;
 
 class RouterTests{
 	function exact($_path){
@@ -29,18 +28,19 @@ class RouterTests{
 
 
 	static function test(){
-		$dep = new Dependency();
-		$faktory = new AutoClassFactory();
+		$realinj = new \injector\Injector();
+		$inj     = new \injector\SingletonInjector($realinj);
+
 
 		$r = new Router();
 
-		$r->map("/",		new Route(new Exact("/"),		new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
-		$r->map("/about",	new Route(new Exact("/about.php"),	new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
-		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Callback(__CLASS__ . "::exact",	$faktory,	$dep)));
+		$r->map("/",		new Route(new Exact("/"),		$inj, __CLASS__ . "::exact"	));
+		$r->map("/about",	new Route(new Exact("/about.php"),	$inj, __CLASS__ . "::exact"	));
+		$r->map("/contact",	new Route(new Exact("/contact.php"),	$inj, __CLASS__ . "::exact"	));
 
-		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Callback(__CLASS__ . "::blog",	$faktory,	$dep)));
+		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),$inj, __CLASS__ . "::blog"	));
 
-		$r->map("/all",		new Route(new CatchAll("/"),		new Callback(__CLASS__ . "::all",	$faktory,	$dep)));
+		$r->map("/all",		new Route(new CatchAll("/"),		$inj, __CLASS__ . "::all"	));
 
 		echo "Router testing...\n";
 

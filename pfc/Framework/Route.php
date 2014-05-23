@@ -2,22 +2,24 @@
 namespace pfc\Framework;
 
 
-use pfc\DependencyInjection\Callback;
-use pfc\DependencyInjection\Dependency;
-
-
 class Route{
 	private $_path;
 	private $_callback;
+	private $_injector;
+
 	private $_matchedArgs = null;
 	private $_matchedPath = null;
 
 	const PARAM_PATH = "_path";
 
+	const PARAM_CONF = "Route_Configuration";
 
-	function __construct(Path $matcher, Callback $callback){
+	const DELIMITER  = "::";
+
+	function __construct(Path $matcher, \injector\AbstractInjector $injector, $callback){
 		$this->_path		= $matcher;
-		$this->_callback	= $callback;
+		$this->_callback	= explode(self::DELIMITER, $callback);
+		$this->_injector	= $injector;
 	}
 
 
@@ -42,20 +44,24 @@ class Route{
 
 
 	function exec(){
-		$dependency = new Dependency();
+		$conf  = new \injector\Configuration();
 
-		if (is_array($this->_matchedArgs))
-			$dependency->addParent($this->_matchedArgs);
-
-		if ($this->_matchedPath){
-			$pathDep = array(
-				self::PARAM_PATH => $this->_matchedPath
-			);
-
-			$dependency->addParent($pathDep);
+		if (is_array($this->_matchedArgs)){
+			foreach($this->_matchedArgs as $k => $v)
+				$conf->bind($k, new \injector\BindValue($v));
 		}
 
-		return $this->_callback->exec($dependency);
+		if ($this->_matchedPath){
+				$conf->bind(self::PARAM_PATH, new \injector\BindValue($this->_matchedPath));
+		}
+
+		$this->_injector->specifications()[self::PARAM_CONF] = $conf;
+
+		$value = $this->_injector->callMethod($this->_callback[0], $this->_callback[1]);
+
+		unset($this->_injector->specifications()[self::PARAM_CONF]);
+
+		return $value;
 	}
 }
 

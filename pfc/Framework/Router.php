@@ -11,6 +11,11 @@ class Router{
 	}
 
 
+	function remove($key){
+		unset($this->_routes[$key]);
+	}
+
+
 	function link($key, array $params){
 		if (isset($this->_routes[$key]))
 			return $this->_routes[$key]->link($params);
