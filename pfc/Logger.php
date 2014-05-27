@@ -38,11 +38,20 @@ class Logger{
 	/* ========================== */
 
 
+	private function formatMessage($message){
+		foreach(array_reverse($this->_lf) as $lf)
+			$message = $lf->format($message);
+
+		return $message;
+	}
+
+
+	/* ========================== */
+
+
 	function log($message, $level){
 		if ($this->_level >= $level){
-			// Format log
-			foreach(array_reverse($this->_lf) as $lf)
-				$message = $lf->format($message);
+			$message = $this->formatMessage($message);
 
 			foreach($this->_out as $out)
 				$out->write($message);

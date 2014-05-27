@@ -1,7 +1,6 @@
 <?
 namespace pfc\UnitTests;
 
-require_once "/home/nmmm/GIT/php_inject/__autoload.php";
 
 use pfc\Framework\Router;
 

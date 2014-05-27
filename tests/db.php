@@ -68,8 +68,7 @@ $logger->addFormat(new \pfc\LoggerFormat\String("db_test") );
 
 
 // make SQL to be profilled
-$prof_db = new \pfc\SQL\ProfilerDecorator($real_db, new \pfc\Profiler() );
-$prof_db->setLogger($logger);
+$prof_db = new \pfc\SQL\ProfilerDecorator($real_db, new \pfc\Profiler(), $logger );
 
 
 // make SQL to throw exceptions
@@ -87,6 +86,5 @@ $serializer   = new \pfc\Serializer\JSON();
 
 
 // make SQL to be cached
-$db2 = new \pfc\SQL\CacheDecorator($db, $cacheAdapter, $serializer);
-$db2->setLogger($logger);
+$db2 = new \pfc\SQL\CacheDecorator($db, $cacheAdapter, $serializer, $logger);
 

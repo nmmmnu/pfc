@@ -2,6 +2,7 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
+use pfc\SQLTools;
 
 /**
  * Adapter that converts Iterator to SQLResult
@@ -33,23 +34,18 @@ class IteratorResult implements SQLResult{
 	}
 
 
-	/**
-	 * get affected rows (count of the array)
-	 *
-	 * @return int
-	 */
 	function affectedRows(){
 		return $this->_affectedRows;
 	}
 
 
-	/**
-	 * get last insert id
-	 *
-	 * @return int
-	 */
 	function insertID(){
 		return $this->_insertID;
+	}
+
+
+	function get($field = false){
+		return SQLTools::getResult($this, $field);
 	}
 
 

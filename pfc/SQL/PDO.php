@@ -80,6 +80,8 @@ class PDO implements SQL{
 
 
 	function query($sql, array $params, $primaryKey = null){
+		$this->open();
+
 		$sql = SQLTools::escapeQuery($this, $sql, $params);
 
 		$result = $this->_pdo->query($sql);

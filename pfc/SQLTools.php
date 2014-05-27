@@ -11,6 +11,8 @@ class SQLTools{
 
 
 	static function escapeQuery(SQL $adapter, $sql, array $params){
+		$adapter->open();
+
 		$paramsEscaped = array();
 		foreach($params as $p)
 			$paramsEscaped[] = $adapter->escape($p);
@@ -20,6 +22,18 @@ class SQLTools{
 		//echo $escapedSQL . "\n";
 
 		return $escapedSQL;
+	}
+
+
+	static function getResult(SQLResult $results, $field = false){
+		foreach($results as $result){
+			if ($field)
+				return $result[$field];
+
+			return $result;
+		}
+
+		return false;
 	}
 }
 

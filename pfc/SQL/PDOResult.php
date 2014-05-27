@@ -2,6 +2,7 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
+use pfc\SQLTools;
 use pfc\SQLException;
 
 /**
@@ -38,7 +39,14 @@ class PDOResult implements SQLResult{
 		return  $this->_insertID;
 	}
 
+
+	function get($field = false){
+		return SQLTools::getResult($this, $field);
+	}
+
+
 	// =============================
+
 
 	function rewind(){
 		if ($this->_rowID == 0){

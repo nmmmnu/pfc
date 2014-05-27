@@ -92,6 +92,8 @@ class MySQLi implements SQL{
 
 
 	function query($sql, array $params, $primaryKey = null){
+		$this->open();
+
 		$sql = SQLTools::escapeQuery($this, $sql, $params);
 
 		$result = $this->_link->query($sql);

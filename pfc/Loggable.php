@@ -5,7 +5,7 @@ trait Loggable{
 	private $_logger      = NULL;
 
 
-	function setLogger(Logger $logger){
+	function setLogger(Logger $logger = null){
 		$this->_logger = $logger;
 	}
 

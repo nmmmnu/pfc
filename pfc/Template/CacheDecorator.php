@@ -28,10 +28,12 @@ class CacheDecorator implements Template{
 	 * @param int ttl TTL
 	 *
 	 */
-	function __construct(Template $template, CacheAdapter $cacheAdapter, $ttl){
+	function __construct(Template $template, CacheAdapter $cacheAdapter, $ttl, Logger $logger = null){
 		$this->_template = $template;
 		$this->_cacheAdapter = $cacheAdapter;
 		$this->_ttl = $ttl;
+
+		$this->setLogger($logger);
 	}
 
 

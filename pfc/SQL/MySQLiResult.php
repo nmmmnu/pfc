@@ -2,6 +2,7 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
+use pfc\SQLTools;
 
 /**
  * PDO adapter for SQLResult
@@ -16,7 +17,6 @@ class MySQLiResult implements SQLResult{
 	private $_row;
 	private $_rowID;
 
-	//\mysqli_result
 	function __construct($query, $primaryKey){
 		$this->_results    = $query;
 		$this->_primaryKey = $primaryKey;
@@ -35,7 +35,15 @@ class MySQLiResult implements SQLResult{
 		return 0;
 	}
 
+
+
+	function get($field = false){
+		return SQLTools::getResult($this, $field);
+	}
+
+
 	// =============================
+
 
 	function rewind(){
 		if ($this->_rowID == 0){

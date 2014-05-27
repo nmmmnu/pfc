@@ -5,6 +5,7 @@ use pfc\SQL;
 use pfc\SQLTools;
 
 use pfc\Loggable;
+use pfc\Logger;
 
 use pfc\Iterators;
 use pfc\ArrayIterator;
@@ -32,10 +33,12 @@ class CacheDecorator implements SQL{
 	 * @param CacheAdapter $cacheAdapter
 	 * @param Serializer $serializer
 	 */
-	function __construct(SQL $sqlAdapter, CacheAdapter $cacheAdapter, Serializer $serializer){
+	function __construct(SQL $sqlAdapter, CacheAdapter $cacheAdapter, Serializer $serializer, Logger $logger = null){
 		$this->_sqlAdapter	= $sqlAdapter;
 		$this->_cacheAdapter	= $cacheAdapter;
 		$this->_serializer	= $serializer;
+
+		$this->setLogger($logger);
 	}
 
 

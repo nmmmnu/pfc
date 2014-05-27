@@ -5,6 +5,7 @@ use pfc\SQL;
 use pfc\SQLTools;
 
 use pfc\Loggable;
+use pfc\Logger;
 
 use pfc\Profiler;
 
@@ -27,9 +28,11 @@ class ProfilerDecorator implements SQL{
 	 * @param SQL $sqlAdapter
 	 * @param Profiler $profiler
 	 */
-	function __construct(SQL $sqlAdapter, Profiler $profiler){
+	function __construct(SQL $sqlAdapter, Profiler $profiler, Logger $logger){
 		$this->_sqlAdapter = $sqlAdapter;
 		$this->_profiler   = $profiler;
+
+		$this->setLogger($logger);
 	}
 
 

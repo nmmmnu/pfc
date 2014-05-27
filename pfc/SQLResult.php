@@ -20,5 +20,15 @@ interface SQLResult extends \Iterator{
 	 * @return int
 	 */
 	function insertID();
+
+
+	/**
+	 * get single row or single value
+	 *
+	 * @param string|boolean $field field name
+	 * @return string
+	 */
+	function get($field = false);
 }
+
 
