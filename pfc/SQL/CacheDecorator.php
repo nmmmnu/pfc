@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 
 use pfc\Loggable;
 use pfc\Logger;
@@ -19,6 +18,7 @@ use pfc\Serializer;
  */
 class CacheDecorator implements SQL{
 	use Loggable;
+	use TraitEscape;
 
 
 	private $_sqlAdapter;
@@ -69,7 +69,7 @@ class CacheDecorator implements SQL{
 
 	function query($sql, array $params, $primaryKey = null){
 		$originalSQL = $sql;
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		$sql = $this->escapeQuery($sql, $params);
 		// load from cache
 		$serializedData = $this->_cacheAdapter->load($sql);
 

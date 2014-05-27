@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 
 
 /**
@@ -12,6 +11,9 @@ use pfc\SQLTools;
  *
  */
 class PDO implements SQL{
+	use TraitEscape;
+
+
 	private $_pdo;
 	private $_connection;
 
@@ -82,7 +84,7 @@ class PDO implements SQL{
 	function query($sql, array $params, $primaryKey = null){
 		$this->open();
 
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		$sql = $this->escapeQuery($sql, $params);
 
 		$result = $this->_pdo->query($sql);
 

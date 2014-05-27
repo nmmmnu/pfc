@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 
 use pfc\Loggable;
 use pfc\Logger;
@@ -15,6 +14,7 @@ use pfc\Profiler;
  *
  */
 class ProfilerDecorator implements SQL{
+	use TraitEscape;
 	use Loggable;
 
 
@@ -63,7 +63,7 @@ class ProfilerDecorator implements SQL{
 
 	function query($sql, array $params, $primaryKey = null){
 		$originalSQL = $sql;
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		$sql = $this->escapeQuery($sql, $params);
 
 		$this->_profiler->stop("query start", $sql);
 		$result = $this->_sqlAdapter->query($originalSQL, $params, $primaryKey);

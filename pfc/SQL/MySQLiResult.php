@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
-use pfc\SQLTools;
 
 /**
  * PDO adapter for SQLResult
@@ -10,6 +9,9 @@ use pfc\SQLTools;
  */
 class MySQLiResult implements SQLResult{
 	const FETCH_MODE = \PDO::FETCH_ASSOC;
+
+
+	use TraitGet;
 
 
 	private $_results;
@@ -33,12 +35,6 @@ class MySQLiResult implements SQLResult{
 
 	function insertID(){
 		return 0;
-	}
-
-
-
-	function get($field = false){
-		return SQLTools::getResult($this, $field);
 	}
 
 

@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 use pfc\SQLException;
 
 
@@ -11,6 +10,9 @@ use pfc\SQLException;
  *
  */
 class ExceptionDecorator implements SQL{
+	use TraitEscape;
+
+
 	private $_sqlAdapter;
 
 
@@ -58,7 +60,7 @@ class ExceptionDecorator implements SQL{
 
 	function query($sql, array $params, $primaryKey = null){
 		$originalSQL = $sql;
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		$sql = $this->escapeQuery($sql, $params);
 
 		return $this->decorate(
 			$this->_sqlAdapter->query($originalSQL, $params, $primaryKey),

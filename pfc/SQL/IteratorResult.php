@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
-use pfc\SQLTools;
 
 /**
  * Adapter that converts Iterator to SQLResult
@@ -11,6 +10,9 @@ use pfc\SQLTools;
  *
  */
 class IteratorResult implements SQLResult{
+	use TraitGet;
+
+
 	private $_iterator;
 
 	private $_primaryKey;
@@ -44,12 +46,8 @@ class IteratorResult implements SQLResult{
 	}
 
 
-	function get($field = false){
-		return SQLTools::getResult($this, $field);
-	}
-
-
 	// =============================
+
 
 	function rewind(){
 		return $this->_iterator->rewind();

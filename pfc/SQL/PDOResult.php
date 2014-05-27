@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQLResult;
-use pfc\SQLTools;
 use pfc\SQLException;
 
 /**
@@ -11,6 +10,9 @@ use pfc\SQLException;
  */
 class PDOResult implements SQLResult{
 	const FETCH_MODE = \PDO::FETCH_ASSOC;
+
+
+	use TraitGet;
 
 
 	private $_pdo;
@@ -37,11 +39,6 @@ class PDOResult implements SQLResult{
 
 	function insertID(){
 		return  $this->_insertID;
-	}
-
-
-	function get($field = false){
-		return SQLTools::getResult($this, $field);
 	}
 
 

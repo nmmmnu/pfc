@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 
 /**
  * PDO adapter
@@ -11,6 +10,9 @@ use pfc\SQLTools;
  *
  */
 class MySQLi implements SQL{
+	use TraitEscape;
+
+
 	private $_link;
 	private $_connection;
 
@@ -94,7 +96,7 @@ class MySQLi implements SQL{
 	function query($sql, array $params, $primaryKey = null){
 		$this->open();
 
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		$sql = $this->escapeQuery($sql, $params);
 
 		$result = $this->_link->query($sql);
 

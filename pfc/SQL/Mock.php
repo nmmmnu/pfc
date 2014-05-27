@@ -2,7 +2,6 @@
 namespace pfc\SQL;
 
 use pfc\SQL;
-use pfc\SQLTools;
 
 
 /**
@@ -12,7 +11,11 @@ use pfc\SQLTools;
  *
  */
 class Mock implements SQL{
+	use TraitEscape;
+
+
 	private $_data;
+
 
 	/**
 	 * constructor
@@ -50,7 +53,8 @@ class Mock implements SQL{
 
 
 	function query($sql, array $params, $primaryKey = null){
-		$sql = SQLTools::escapeQuery($this, $sql, $params);
+		//$sql = $this->escapeQuery($sql, $params);
+
 		return new IteratorResult(new \ArrayIterator($this->_data), $primaryKey, count($this->_data) );
 	}
 
