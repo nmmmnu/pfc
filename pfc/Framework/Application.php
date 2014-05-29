@@ -71,6 +71,7 @@ abstract class Application{
 	abstract protected function factoryTemplate(array $params);
 	abstract protected function factoryInjectorConfiguration();
 	abstract protected function factoryRouter(\injector\Injector $injector);
+	abstract protected function factoryErrorPath();
 
 
 	/**
@@ -93,9 +94,19 @@ abstract class Application{
 			$path = "/";
 
 
+		try{
+			$this->processRequest($path);
+		}catch(\Exception $e){
+			$path = $this->factoryErrorPath();
+			
+			$this->processRequest($path);
+		}
+	}
+	
+	
+	private function processRequest($path){
 		// Get the controller
 		$controller = $this->_router->processRequest($path);
-
 
 		$this->processResult($controller);
 	}
@@ -109,6 +120,7 @@ abstract class Application{
 		 *  - HTTPResponse class
 		 */
 		$result = $controller->process();
+
 
 		// Test string
 		if (is_string($result)){

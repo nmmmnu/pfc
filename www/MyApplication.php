@@ -74,13 +74,21 @@ class MyApplication extends \pfc\Framework\Application{
 		$r = new \pfc\Framework\Router();
 
 		$r->map("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php")	));
+		$r->map("/error",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/error"),	new \pfc\Framework\TemplateController("error.html.php")	));
+
 		$r->map("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::complex")		));
 		$r->map("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::json")		));
 		$r->map("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::show")		));
 		$r->map("/show/1",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::showDetails")	));
+
 		$r->map("/error404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\Controller($inj,	$ns . "MyController::error404")		));
 
 		return $r;
+	}
+	
+	
+	protected function factoryErrorPath(){
+		return "/error";
 	}
 
 
