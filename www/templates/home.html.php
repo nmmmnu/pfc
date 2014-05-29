@@ -7,3 +7,6 @@
 
 <p>Click here to see complex response:<br />
 <a href="/complex">show records</a></p>
+
+<p>UTF8 text here:<br />
+<?=$utf8_test ?></p>

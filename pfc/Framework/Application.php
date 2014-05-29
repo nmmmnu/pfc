@@ -5,6 +5,11 @@ namespace pfc\Framework;
 use pfc\HTTPResponse;
 
 
+/**
+ * Framework Application
+ *
+ *
+ */
 abstract class Application{
 	private $_injector;
 	private $_router;
@@ -26,7 +31,14 @@ abstract class Application{
 	}
 
 
-	function getConf($name, $default = ""){
+	/**
+	 * Get configuration parameter
+	 *
+	 * @param string $name parameter name
+	 * @param mixed $default default value
+	 * @return mixed
+	 */
+	protected function getConf($name, $default = ""){
 		if (isset($this->_conf[$name]))
 			return $this->_conf[$name];
 
@@ -34,12 +46,22 @@ abstract class Application{
 	}
 
 
-	function getVars(){
+	/**
+	 * Get copy of variables for Template
+	 *
+	 * @return array
+	 */
+	protected function getVars(){
 		return $this->_vars;
 	}
 
 
-	function getTemplate(){
+	/**
+	 * Get Template engine
+	 *
+	 * @return Template
+	 */
+	protected function getTemplate(){
 		return $this->_template;
 	}
 
@@ -51,6 +73,9 @@ abstract class Application{
 	abstract protected function factoryRouter(\injector\Injector $injector);
 
 
+	/**
+	 * Run the application
+	 */
 	function run(){
 		// make injector
 		$injectorConfiguration = $this->factoryInjectorConfiguration();
@@ -114,6 +139,10 @@ abstract class Application{
 	}
 
 
+	/**
+	 * Create instance of the Application class and
+	 * Run the application using run()
+	 */
 	static function start(){
 		// use late static binding to get the classname
 		$classname = get_called_class();

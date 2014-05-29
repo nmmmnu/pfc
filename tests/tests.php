@@ -80,6 +80,12 @@ Framework\Path\CatchAll::test();
 Framework\Path\Mask::test();
 
 
+Framework\Response\Redirect::test();
+Framework\Response\Template::test();
+Framework\Response\Serializer::test();
+Framework\Response\JSON::test();
+
+
 UnitTests\RouterTests::test();
 
 

@@ -2,16 +2,31 @@
 namespace pfc;
 
 
+/**
+ * HTTPResponse
+ *
+ * produse HTTP response similar to:
+ *
+ * [begin]
+ * HTTP/1.0 200 OK
+ * Content-Type: text/html
+ *
+ * <p>Hello World</p>
+ * [end]
+ */
 class HTTPResponse{
 	private $_responce;
 	private $_headers = array();
 	private $_content;
 
 
-	const DEFAULT_PROTOCO		= "HTTP/1.0";
+	const DEFAULT_PROTOCOL		= "HTTP/1.0";
 	const DEFAULT_CONTENT_TYPE	= "text/html";
 
 
+	/**
+	 * result codes mapped to text, e.g. "200 OK"
+	 */
 	public static $HTTP_CODES = array(
 			200	=>	"OK"			,
 
@@ -29,6 +44,12 @@ class HTTPResponse{
 	);
 
 
+	/**
+	 * constructor
+	 *
+	 * @param string $content content
+	 * @param string $content_type content-type header
+	 */
 	function __construct($content = "", $content_type = self::DEFAULT_CONTENT_TYPE){
 		$this->setResponce(200);
 
@@ -49,7 +70,13 @@ class HTTPResponse{
 	}
 
 
-	private static function getProtocol(){
+	/**
+	 * get HTTP protocol version
+	 *
+	 * HTTP/1.0
+	 *
+	 */
+	static function getProtocol(){
 		if (isset($_SERVER["SERVER_PROTOCOL"]))
 			return $_SERVER["SERVER_PROTOCOL"];
 
@@ -57,6 +84,15 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * set HTTP response
+	 *
+	 * HTTP/1.0 200 OK
+	 *
+	 * @param string $code number part (e.g. 200)
+	 * @param string|boolean $text text part (e.g. "OK")
+	 *
+	 */
 	function setResponce($code = 200, $text = false){
 		if ($code <= 0)
 			$code = 200;
@@ -72,6 +108,15 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * set HTTP header
+	 *
+	 * location: /index.php
+	 *
+	 * @param string $header name (e.g. "location")
+	 * @param string $value value (e.g. "/index.php")
+	 *
+	 */
 	function setHeader($header, $value){
 		$header = self::chkHeader($header);
 
@@ -82,6 +127,10 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * send HTTP headers to the client
+	 *
+	 */
 	function sendHeaders(){
 		// if apache_get_modules() exists, then PHP running as SAPI,
 		// so we can pass "HTTP/1.0 200 OK" header
@@ -95,6 +144,12 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * dump HTTP headers
+	 *
+	 * for testing purposes
+	 *
+	 */
 	function dumpHeaders(){
 		printf($this->_responce . "\n");
 
@@ -105,6 +160,13 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * set content
+	 *
+	 * @param string $content content
+	 * @param string $content_type content-type header
+	 *
+	 */
 	function setContent($content, $content_type = self::DEFAULT_CONTENT_TYPE){
 		$this->_content = $content;
 
@@ -113,11 +175,23 @@ class HTTPResponse{
 	}
 
 
+	/**
+	 * send content to the client
+	 *
+	 */
 	function sendContent(){
 		echo $this->_content;
 	}
 
 
+	/**
+	 * send response to the client
+	 *
+	 * send headers, then send content
+	 *
+	 * @param boolean $dump whatever to dump headers for testing
+	 *
+	 */
 	function send($dump = false){
 		if ($dump)
 			$this->dumpHeaders();

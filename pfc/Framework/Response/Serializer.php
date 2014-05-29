@@ -4,6 +4,7 @@ namespace pfc\Framework\Response;
 
 use pfc\Framework\Response;
 use pfc\Serializer as pfc_Serializer;
+use pfc\HTTPResponse;
 
 
 class Serializer implements Response{
@@ -21,7 +22,13 @@ class Serializer implements Response{
 		$content	= $this->_serializer->serialize($this->_data);
 		$type		= $this->_serializer->getContentType();
 
-		return new \pfc\HTTPResponse($content, $type);
+		return new HTTPResponse($content, $type);
+	}
+
+
+	static function test(){
+		$json = new \pfc\Serializer\JSON();
+		\pfc\UnitTests\ResponseTests::test(new self($json, array()));
 	}
 }
 

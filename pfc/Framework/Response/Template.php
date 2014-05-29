@@ -5,6 +5,7 @@ namespace pfc\Framework\Response;
 use pfc\Framework\Response;
 use pfc\Framework\ControllerException;
 use pfc\Template as pfc_Template;
+use pfc\HTTPResponse;
 
 
 class Template implements Response{
@@ -13,7 +14,7 @@ class Template implements Response{
 	private $_params;
 
 
-	function __construct($filename, $params = array()){
+	function __construct($filename, array $params = array()){
 		$this->_template = null;
 		$this->_filename = $filename;
 		$this->_params   = $params;
@@ -33,7 +34,14 @@ class Template implements Response{
 
 		$content = $this->_template->render($this->_filename);
 
-		return new \pfc\HTTPResponse($content);
+		return new HTTPResponse($content);
+	}
+
+
+	static function test(){
+		$tr = new self("page.html.php");
+		$tr->setTemplate( new \pfc\Template\PHP(__DIR__ . "/../../../data/templates/") );
+		\pfc\UnitTests\ResponseTests::test($tr);
 	}
 }
 

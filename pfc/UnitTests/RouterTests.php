@@ -1,7 +1,9 @@
 <?
 namespace pfc\UnitTests;
 
-use pfc\Framework\Controller;
+use pfc\Framework\AbstractController,
+	pfc\Framework\Controller;
+
 use pfc\Framework\Router;
 
 use pfc\Framework\Route,
@@ -49,10 +51,11 @@ class RouterTests{
 	}
 
 	static function testRoute(Router $r, $path, $expect){
-		$result = $r->processRequest($path);
+		$controller = $r->processRequest($path);
+		$result = $controller->process();
+
 
 		printf("%-15s => %s\n", $path, $result);
 		assert($result === $expect);
 	}
 }
-

@@ -3,6 +3,7 @@ namespace pfc\Framework\Response;
 
 
 use pfc\Framework\Response;
+use pfc\HTTPResponse;
 
 
 class Redirect implements Response{
@@ -15,11 +16,16 @@ class Redirect implements Response{
 
 
 	function process(){
-		$http = new \pfc\HTTPResponse();
+		$http = new HTTPResponse();
 		$http->setResponce(302);
 		$http->setHeader("location", $this->_location);
 
 		return $http;
+	}
+
+
+	static function test(){
+		\pfc\UnitTests\ResponseTests::test(new self("/"));
 	}
 }
 

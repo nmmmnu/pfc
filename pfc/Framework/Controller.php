@@ -1,6 +1,12 @@
 <?
 namespace pfc\Framework;
 
+/**
+ * "Normal" controller.
+ *
+ * it uses class + method as callback
+ *
+ */
 class Controller implements AbstractController{
 	const DELIMITER  = "::";
 	const PARAM_PATH = "_path";
@@ -13,7 +19,15 @@ class Controller implements AbstractController{
 	private $_params2;
 
 
-	function __construct(\injector\AbstractInjector $injector, $callback, $params = array()){
+	/**
+	 * constructor
+	 *
+	 * @param \injector\AbstractInjector $injector injector to be used
+	 * @param callable $callback
+	 * @param array $params additional parameters for the injector
+	 *
+	 */
+	function __construct(\injector\AbstractInjector $injector, $callback, array $params = array()){
 		$this->_injector = $injector;
 		$this->_callback = explode(self::DELIMITER, $callback);
 		$this->_params   = $params;

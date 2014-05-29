@@ -21,7 +21,6 @@ class MyController{
 	function show(){
 		$rows = $this->ppl->getAll();
 
-
 		return new \pfc\Framework\Response\Template("show.html.php", array(
 			"page_name"	=> "Show all stuff",
 			"rows"		=> $rows->getArray()
@@ -31,7 +30,6 @@ class MyController{
 
 	function json(){
 		$rows = $this->ppl->getAll();
-
 
 		return new \pfc\Framework\Response\JSON( $rows->getArray() );
 	}

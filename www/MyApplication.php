@@ -43,6 +43,7 @@ class MyApplication extends \pfc\Framework\Application{
 			"application_name"	=> "Demo Application",
 			"application_copyright"	=> sprintf("&copy; %d, PFC", date("Y")) ,
 			"page_name"		=> "Demo Application",
+			"utf8_test"		=> "Здравейте, München, Français",
 		);
 	}
 

@@ -5,13 +5,24 @@ namespace pfc\Framework;
 use \pfc\Template;
 
 
+/**
+ * Controller that process Template
+ *
+ */
 class TemplateController implements AbstractController{
 	private $_filename;
 	private $_params;
 	private $_params2;
 
 
-	function __construct($filename, $params = array()){
+	/**
+	 * constructor
+	 *
+	 * @param string $filename template file
+	 * @param array $params additional params
+	 *
+	 */
+	function __construct($filename, array $params = array()){
 		$this->_filename = $filename;
 		$this->_params   = $params;
 	}
