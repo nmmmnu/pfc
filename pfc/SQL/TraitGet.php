@@ -14,7 +14,7 @@ trait TraitGet{
 	}
 
 	function getArray(){
-		return iterator_to_array($this);
+		return iterator_to_array($this, false);
 	}
 }
 
