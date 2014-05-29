@@ -12,5 +12,9 @@ trait TraitGet{
 
 		return false;
 	}
+
+	function getArray(){
+		return iterator_to_array($this);
+	}
 }
 

@@ -22,5 +22,13 @@ interface Serializer{
 	 * @return string
 	 */
 	function unserialize($data);
+
+
+	/**
+	 * get ContentType
+	 *
+	 * @return string
+	 */
+	function getContentType();
 }
 

@@ -18,6 +18,11 @@ class PHP implements Serializer{
 	}
 
 
+	function getContentType(){
+		return "text/plain";
+	}
+
+
 	static function test(){
 		\pfc\UnitTests\SerializerTests::test( new PHP() );
 	}

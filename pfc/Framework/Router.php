@@ -26,8 +26,9 @@ class Router{
 
 	function processRequest($path){
 		foreach($this->_routes as $route){
-			if ($route->match($path))
-				return $route->exec();
+			$controller = $route->match($path);
+			if ($controller)
+				return $controller;
 		}
 
 		throw new RouterException("None of routes matched");

@@ -1,7 +1,7 @@
 <?
 namespace pfc\UnitTests;
 
-
+use pfc\Framework\Controller;
 use pfc\Framework\Router;
 
 use pfc\Framework\Route,
@@ -33,13 +33,13 @@ class RouterTests{
 
 		$r = new Router();
 
-		$r->map("/",		new Route(new Exact("/"),		$inj, __CLASS__ . "::exact"	));
-		$r->map("/about",	new Route(new Exact("/about.php"),	$inj, __CLASS__ . "::exact"	));
-		$r->map("/contact",	new Route(new Exact("/contact.php"),	$inj, __CLASS__ . "::exact"	));
+		$r->map("/",		new Route(new Exact("/"),		new Controller($inj, __CLASS__ . "::exact")	));
+		$r->map("/about",	new Route(new Exact("/about.php"),	new Controller($inj, __CLASS__ . "::exact")	));
+		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Controller($inj, __CLASS__ . "::exact")	));
 
-		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),$inj, __CLASS__ . "::blog"	));
+		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Controller($inj, __CLASS__ . "::blog")	));
 
-		$r->map("/all",		new Route(new CatchAll("/"),		$inj, __CLASS__ . "::all"	));
+		$r->map("/all",		new Route(new CatchAll("/"),		new Controller($inj, __CLASS__ . "::all")	));
 
 		echo "Router testing...\n";
 

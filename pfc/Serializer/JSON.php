@@ -24,6 +24,11 @@ class JSON implements Serializer{
 	}
 
 
+	function getContentType(){
+		return "text/json";
+	}
+
+
 	static function test(){
 		\pfc\UnitTests\SerializerTests::test( new JSON() );
 	}
