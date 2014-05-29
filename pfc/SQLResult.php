@@ -29,6 +29,14 @@ interface SQLResult extends \Iterator{
 	 * @return string
 	 */
 	function get($field = false);
+	
+	
+	/**
+	 * get all results as array
+	 * 
+	 * @return array
+	 */
+	function getArray();
 }
 
 
