@@ -24,6 +24,11 @@ class Router{
 	}
 
 
+	function getLinkRouter(){
+		return new LinkRouter($this);
+	}
+
+
 	function processRequest($path){
 		foreach($this->_routes as $route){
 			$controller = $route->match($path);
@@ -34,4 +39,5 @@ class Router{
 		throw new RouterException("None of routes matched");
 	}
 }
+
 

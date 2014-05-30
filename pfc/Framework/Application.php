@@ -23,11 +23,22 @@ abstract class Application{
 		// make configuration
 		$this->_conf = $this->factoryConfiguration();
 
+		// make objects
+		$this->buildObjects();
+
 		// make constants
 		$this->_vars = $this->factoryVariables();
 
 		// make template
 		$this->_template = $this->factoryTemplate($this->_vars);
+
+		// make injector
+		$injectorConfiguration = $this->factoryInjectorConfiguration();
+
+		$this->_injector = new \injector\Injector($injectorConfiguration);
+
+		// make router
+		$this->_router = $this->factoryRouter( $this->_injector );
 	}
 
 
@@ -62,32 +73,40 @@ abstract class Application{
 	 * @return Template
 	 */
 	protected function getTemplate(){
-		return $this->_template;
+		if ($this->_template)
+			return $this->_template;
+
+		return null;
 	}
 
+
+	/**
+	 * Get Link Router
+	 *
+	 * @return LinkRouter
+	 */
+	protected function getLinkRouter(){
+		if ($this->_router)
+			return $this->_router->getLinkRouter();
+
+		return null;
+	}
+
+
+	abstract protected function buildObjects();
 
 	abstract protected function factoryConfiguration();
 	abstract protected function factoryVariables();
 	abstract protected function factoryTemplate(array $params);
 	abstract protected function factoryInjectorConfiguration();
 	abstract protected function factoryRouter(\injector\Injector $injector);
-	abstract protected function factoryErrorPath();
+	abstract protected function factoryException(\Exception $e);
 
 
 	/**
 	 * Run the application
 	 */
 	function run(){
-		// make injector
-		$injectorConfiguration = $this->factoryInjectorConfiguration();
-
-		$this->_injector = new \injector\Injector($injectorConfiguration);
-
-
-		// make router
-		$this->_router = $this->factoryRouter( $this->_injector );
-
-
 		if (isset($_SERVER["PATH_INFO"]))
 			$path = $_SERVER["PATH_INFO"];
 		else
@@ -97,13 +116,13 @@ abstract class Application{
 		try{
 			$this->processRequest($path);
 		}catch(\Exception $e){
-			$path = $this->factoryErrorPath();
-			
-			$this->processRequest($path);
+			$controller = $this->factoryException($e);
+
+			$this->processResult($controller);
 		}
 	}
-	
-	
+
+
 	private function processRequest($path){
 		// Get the controller
 		$controller = $this->_router->processRequest($path);

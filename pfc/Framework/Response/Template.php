@@ -12,12 +12,14 @@ class Template implements Response{
 	private $_template;
 	private $_filename;
 	private $_params;
+	private $_code;
 
 
-	function __construct($filename, array $params = array()){
-		$this->_template = null;
-		$this->_filename = $filename;
-		$this->_params   = $params;
+	function __construct($filename, array $params = array(), $code = 0){
+		$this->_template	= null;
+		$this->_filename	= $filename;
+		$this->_params		= $params;
+		$this->_code		= $code;
 	}
 
 
@@ -34,7 +36,7 @@ class Template implements Response{
 
 		$content = $this->_template->render($this->_filename);
 
-		return new HTTPResponse($content);
+		return new HTTPResponse($content, HTTPResponse::DEFAULT_CONTENT_TYPE, $this->_code);
 	}
 
 

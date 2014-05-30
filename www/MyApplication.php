@@ -8,20 +8,6 @@ class MyApplication extends \pfc\Framework\Application{
 	private $logger;
 
 
-	function __construct(){
-		parent::__construct();
-
-		// make Logger
-		$this->logger = $this->wireLogger();
-
-		// make SQL
-		$this->database = $this->wireSQL();
-
-		// make cached SQL
-		$this->database2 = $this->wireSQL2($this->database, $this->logger);
-	}
-
-
 	protected function factoryConfiguration(){
 		 return array(
 			"app_prefix"		=> "demo_app_",
@@ -42,8 +28,9 @@ class MyApplication extends \pfc\Framework\Application{
 		return array(
 			"application_name"	=> "Demo Application",
 			"application_copyright"	=> sprintf("&copy; %d, PFC", date("Y")) ,
-			"page_name"		=> "Demo Application",
-			"utf8_test"		=> "Здравейте, München, Français",
+			"application_errors"	=> true,
+
+			"page_name"		=> "Demo Application"
 		);
 	}
 
@@ -73,22 +60,33 @@ class MyApplication extends \pfc\Framework\Application{
 
 		$r = new \pfc\Framework\Router();
 
-		$r->map("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php")	));
-		$r->map("/error",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/error"),	new \pfc\Framework\TemplateController("error.html.php")	));
+		$r->map("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php", array("utf8_test" => "Здравейте, München, Français"))	));
 
 		$r->map("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::complex")		));
 		$r->map("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::json")		));
 		$r->map("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::show")		));
 		$r->map("/show/1",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::showDetails")	));
 
-		$r->map("/error404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\Controller($inj,	$ns . "MyController::error404")		));
+		$r->map("/error404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\RedirectController("/")		));
 
 		return $r;
 	}
-	
-	
-	protected function factoryErrorPath(){
-		return "/error";
+
+
+	protected function factoryException(\Exception $e){
+		return new \pfc\Framework\TemplateController("error.html.php", array("exception" => $e), 500);
+	}
+
+
+	function buildObjects(){
+		// make Logger
+		$this->logger = $this->wireLogger();
+
+		// make SQL
+		$this->database = $this->wireSQL();
+
+		// make cached SQL
+		$this->database2 = $this->wireSQL2($this->database, $this->logger);
 	}
 
 

@@ -21,6 +21,8 @@ class HTTPResponse{
 
 
 	const DEFAULT_PROTOCOL		= "HTTP/1.0";
+	const DEFAULT_CODE		= 200;
+	const DEFAULT_ERROR_CODE	= 500;
 	const DEFAULT_CONTENT_TYPE	= "text/html";
 
 
@@ -48,10 +50,14 @@ class HTTPResponse{
 	 * constructor
 	 *
 	 * @param string $content content
-	 * @param string $content_type content-type header
+	 * @param string $content_type content-type header (text/html)
+	 * @param int $code http code (HTTP/1.0 200 OK)
 	 */
-	function __construct($content = "", $content_type = self::DEFAULT_CONTENT_TYPE){
-		$this->setResponce(200);
+	function __construct($content = "", $content_type = self::DEFAULT_CONTENT_TYPE, $code = 0){
+		if ($code <= 0)
+			$code = self::DEFAULT_CODE;
+
+		$this->setResponce($code);
 
 		$this->setHeader("Date", gmdate(DATE_RFC850));
 		$this->setHeader("X-Powered-By", Info::PRODUCT . " " . Info::VERSION());

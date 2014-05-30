@@ -13,11 +13,6 @@ class MyController{
 	}
 
 
-	function error404(){
-		return new \pfc\Framework\Response\Redirect("/");
-	}
-
-
 	function show(){
 		$rows = $this->ppl->getAll();
 

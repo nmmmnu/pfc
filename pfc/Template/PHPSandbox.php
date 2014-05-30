@@ -1,14 +1,14 @@
 <?
 namespace pfc\Template;
 
-//use pfc\Template;
+use pfc\Template;
 
 abstract class PHPSandboxPrivate{
 	private $_engine;
 	private $_parent;
 
 
-	function __construct(PHP $engine){
+	function __construct(Template $engine){
 		$this->_engine = $engine;
 		$this->_parent = false;
 	}
@@ -38,7 +38,7 @@ abstract class PHPSandboxPrivate{
 
 
 class PHPSandbox extends PHPSandboxPrivate{
-	function __construct(PHP $engine){
+	function __construct(Template $engine){
 		parent::__construct($engine);
 	}
 
