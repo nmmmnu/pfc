@@ -54,19 +54,6 @@ abstract class Application{
 
 
 	/**
-	 * Get Template engine
-	 *
-	 * @return Template
-	 */
-	protected function getTemplate(){
-		if ($this->_template)
-			return $this->_template;
-
-		return null;
-	}
-
-
-	/**
 	 * Get Link Router
 	 *
 	 * @return LinkRouter
@@ -88,14 +75,22 @@ abstract class Application{
 	abstract protected function factoryTemplate();
 
 
+	protected function getRequestURI(){
+		//if (isset($_SERVER["PATH_INFO"]))
+		//	return $_SERVER["PATH_INFO"];
+
+		if (isset($_SERVER["REQUEST_URI"]))
+			return $_SERVER["REQUEST_URI"];
+
+		return "/";
+	}
+
+
 	/**
 	 * Run the application
 	 */
 	function run(){
-		if (isset($_SERVER["PATH_INFO"]))
-			$path = $_SERVER["PATH_INFO"];
-		else
-			$path = "/";
+		$path = $this->getRequestURI();
 
 
 		try{

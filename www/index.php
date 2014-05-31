@@ -1,7 +1,6 @@
 <?
 namespace demo_app;
 
-
 error_reporting(E_ALL);
 
 
