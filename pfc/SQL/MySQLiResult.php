@@ -71,7 +71,7 @@ class MySQLiResult implements SQLResult{
 		}
 
 		if (! $this->_primaryKey )
-			return $this->_rowID;
+			return $this->_rowID - 1;
 
 		if ( @$this->_row[$this->_primaryKey] )
 			return $this->_row[$this->_primaryKey];

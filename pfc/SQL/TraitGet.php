@@ -13,8 +13,8 @@ trait TraitGet{
 		return false;
 	}
 
-	function getArray(){
-		return iterator_to_array($this, false);
+	function getArray($keys = true){
+		return iterator_to_array($this, $keys);
 	}
 }
 
