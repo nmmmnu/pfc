@@ -3,8 +3,8 @@ namespace pfc\SQL;
 
 use pfc\SQL;
 
-use pfc\Loggable;
-use pfc\Logger;
+use pfc\Loggable,
+	pfc\Logger;
 
 use pfc\Profiler;
 

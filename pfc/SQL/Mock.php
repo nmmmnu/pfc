@@ -1,7 +1,8 @@
 <?
 namespace pfc\SQL;
 
-use pfc\SQL;
+use pfc\SQL,
+	pfc\SQLResult;
 
 
 /**
@@ -23,7 +24,7 @@ class Mock implements SQL{
 	 * @param array $data array to be used as result
 	 */
 	function __construct(array $data = array() ){
-		$this->_data = $data;
+		$this->_data = array_values($data);
 	}
 
 
@@ -52,10 +53,10 @@ class Mock implements SQL{
 	}
 
 
-	function query($sql, array $params, $primaryKey = null){
-		//$sql = $this->escapeQuery($sql, $params);
-
-		return new IteratorResult(new \ArrayIterator($this->_data), $primaryKey, count($this->_data) );
+	function query($sql, array $params, $primaryKey = false){
+		return new SQLResult(
+			new ArrayResult($this->_data),
+			$primaryKey);
 	}
 
 
@@ -79,7 +80,7 @@ class Mock implements SQL{
 		$res = \pfc\Iterators::toArray($result);
 
 		//echo "You should see SQL result as array:\n";
-		//print_r($res);
+		print_r($res);
 
 		assert($res["Bonn"]["id"  ] == 2      );
 		assert($res["Bonn"]["city"] == "Bonn" );
@@ -93,7 +94,7 @@ class Mock implements SQL{
 		$res = \pfc\Iterators::toArray($result);
 
 		//echo "You should see SQL result as array:\n";
-		//print_r($res);
+		print_r($res);
 
 		assert($res[1]["id"  ] == 2      );
 		assert($res[1]["city"] == "Bonn" );

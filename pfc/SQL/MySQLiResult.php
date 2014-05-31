@@ -1,30 +1,20 @@
 <?
 namespace pfc\SQL;
 
-use pfc\SQLResult;
+use pfc\SQLIntermediateResult;
+
 
 /**
- * PDO adapter for SQLResult
+ * MySQLi adapter for SQLIntermediateResult
  *
  */
-class MySQLiResult implements SQLResult{
-	const FETCH_MODE = \PDO::FETCH_ASSOC;
-
-
-	use TraitGet;
-
-
+class MySQLiResult implements SQLIntermediateResult{
 	private $_results;
+	
 
-	private $_row;
-	private $_rowID;
-
-	function __construct($query, $primaryKey){
-		$this->_results    = $query;
+	function __construct($results){
+		$this->_results    = $results;
 		$this->_primaryKey = $primaryKey;
-
-		$this->_row        = false;
-		$this->_rowID      = 0;
 	}
 
 
@@ -38,60 +28,13 @@ class MySQLiResult implements SQLResult{
 	}
 
 
-	// =============================
-
-
-	function rewind(){
-		if ($this->_rowID == 0){
-			// Rewind is OK as long as hasNext() is not called.
-			return;
-		}
-
-		throw new SQLException("SQLResult_results->rewind() unimplemented");
-	}
-
-
-	function current(){
-		if ($this->_rowID == 0){
-			// fetch first result
-			$this->next();
-		}
-
-		if ($this->_row == null)
+	function fetch(){
+		$data = $this->_results->fetch_assoc();
+		
+		if (!$data)
 			return null;
-
-		return $this->_row;
+		
+		return $data;
 	}
-
-
-	function key(){
-		if ($this->_rowID == 0){
-			// fetch first result
-			$this->next();
-		}
-
-		if (! $this->_primaryKey )
-			return $this->_rowID - 1;
-
-		if ( @$this->_row[$this->_primaryKey] )
-			return $this->_row[$this->_primaryKey];
-	}
-
-
-	function next(){
-		$this->_rowID++;
-		$this->_row = $this->_results->fetch_assoc();
-	}
-
-
-	function valid(){
-		if ($this->_rowID == 0)
-			return true;
-
-		return $this->_row !== null;
-	}
-
-	// =============================
-
 }
 

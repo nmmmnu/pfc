@@ -117,7 +117,9 @@ class MySQLi implements SQL{
 		//var_dump($result);
 
 		// result set
-		return new MySQLiResult($result, $primaryKey);
+		return new SQLResult(
+			new MySQLiResult($result),
+			$primaryKey);
 	}
 }
 

@@ -1,13 +1,11 @@
 <?
 namespace pfc\SQL;
 
-use pfc\SQL;
+use pfc\SQL,
+	pfc\SQLResult;
 
-use pfc\Loggable;
-use pfc\Logger;
-
-use pfc\Iterators;
-use pfc\ArrayIterator;
+use pfc\Loggable,
+	pfc\Logger;
 
 use pfc\CacheAdapter;
 use pfc\Serializer;
@@ -80,7 +78,10 @@ class CacheDecorator implements SQL{
 			// Corrupted data
 			if (is_array($arrayData)){
 				$this->logDebug("Cache hit...");
-				return new IteratorResult(new \ArrayIterator($arrayData), $primaryKey, count($arrayData) );
+				
+				return new SQLResult(
+					new ArrayResult($arrayData),
+					$primaryKey);
 			}
 		}
 
@@ -93,7 +94,7 @@ class CacheDecorator implements SQL{
 			return false;
 
 		// make the result array
-		$arrayData = Iterators::toArray($result);
+		$arrayData = $result->getArray();
 
 		// store in cache
 		$serializedData = $this->_serializer->serialize($arrayData);
@@ -101,8 +102,10 @@ class CacheDecorator implements SQL{
 		unset($serializedData);
 
 		// the iterator can not be rewind.
-		// this is why we use the SQLMockResult again.
-		return new IteratorResult(new \ArrayIterator($arrayData), $primaryKey, $result->affectedRows(), $result->insertID() );
+		// this is why we use the SQLMockResult again.		
+		return new SQLResult(
+			new ArrayResult($arrayData, $result->affectedRows(), $result->insertID()),
+			$primaryKey);
 	}
 }
 

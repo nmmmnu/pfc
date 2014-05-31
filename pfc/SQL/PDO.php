@@ -1,7 +1,8 @@
 <?
 namespace pfc\SQL;
 
-use pfc\SQL;
+use pfc\SQL,
+	pfc\SQLResult;
 
 
 /**
@@ -92,8 +93,10 @@ class PDO implements SQL{
 			return false;
 
 		$lastID = $this->_pdo->lastInsertId();
-
-		return new PDOResult($result, $primaryKey, $lastID);
+		
+		return new SQLResult(
+			new PDOResult($result, $lastID),
+			$primaryKey);
 	}
 }
 
