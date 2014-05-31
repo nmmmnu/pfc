@@ -1,7 +1,8 @@
 <?
 namespace pfc\SQL;
 
-use pfc\SQL;
+use pfc\SQL,
+	pfc\SQLResult;
 
 /**
  * PDO adapter
@@ -105,13 +106,11 @@ class MySQLi implements SQL{
 
 		if ($result === true){
 			// query with no results
-
-			return new IteratorResult(
-				new \EmptyIterator(),
-				$primaryKey,
-				$this->_link->affected_rows,
-				$this->_link->insert_id
-			);
+			// $primaryKey not really need too
+			return new SQLResult(
+				new EmptyResult(
+					$this->_link->affected_rows,
+					$this->_link->insert_id));
 		}
 
 		//var_dump($result);

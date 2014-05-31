@@ -10,11 +10,10 @@ use pfc\SQLIntermediateResult;
  */
 class MySQLiResult implements SQLIntermediateResult{
 	private $_results;
-	
+
 
 	function __construct($results){
 		$this->_results    = $results;
-		$this->_primaryKey = $primaryKey;
 	}
 
 
@@ -30,10 +29,10 @@ class MySQLiResult implements SQLIntermediateResult{
 
 	function fetch(){
 		$data = $this->_results->fetch_assoc();
-		
+
 		if (!$data)
 			return null;
-		
+
 		return $data;
 	}
 }
