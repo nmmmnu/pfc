@@ -4,7 +4,7 @@
 
 <p>Try your request later :-)</p>
 
-<? if ($application_errors) : ?>
+<? if ($production == false) : ?>
 <hr />
 <pre style="border: solid 3px red; padding: 5px;"><?=$_vars["exception"] ?></pre>
 <? endif ?>

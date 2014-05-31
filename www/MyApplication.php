@@ -8,17 +8,17 @@ class MyApplication extends \pfc\Framework\Application{
 	private $logger;
 
 
-	private $testing = false;
-
-
 	protected function factoryConfiguration(){
 		 return array(
-			"app_prefix"		=> "demo_app_",
+			"production"		=> false				,
+			"production_db"		=> true					,
 
-			"template_directory"	=> __DIR__ . "/../www/templates/",
+			"app_prefix"		=> "demo_app_"				,
 
-			"sql_cache_prefix"	=> "sql_cache_",
-			"sql_cache_ttl"		=> 10,
+			"template_directory"	=> __DIR__ . "/../www/templates/"	,
+
+			"sql_cache_prefix"	=> "sql_cache_"				,
+			"sql_cache_ttl"		=> 10					,
 
 			"db_connection"		=> array(
 							"connection_string" => "sqlite:/dev/shm/test.database.sqlite3"
@@ -29,9 +29,10 @@ class MyApplication extends \pfc\Framework\Application{
 
 	private function templateConfiguration(){
 		return array(
+			"production"		=> $this->getConf("production")		,
+
 			"application_name"	=> "Demo Application"			,
 			"application_copyright"	=> sprintf("&copy; %d, PFC", date("Y"))	,
-			"application_errors"	=> true					,
 
 			"page_name"		=> "Demo Application"			,
 
@@ -89,7 +90,7 @@ class MyApplication extends \pfc\Framework\Application{
 		// make Logger
 		$this->logger = $this->wireLogger();
 
-		if (! $this->testing){
+		if ($this->getConf("production_db")){
 			// make SQL
 			$this->database = $this->wireSQL();
 
