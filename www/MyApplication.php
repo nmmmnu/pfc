@@ -8,6 +8,9 @@ class MyApplication extends \pfc\Framework\Application{
 	private $logger;
 
 
+	private $testing = false;
+
+
 	protected function factoryConfiguration(){
 		 return array(
 			"app_prefix"		=> "demo_app_",
@@ -24,13 +27,15 @@ class MyApplication extends \pfc\Framework\Application{
 	}
 
 
-	protected function factoryVariables(){
+	private function templateConfiguration(){
 		return array(
-			"application_name"	=> "Demo Application",
-			"application_copyright"	=> sprintf("&copy; %d, PFC", date("Y")) ,
-			"application_errors"	=> true,
+			"application_name"	=> "Demo Application"			,
+			"application_copyright"	=> sprintf("&copy; %d, PFC", date("Y"))	,
+			"application_errors"	=> true					,
 
-			"page_name"		=> "Demo Application"
+			"page_name"		=> "Demo Application"			,
+
+			"_url"			=> $this->getLinkRouter()
 		);
 	}
 
@@ -45,29 +50,20 @@ class MyApplication extends \pfc\Framework\Application{
 	}
 
 
-	protected function factoryTemplate(array $params){
-		$template = new \pfc\Template\PHP($this->getConf("template_directory"));
-
-		$template->bindParams($params);
-
-		return $template;
-	}
-
-
 	protected function factoryRouter(\injector\Injector $injector){
 		$ns  = __NAMESPACE__ . "\\" . "controllers" . "\\";
 		$inj = $injector;
 
 		$r = new \pfc\Framework\Router();
 
-		$r->map("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php", array("utf8_test" => "Здравейте, München, Français"))	));
+		$r->bind("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php", array("utf8_test" => "Здравейте, München, Français"))	));
 
-		$r->map("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::complex")		));
-		$r->map("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::json")		));
-		$r->map("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::show")		));
-		$r->map("/show/1",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::showDetails")	));
+		$r->bind("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::complex")		));
+		$r->bind("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::json")		));
+		$r->bind("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::show")		));
+		$r->bind("/show/x",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::showDetails")	));
 
-		$r->map("/error404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\RedirectController("/")		));
+		$r->bind("/404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\RedirectController("/")		));
 
 		return $r;
 	}
@@ -78,15 +74,34 @@ class MyApplication extends \pfc\Framework\Application{
 	}
 
 
+	protected function factoryTemplate(){
+		$params = $this->templateConfiguration();
+
+		$template = new \pfc\Template\PHP($this->getConf("template_directory"));
+
+		$template->bindParams($params);
+
+		return $template;
+	}
+
+
 	function buildObjects(){
 		// make Logger
 		$this->logger = $this->wireLogger();
 
-		// make SQL
-		$this->database = $this->wireSQL();
+		if (! $this->testing){
+			// make SQL
+			$this->database = $this->wireSQL();
 
-		// make cached SQL
-		$this->database2 = $this->wireSQL2($this->database, $this->logger);
+			// make cached SQL
+			$this->database2 = $this->wireSQL2($this->database, $this->logger);
+		}else{
+			// make Mock SQL
+			$this->database  = $this->wireMockSQL();
+
+			// and duplicate
+			$this->database2 = $this->database;
+		}
 	}
 
 
@@ -127,6 +142,14 @@ class MyApplication extends \pfc\Framework\Application{
 		$db2 = new \pfc\SQL\CacheDecorator($db, $cacheAdapter, $serializer, $logger);
 
 		return $db2;
+	}
+
+
+	private function wireMockSQL(){
+		return new \pfc\SQL\Mock(array(
+			array("id" => 1, "name" => "Niki", "age" => 12),
+			array("id" => 2, "name" => "Ivan", "age" => 23),
+		));
 	}
 }
 

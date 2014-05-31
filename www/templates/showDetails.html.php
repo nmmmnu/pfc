@@ -14,4 +14,4 @@
 
 <hr />
 
-<p><a href="/show">go back</a></p>
+<p><a href="<?=$_url("/show") ?>">go back</a></p>

@@ -35,13 +35,13 @@ class RouterTests{
 
 		$r = new Router();
 
-		$r->map("/",		new Route(new Exact("/"),		new Controller($inj, __CLASS__ . "::exact")	));
-		$r->map("/about",	new Route(new Exact("/about.php"),	new Controller($inj, __CLASS__ . "::exact")	));
-		$r->map("/contact",	new Route(new Exact("/contact.php"),	new Controller($inj, __CLASS__ . "::exact")	));
+		$r->bind("/",		new Route(new Exact("/"),		new Controller($inj, __CLASS__ . "::exact")	));
+		$r->bind("/about",	new Route(new Exact("/about.php"),	new Controller($inj, __CLASS__ . "::exact")	));
+		$r->bind("/contact",	new Route(new Exact("/contact.php"),	new Controller($inj, __CLASS__ . "::exact")	));
 
-		$r->map("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Controller($inj, __CLASS__ . "::blog")	));
+		$r->bind("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Controller($inj, __CLASS__ . "::blog")	));
 
-		$r->map("/all",		new Route(new CatchAll("/"),		new Controller($inj, __CLASS__ . "::all")	));
+		$r->bind("/all",	new Route(new CatchAll("/"),		new Controller($inj, __CLASS__ . "::all")	));
 
 		echo "Router testing...\n";
 

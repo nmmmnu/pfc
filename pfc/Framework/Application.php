@@ -16,7 +16,6 @@ abstract class Application{
 	private $_template;
 
 	private $_conf;
-	private $_vars;
 
 
 	function __construct(){
@@ -26,12 +25,6 @@ abstract class Application{
 		// make objects
 		$this->buildObjects();
 
-		// make constants
-		$this->_vars = $this->factoryVariables();
-
-		// make template
-		$this->_template = $this->factoryTemplate($this->_vars);
-
 		// make injector
 		$injectorConfiguration = $this->factoryInjectorConfiguration();
 
@@ -39,6 +32,9 @@ abstract class Application{
 
 		// make router
 		$this->_router = $this->factoryRouter( $this->_injector );
+
+		// make template
+		$this->_template = $this->factoryTemplate();
 	}
 
 
@@ -54,16 +50,6 @@ abstract class Application{
 			return $this->_conf[$name];
 
 		return $default;
-	}
-
-
-	/**
-	 * Get copy of variables for Template
-	 *
-	 * @return array
-	 */
-	protected function getVars(){
-		return $this->_vars;
 	}
 
 
@@ -96,11 +82,10 @@ abstract class Application{
 	abstract protected function buildObjects();
 
 	abstract protected function factoryConfiguration();
-	abstract protected function factoryVariables();
-	abstract protected function factoryTemplate(array $params);
 	abstract protected function factoryInjectorConfiguration();
 	abstract protected function factoryRouter(\injector\Injector $injector);
 	abstract protected function factoryException(\Exception $e);
+	abstract protected function factoryTemplate();
 
 
 	/**

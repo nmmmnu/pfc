@@ -80,7 +80,14 @@ class PHP implements Template{
 				continue;
 			}
 
-			// remove other types such is_object()
+			// keep classes with "_" in front.
+
+			if (is_object($v) && $k[0] == "_"){
+				$array[$k] = $v;
+				continue;
+			}
+
+			// remove other types and clases
 		}
 
 		return $array;

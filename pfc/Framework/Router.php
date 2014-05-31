@@ -6,7 +6,7 @@ class Router{
 	private $_routes = array();
 
 
-	function map($key, Route $route){
+	function bind($key, Route $route){
 		$this->_routes[$key] = $route;
 	}
 
@@ -16,7 +16,7 @@ class Router{
 	}
 
 
-	function link($key, array $params){
+	function link($key, array $params = array()){
 		if (isset($this->_routes[$key]))
 			return $this->_routes[$key]->link($params);
 
