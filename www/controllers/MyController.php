@@ -18,7 +18,7 @@ class MyController{
 
 		return new \pfc\Framework\Response\Template("show.html.php", array(
 			"page_name"	=> "Show all stuff",
-			"rows"		=> $rows->getArray()
+			"rows"		=> $rows->fetchArray()
 		));
 	}
 
@@ -26,7 +26,7 @@ class MyController{
 	function json(){
 		$rows = $this->ppl->getAll();
 
-		return new \pfc\Framework\Response\JSON( $rows->getArray() );
+		return new \pfc\Framework\Response\JSON( $rows->fetchArray() );
 	}
 
 
@@ -47,7 +47,7 @@ EOF;
 
 	function showDetails($id){
 		$rows = $this->ppl->get($id);
-		$row = $rows->get();
+		$row = $rows->fetch();
 
 		return new \pfc\Framework\Response\Template("showDetails.html.php", array(
 			"page_name"	=> "Show detail information for " . $row["name"],

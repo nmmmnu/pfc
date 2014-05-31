@@ -44,20 +44,28 @@ class SQLResult implements \Iterator{
 
 	// =============================
 
-
-	function get($field = false){
-		foreach($this as $result){
-			if ($field)
-				return $result[$field];
-
-			return $result;
-		}
-
-		return false;
+	function fetch(){
+		return $this->_result->fetch();
 	}
 
 
-	function getArray($keys = true){
+	function fetchField($field = false){
+		$result = $this->fetch();
+
+		if (!is_array($result))
+			return null;
+
+		if ($field === false)
+			return array_values($result)[0];
+
+		if (isset($result[$field]))
+			return $result[$field];
+
+		return null;
+	}
+
+
+	function fetchArray($keys = true){
 		return iterator_to_array($this, $keys);
 	}
 
@@ -113,6 +121,22 @@ class SQLResult implements \Iterator{
 			return true;
 
 		return $this->_row !== null;
-	}	
+	}
+
+
+	// =============================
+
+
+	static function test(){
+		$data = array(
+			array("name" => "niki", "age" => 22),
+		);
+
+		$sr = new self(new SQL\ArrayResult($data));
+		assert($sr->fetchField() == "niki");
+
+		$sr = new self(new SQL\ArrayResult($data));
+		assert($sr->fetchField("age") == 22);
+	}
 }
 

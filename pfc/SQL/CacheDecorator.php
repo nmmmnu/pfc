@@ -78,7 +78,7 @@ class CacheDecorator implements SQL{
 			// Corrupted data
 			if (is_array($arrayData)){
 				$this->logDebug("Cache hit...");
-				
+
 				return new SQLResult(
 					new ArrayResult($arrayData),
 					$primaryKey);
@@ -94,7 +94,7 @@ class CacheDecorator implements SQL{
 			return false;
 
 		// make the result array
-		$arrayData = $result->getArray();
+		$arrayData = $result->fetchArray();
 
 		// store in cache
 		$serializedData = $this->_serializer->serialize($arrayData);
@@ -102,7 +102,7 @@ class CacheDecorator implements SQL{
 		unset($serializedData);
 
 		// the iterator can not be rewind.
-		// this is why we use the SQLMockResult again.		
+		// this is why we use the SQLMockResult again.
 		return new SQLResult(
 			new ArrayResult($arrayData, $result->affectedRows(), $result->insertID()),
 			$primaryKey);
