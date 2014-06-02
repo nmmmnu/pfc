@@ -9,7 +9,12 @@ class MyApplication extends \pfc\Framework\Application{
 
 
 	protected function factoryConfiguration(){
-		 return array(
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+			$dir = sys_get_temp_dir();
+		else
+			$dir = "/dev/shm/";
+
+		return array(
 			"production"		=> false				,
 			"production_db"		=> true					,
 
@@ -21,7 +26,7 @@ class MyApplication extends \pfc\Framework\Application{
 			"sql_cache_ttl"		=> 10					,
 
 			"db_connection"		=> array(
-							"connection_string" => "sqlite:/dev/shm/test.database.sqlite3"
+							"connection_string" => "sqlite:" . $dir . "test.database.sqlite3"
 						)
 		);
 	}
