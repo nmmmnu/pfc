@@ -14,8 +14,13 @@ $conn = "pdosqlite";
 if ($conn == "pdosqlite"){
 	// PDO with SQLITE
 
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+		$dir = sys_get_temp_dir();
+	else
+		$dir = "/dev/shm/";
+
 	$connection = array(
-		"connection_string" => "sqlite:" . "/dev/shm/" . "test.database.sqlite3"
+		"connection_string" => "sqlite:" . $dir . "test.database.sqlite3"
 	);
 
 	$real_db = new \pfc\SQL\PDO($connection);

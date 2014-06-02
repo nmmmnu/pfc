@@ -55,7 +55,7 @@ class Redis implements CacheAdapter{
 
 		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
-		$adapter = new Redis($r, "unit_tests_[" . __CLASS__ ."]_");
+		$adapter = new Redis($r, "unit_tests_Redis_CacheAdapter_");
 		$adapter->setTTL($ttl);
 
 		\pfc\UnitTests\CacheAdapterTests::test($adapter);

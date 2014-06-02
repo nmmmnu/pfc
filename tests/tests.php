@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 ( new ErrorHandler\Development($html = false, $suppress = true) )->register();
 
 
-$redis_tests = false || true;
+$redis_tests = false;// || true;
 $slow_tests = false;//  || true;
 
 

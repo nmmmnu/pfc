@@ -12,7 +12,6 @@ class CacheAdapterTests{
 
 		$adapter->store($key, $data);
 		$data1 = $adapter->load($key);
-
 		assert($data == $data1);
 
 		echo "Delay: " . (self::TTL + 1) . " seconds... ";
