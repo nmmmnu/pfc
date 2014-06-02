@@ -79,6 +79,11 @@ class File implements CacheAdapter{
 
 
 	private function getFilename($key){
+		// heavy /dev/shm hack on windows
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+			if ($this->_dir == "/dev/shm/")
+				$this->_dir = sys_get_temp_dir();
+
 		return $this->_dir . "/" . $this->_filePrefix . md5($key);
 	}
 
@@ -86,12 +91,7 @@ class File implements CacheAdapter{
 	static function test(){
 		$ttl = \pfc\UnitTests\CacheAdapterTests::TTL;
 
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
-			$dir = sys_get_temp_dir();
-		else
-			$dir = "/dev/shm/";
-
-		$adapter = new File($dir, "unit_tests_File_CacheAdapter_");
+		$adapter = new File("/dev/shm/", "unit_tests_File_CacheAdapter_");
 		$adapter->setTTL($ttl);
 
 		\pfc\UnitTests\CacheAdapterTests::test($adapter);

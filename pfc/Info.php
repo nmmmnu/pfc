@@ -9,7 +9,7 @@ class Info{
 	const PRODUCT			= "PFC";
 
 	const VERSION_MAJOR		= 0;
-	const VERSION_MINOR		= 3;
+	const VERSION_MINOR		= 4;
 	const VERSION_REVISION		= 0;
 
 	const DATE			= "2014-05-09";
