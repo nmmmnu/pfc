@@ -78,7 +78,7 @@ class CacheDecorator implements Template{
 		$logger = new \pfc\Logger();
 		$logger->addOutput(new \pfc\OutputAdapter\Console());
 
-		$phptemplate = new PHP("data/templates/");
+		$phptemplate = new PHP(__DIR__ . "/../../data/templates/");
 
 		$t = new CacheDecorator($phptemplate, $cache, 30);
 		$t->setLogger($logger);
