@@ -19,6 +19,12 @@ class File implements CacheAdapter{
 	 *
 	 */
 	function __construct($dir, $filePrefix, $fileUnlink = false){
+		// heavy /dev/shm hack on windows
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+			if ($dir == "/dev/shm/")
+				$dir = sys_get_temp_dir();
+
+
 		$this->_dir        = $dir;
 		$this->_filePrefix = $filePrefix;
 		$this->_fileUnlink = $fileUnlink;
@@ -79,11 +85,6 @@ class File implements CacheAdapter{
 
 
 	private function getFilename($key){
-		// heavy /dev/shm hack on windows
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
-			if ($this->_dir == "/dev/shm/")
-				$this->_dir = sys_get_temp_dir();
-
 		return $this->_dir . "/" . $this->_filePrefix . md5($key);
 	}
 
