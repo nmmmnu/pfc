@@ -35,10 +35,10 @@ $real_db->query("
 
 $db->query("delete from ppl", array());
 
-$db->query("insert into ppl values(%s, %s, %s)", array(1, 'Ivan',   22) );
-$db->query("insert into ppl values(%s, %s, %s)", array(2, 'Stoyan', 25) );
-$db->query("insert into ppl values(%s, %s, %s)", array(3, 'Dragan', 33) );
-$db->query("insert into ppl values(%s, %s, %s)", array(4, 'James',  42) );
+$db->query("insert into ppl values(%s, '%s', %s)", array(1, 'Ivan',   22) );
+$db->query("insert into ppl values(%s, '%s', %s)", array(2, 'Stoyan', 25) );
+$db->query("insert into ppl values(%s, '%s', %s)", array(3, 'Dragan', 33) );
+$db->query("insert into ppl values(%s, '%s', %s)", array(4, 'James',  42) );
 
 
 

@@ -90,7 +90,7 @@ class MySQLi implements SQL{
 
 
 	function escape($string){
-		return sprintf("'%s'", $this->_link->real_escape_string($string));
+		return $this->_link->real_escape_string($string);
 	}
 
 

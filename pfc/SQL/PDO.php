@@ -78,7 +78,10 @@ class PDO implements SQL{
 
 
 	function escape($string){
-		return $this->_pdo->quote($string);
+		$data = $this->_pdo->quote($string);
+
+		// remove first and last single quote 'text'
+		return substr($data, 1, strlen($data) - 2);
 	}
 
 
@@ -93,7 +96,7 @@ class PDO implements SQL{
 			return false;
 
 		$lastID = $this->_pdo->lastInsertId();
-		
+
 		return new SQLResult(
 			new PDOResult($result, $lastID),
 			$primaryKey);

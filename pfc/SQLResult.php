@@ -66,7 +66,15 @@ class SQLResult implements \Iterator{
 
 
 	function fetchArray($keys = true){
-		return iterator_to_array($this, $keys);
+		$array = array();
+		foreach($this as $k => $v){
+			if ($keys)
+				$array[$k] = $v;
+			else
+				$array[] = $v;
+		}
+
+		return $array;
 	}
 
 
@@ -117,8 +125,10 @@ class SQLResult implements \Iterator{
 
 
 	function valid(){
-		if ($this->_rowID == 0)
-			return true;
+		if ($this->_rowID == 0){
+			// fetch first result
+			$this->next();
+		}
 
 		return $this->_row !== null;
 	}
