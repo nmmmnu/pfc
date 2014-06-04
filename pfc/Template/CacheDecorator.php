@@ -3,8 +3,7 @@ namespace pfc\Template;
 
 use pfc\Loggable;
 
-use pfc\CacheAdapter;
-use pfc\Template;
+use pfc\CacheAdapter\CacheAdapter;
 
 
 /**

@@ -1,8 +1,7 @@
 <?
 namespace pfc\CacheAdapter;
 
-use pfc\CacheAdapter;
-use pfc\Compressor;
+use pfc\Compressor\Compressor;
 use pfc\CacheAdapterTests;
 
 /**

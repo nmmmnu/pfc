@@ -1,7 +1,6 @@
 <?
 namespace pfc\Serializer;
 
-use pfc\Serializer;
 
 /**
  * PHP standard Serializer

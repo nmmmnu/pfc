@@ -1,5 +1,5 @@
 <?
-namespace pfc;
+namespace pfc\ErrorHandler;
 
 /**
  * Abstract Error handler

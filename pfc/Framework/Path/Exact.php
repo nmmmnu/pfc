@@ -1,7 +1,6 @@
 <?
 namespace pfc\Framework\Path;
 
-use pfc\Framework\Path;
 
 class Exact implements Path{
 	private $_path;

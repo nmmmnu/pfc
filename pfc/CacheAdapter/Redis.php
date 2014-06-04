@@ -1,7 +1,6 @@
 <?
 namespace pfc\CacheAdapter;
 
-use pfc\CacheAdapter;
 
 class Redis implements CacheAdapter{
 	private $_redis;

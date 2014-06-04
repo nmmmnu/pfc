@@ -2,9 +2,6 @@
 namespace pfc\ErrorHandler;
 
 
-use pfc\ErrorHandler;
-
-
 class Development extends ErrorHandler{
 	function __construct($html = true, $suppress = true){
 		parent::__construct($html, $suppress);

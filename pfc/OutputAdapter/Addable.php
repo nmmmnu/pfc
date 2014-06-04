@@ -1,7 +1,6 @@
 <?
 namespace pfc\OutputAdapter;
 
-use pfc\OutputAdapter;
 use pfc\Addable as pfc_Addable;
 
 /**
@@ -15,15 +14,15 @@ class Addable implements OutputAdapter{
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pfc_Addable $addable pfc_Addable object
-	 * 
+	 *
 	 */
 	function __construct(pfc_Addable $addable){
 		$this->_addable = $addable;
 	}
 
-	
+
 	function write($line, $cr = true){
 		if ($cr)
 			$line = $line . "\n";

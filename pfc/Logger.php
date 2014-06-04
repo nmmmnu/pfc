@@ -1,6 +1,11 @@
 <?
 namespace pfc;
 
+
+use pfc\OutputAdapter\OutputAdapter;
+use pfc\LoggerFormat\LoggerFormat;
+
+
 class Logger{
 	const OFF     = 0;
 	const ERROR   = 1;

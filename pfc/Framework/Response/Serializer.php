@@ -3,7 +3,7 @@ namespace pfc\Framework\Response;
 
 
 use pfc\Framework\Response;
-use pfc\Serializer as pfc_Serializer;
+use pfc\Serializer\Serializer as pfc_Serializer;
 use pfc\HTTPResponse;
 
 

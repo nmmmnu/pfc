@@ -1,7 +1,6 @@
 <?
 namespace pfc\OutputAdapter;
 
-use pfc\OutputAdapter;
 
 /**
  * Console StreamAdapter

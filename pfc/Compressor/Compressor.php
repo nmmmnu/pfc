@@ -1,5 +1,5 @@
 <?
-namespace pfc;
+namespace pfc\Compressor;
 
 interface Compressor{
 	function deflate($data);

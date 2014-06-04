@@ -1,6 +1,7 @@
 <?
 namespace pfc\Framework;
 
+use pfc\Framework\Path\Path;
 
 class Route{
 	private $_path;

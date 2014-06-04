@@ -4,8 +4,8 @@ namespace pfc\Framework\Response;
 
 use pfc\Framework\Response;
 use pfc\Framework\ControllerException;
-use pfc\Template as pfc_Template;
 use pfc\HTTPResponse;
+use pfc\Template\Template as pfc_Template;
 
 
 class Template implements Response{

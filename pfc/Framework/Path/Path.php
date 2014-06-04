@@ -1,5 +1,5 @@
 <?
-namespace pfc\Framework;
+namespace pfc\Framework\Path;
 
 interface Path{
 	const HOMEPATH = "/";

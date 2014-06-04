@@ -1,7 +1,6 @@
 <?
 namespace pfc\Template;
 
-use pfc\Template;
 
 abstract class PHPSandboxPrivate{
 	private $_engine;

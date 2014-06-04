@@ -1,8 +1,6 @@
 <?
 namespace pfc\Serializer;
 
-use pfc\Serializer;
-
 
 /**
  * JSON Serializer

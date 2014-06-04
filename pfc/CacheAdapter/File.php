@@ -1,7 +1,6 @@
 <?
 namespace pfc\CacheAdapter;
 
-use pfc\CacheAdapter;
 
 class File implements CacheAdapter{
 	private $_dir;

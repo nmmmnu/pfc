@@ -1,7 +1,7 @@
 <?
 namespace pfc\UnitTests;
 
-use \pfc\Serializer;
+use \pfc\Serializer\Serializer;
 
 class SerializerTests{
 	static function test(Serializer $serializer){

@@ -1,5 +1,6 @@
 <?
-namespace pfc;
+namespace pfc\LoggerFormat;
+
 
 /**
  * LoggerFormat

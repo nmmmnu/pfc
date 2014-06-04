@@ -1,11 +1,11 @@
 <?
-namespace pfc;
+namespace pfc\OutputAdapter;
 
 /**
  * OutputAdapter
  *
  * Useful for text output and logging
- * 
+ *
  */
 interface OutputAdapter{
 	/**

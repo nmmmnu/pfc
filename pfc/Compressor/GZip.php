@@ -1,7 +1,6 @@
 <?
 namespace pfc\Compressor;
 
-use pfc\Compressor;
 
 /**
  * GZip Compressor

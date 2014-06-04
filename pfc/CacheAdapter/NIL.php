@@ -1,7 +1,6 @@
 <?
 namespace pfc\CacheAdapter;
 
-use pfc\CacheAdapter;
 
 /**
  * NULL CacheAdapter

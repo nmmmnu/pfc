@@ -1,5 +1,5 @@
 <?
-namespace pfc;
+namespace pfc\Template;
 
 /**
  * Abstract template engine

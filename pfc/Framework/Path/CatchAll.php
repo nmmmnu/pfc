@@ -1,7 +1,6 @@
 <?
 namespace pfc\Framework\Path;
 
-use pfc\Framework\Path;
 
 class CatchAll implements Path{
 	private $_path;

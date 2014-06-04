@@ -1,8 +1,6 @@
 <?
 namespace pfc\Template;
 
-use pfc\Template;
-
 
 /**
  * PHP template engine
