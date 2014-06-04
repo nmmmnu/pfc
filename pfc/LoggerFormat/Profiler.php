@@ -1,8 +1,9 @@
 <?
 namespace pfc\LoggerFormat;
 
-use pfc\LoggerFormat;
+
 use pfc\Profiler as pfc_Profiler;
+
 
 /**
  * Add profiling information

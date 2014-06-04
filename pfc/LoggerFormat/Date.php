@@ -1,7 +1,6 @@
 <?
 namespace pfc\LoggerFormat;
 
-use pfc\LoggerFormat;
 
 /**
  * Add Date / Time information
