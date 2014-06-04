@@ -5,7 +5,7 @@ class ppl{
 	private $db;
 
 
-	function __construct(\pfc\SQL $db){
+	function __construct(\pdb\SQL $db){
 		$this->db = $db;
 	}
 

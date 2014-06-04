@@ -125,16 +125,16 @@ class MyApplication extends \pfc\Framework\Application{
 
 
 	private function wireSQL(){
-		$db = new \pfc\SQL\PDO($this->getConf("db_connection"));
+		$db = new \pdb\PDO\PDO($this->getConf("db_connection"));
 
 		// make SQL to throw exceptions
-		$db_exc = new \pfc\SQL\ExceptionDecorator($db);
+		$db_exc = new \pdb\Decorator\ExceptionDecorator($db);
 
 		return $db_exc;
 	}
 
 
-	private function wireSQL2(\pfc\SQL $db, \pfc\Logger $logger){
+	private function wireSQL2(\pdb\SQL $db, \pfc\Logger $logger){
 		// prepare Cache in /dev/shm + Gzip
 		$cacheAdapterFile = new \pfc\CacheAdapter\Shm($this->getConf("app_prefix") . $this->getConf("sql_cache_prefix"));
 		$cacheAdapterFile->setTTL($this->getConf("sql_cache_ttl", 3600));
@@ -145,7 +145,7 @@ class MyApplication extends \pfc\Framework\Application{
 		$serializer   = new \pfc\Serializer\JSON();
 
 		// make SQL to be cached
-		$db2 = new \pfc\SQL\CacheDecorator($db, $cacheAdapter, $serializer, $logger);
+		$db2 = new \pdb\Decorator\CacheDecorator($db, $cacheAdapter, $serializer, $logger);
 
 		return $db2;
 	}

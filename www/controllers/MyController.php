@@ -8,7 +8,7 @@ class MyController{
 	private $ppl;
 
 
-	function __construct(\pfc\SQL $database2){
+	function __construct(\pdb\SQL $database2){
 		$this->ppl = new \demo_app\models\ppl($database2);
 	}
 

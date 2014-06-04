@@ -56,10 +56,6 @@ Compressor\GZDeflate::test();
 Compressor\ZLib::test();
 
 
-SQLResult::test();
-SQL\Mock::test();
-
-
 if ($slow_tests){
 	Profiler::test();
 
