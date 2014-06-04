@@ -4,9 +4,9 @@ namespace demo_app;
 error_reporting(E_ALL);
 
 
-require_once __DIR__ . "/../__autoload.php";
-require_once __DIR__ . "/../../php_inject/__autoload.php";
-require_once __DIR__ . "/../../php_db/__autoload.php";
+require_once __DIR__ . "/../pfc/__autoload.php";
+require_once __DIR__ . "/../../php_inject/injector/__autoload.php";
+require_once __DIR__ . "/../../php_db/pdb/__autoload.php";
 
 
 spl_autoload_register(function($class){

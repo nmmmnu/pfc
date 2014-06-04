@@ -1,7 +1,7 @@
 #!/usr/local/bin/php
 <?
 namespace pfc;
-require_once __DIR__ . "/../__autoload.php";
+require_once __DIR__ . "/../pfc/__autoload.php";
 
 error_reporting(E_ALL);
 
