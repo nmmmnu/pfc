@@ -5,8 +5,8 @@ error_reporting(E_ALL);
 
 
 require_once __DIR__ . "/../pfc/__autoload.php";
-require_once __DIR__ . "/../../php_inject/injector/__autoload.php";
-require_once __DIR__ . "/../../php_db/pdb/__autoload.php";
+require_once __DIR__ . "/../../injector/injector/__autoload.php";
+require_once __DIR__ . "/../../pdb/pdb/__autoload.php";
 
 
 spl_autoload_register(function($class){

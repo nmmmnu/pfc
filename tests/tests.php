@@ -3,7 +3,7 @@
 namespace pfc;
 
 require_once __DIR__ . "/../pfc/__autoload.php";
-require_once __DIR__ . "/../../php_inject/injector/__autoload.php";
+require_once __DIR__ . "/../../injector/injector/__autoload.php";
 
 
 pfc_assert_setup();
