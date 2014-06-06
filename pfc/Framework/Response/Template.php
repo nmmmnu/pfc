@@ -2,10 +2,9 @@
 namespace pfc\Framework\Response;
 
 
-use pfc\Framework\Response;
 use pfc\Framework\ControllerException;
 use pfc\HTTPResponse;
-use pfc\Template\Template as pfc_Template;
+use pfc\Framework\Template\Template as Framework_Template;
 
 
 class Template implements Response{
@@ -23,7 +22,7 @@ class Template implements Response{
 	}
 
 
-	function setTemplate(pfc_Template $template){
+	function setTemplate(Framework_Template $template){
 		$this->_template = $template;
 	}
 
@@ -42,7 +41,7 @@ class Template implements Response{
 
 	static function test(){
 		$tr = new self("page.html.php");
-		$tr->setTemplate( new \pfc\Template\PHP(__DIR__ . "/../../../data/templates/") );
+		$tr->setTemplate( new \pfc\Framework\Template\PHP(__DIR__ . "/../../../data/templates/") );
 		\pfc\UnitTests\ResponseTests::test($tr);
 	}
 }

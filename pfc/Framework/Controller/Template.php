@@ -1,15 +1,15 @@
 <?
-namespace pfc\Framework;
+namespace pfc\Framework\Controller;
 
 
-use \pfc\Template;
+use \pfc\Framework\Response\Template as Response_Template;
 
 
 /**
  * Controller that process Template
  *
  */
-class TemplateController implements AbstractController{
+class Template implements Controller{
 	private $_filename;
 	private $_params;
 	private $_params2 = array();
@@ -37,7 +37,7 @@ class TemplateController implements AbstractController{
 
 
 	function process(){
-		return new Response\Template($this->_filename, $this->_params + $this->_params2, $this->_code);
+		return new Response_Template($this->_filename, $this->_params + $this->_params2, $this->_code);
 	}
 }
 

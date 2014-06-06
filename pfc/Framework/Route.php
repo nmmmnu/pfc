@@ -1,7 +1,6 @@
 <?
 namespace pfc\Framework;
 
-use pfc\Framework\Path\Path;
 
 class Route{
 	private $_path;
@@ -10,7 +9,7 @@ class Route{
 	private $_matchedArgs = null;
 	private $_matchedPath = null;
 
-	function __construct(Path $matcher, AbstractController $controller){
+	function __construct(Path\Path $matcher, Controller\Controller $controller){
 		$this->_path		= $matcher;
 		$this->_controller	= $controller;
 	}

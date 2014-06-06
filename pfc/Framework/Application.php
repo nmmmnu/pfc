@@ -111,7 +111,7 @@ abstract class Application{
 	}
 
 
-	private function processResult(AbstractController $controller){
+	private function processResult(Controller\Controller $controller){
 		/*
 		 * Result can be:
 		 *  - string
@@ -129,7 +129,7 @@ abstract class Application{
 
 
 		// Test for Response
-		if (is_object($result) && $result instanceof Response){
+		if (is_object($result) && $result instanceof Response\Response){
 			if ($result instanceof Response\Template)
 				$result->setTemplate($this->_template);
 
@@ -146,7 +146,7 @@ abstract class Application{
 		}
 
 
-		throw new ControllerException("Controller result not seems to be correct type");
+		throw new Controller\ControllerException("Controller result not seems to be correct type");
 	}
 
 

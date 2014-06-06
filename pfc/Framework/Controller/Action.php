@@ -1,5 +1,6 @@
 <?
-namespace pfc\Framework;
+namespace pfc\Framework\Controller;
+
 
 /**
  * "Normal" controller.
@@ -7,7 +8,7 @@ namespace pfc\Framework;
  * it uses class + method as callback
  *
  */
-class Controller implements AbstractController{
+class Action implements Controller{
 	const DELIMITER  = "::";
 	const PARAM_PATH = "_path";
 	const PARAM_CONF = "controller_configuration";

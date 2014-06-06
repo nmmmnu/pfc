@@ -1,11 +1,12 @@
 <?
-namespace pfc\Framework;
+namespace pfc\Framework\Controller;
+
 
 /**
  * Controller interface
  *
  */
-interface AbstractController{
+interface Controller{
 	/**
 	 * set parameters from the router
 	 *

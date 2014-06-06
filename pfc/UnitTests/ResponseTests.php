@@ -1,7 +1,7 @@
 <?
 namespace pfc\UnitTests;
 
-use pfc\Framework\Response;
+use pfc\Framework\Response\Response;
 
 class ResponseTests{
 	static function test(Response $response){

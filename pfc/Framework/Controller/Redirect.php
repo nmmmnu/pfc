@@ -1,15 +1,15 @@
 <?
-namespace pfc\Framework;
+namespace pfc\Framework\Controller;
 
 
-use \pfc\Template;
+use \pfc\Framework\Response\Redirect as Response_Redirect;
 
 
 /**
  * Controller that process HTTP redirect
  *
  */
-class RedirectController implements AbstractController{
+class Redirect implements Controller{
 	private $_location;
 
 
@@ -30,7 +30,7 @@ class RedirectController implements AbstractController{
 
 
 	function process(){
-		return new Response\Redirect($this->_location);
+		return new Response_Redirect($this->_location);
 	}
 }
 

@@ -1,8 +1,7 @@
 <?
 namespace pfc\UnitTests;
 
-use pfc\Framework\AbstractController,
-	pfc\Framework\Controller;
+use pfc\Framework\Controller\Action;
 
 use pfc\Framework\Router;
 
@@ -35,13 +34,13 @@ class RouterTests{
 
 		$r = new Router();
 
-		$r->bind("/",		new Route(new Exact("/"),		new Controller($inj, __CLASS__ . "::exact")	));
-		$r->bind("/about",	new Route(new Exact("/about.php"),	new Controller($inj, __CLASS__ . "::exact")	));
-		$r->bind("/contact",	new Route(new Exact("/contact.php"),	new Controller($inj, __CLASS__ . "::exact")	));
+		$r->bind("/",		new Route(new Exact("/"),		new Action($inj, __CLASS__ . "::exact")	));
+		$r->bind("/about",	new Route(new Exact("/about.php"),	new Action($inj, __CLASS__ . "::exact")	));
+		$r->bind("/contact",	new Route(new Exact("/contact.php"),	new Action($inj, __CLASS__ . "::exact")	));
 
-		$r->bind("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Controller($inj, __CLASS__ . "::blog")	));
+		$r->bind("/blog",	new Route(new Mask("/blog/{user}/{id}"),new Action($inj, __CLASS__ . "::blog")	));
 
-		$r->bind("/all",	new Route(new CatchAll("/"),		new Controller($inj, __CLASS__ . "::all")	));
+		$r->bind("/all",	new Route(new CatchAll("/"),		new Action($inj, __CLASS__ . "::all")	));
 
 		echo "Router testing...\n";
 

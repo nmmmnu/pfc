@@ -69,8 +69,8 @@ if ($slow_tests){
 }
 
 
-Template\PHP::test();
-Template\CacheDecorator::test();
+Framework\Template\PHP::test();
+Framework\Template\CacheDecorator::test();
 
 
 Framework\Path\Exact::test();

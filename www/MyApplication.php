@@ -62,28 +62,28 @@ class MyApplication extends \pfc\Framework\Application{
 
 		$r = new \pfc\Framework\Router();
 
-		$r->bind("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\TemplateController("home.html.php", array("utf8_test" => "Здравейте, München, Français"))	));
+		$r->bind("/",		new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/"),		new \pfc\Framework\Controller\Template("home.html.php", array("utf8_test" => "Здравейте, München, Français"))	));
 
-		$r->bind("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::complex")		));
-		$r->bind("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::json")		));
-		$r->bind("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::show")		));
-		$r->bind("/show/x",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller($inj,	$ns . "MyController::showDetails")	));
+		$r->bind("/complex",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/complex"),	new \pfc\Framework\Controller\Action($inj,	$ns . "MyController::complex")		));
+		$r->bind("/json",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/json"),	new \pfc\Framework\Controller\Action($inj,	$ns . "MyController::json")		));
+		$r->bind("/show",	new \pfc\Framework\Route(new \pfc\Framework\Path\Exact("/show"),	new \pfc\Framework\Controller\Action($inj,	$ns . "MyController::show")		));
+		$r->bind("/show/x",	new \pfc\Framework\Route(new \pfc\Framework\Path\Mask("/show/{id}"),	new \pfc\Framework\Controller\Action($inj,	$ns . "MyController::showDetails")	));
 
-		$r->bind("/404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\RedirectController("/")		));
+		$r->bind("/404",	new \pfc\Framework\Route(new \pfc\Framework\Path\CatchAll("/"),		new \pfc\Framework\Controller\Redirect("/")		));
 
 		return $r;
 	}
 
 
 	protected function factoryException(\Exception $e){
-		return new \pfc\Framework\TemplateController("error.html.php", array("exception" => $e), 500);
+		return new \pfc\Framework\Controller\Template("error.html.php", array("exception" => $e), 500);
 	}
 
 
 	protected function factoryTemplate(){
 		$params = $this->templateConfiguration();
 
-		$template = new \pfc\Template\PHP($this->getConf("template_directory"));
+		$template = new \pfc\Framework\Template\PHP($this->getConf("template_directory"));
 
 		$template->bindParams($params);
 

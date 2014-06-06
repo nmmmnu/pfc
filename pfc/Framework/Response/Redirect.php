@@ -2,7 +2,6 @@
 namespace pfc\Framework\Response;
 
 
-use pfc\Framework\Response;
 use pfc\HTTPResponse;
 
 

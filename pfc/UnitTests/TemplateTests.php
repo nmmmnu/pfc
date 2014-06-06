@@ -1,7 +1,7 @@
 <?
 namespace pfc\UnitTests;
 
-use pfc\Template\Template;
+use pfc\Framework\Template\Template;
 
 class TemplateTests{
 	static function test(Template $template, $show = true){

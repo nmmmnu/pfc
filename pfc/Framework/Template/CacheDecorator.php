@@ -1,5 +1,5 @@
 <?
-namespace pfc\Template;
+namespace pfc\Framework\Template;
 
 use pfc\Loggable;
 
